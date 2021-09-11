@@ -3,7 +3,7 @@
     "defaulttheme": "default",
     "website": {
       "port": 3000,
-      "secret": "ASDJasdnmasJDnASdklnasd",
+      "secret": "",
       "name": "test"
     },
     "api": {
@@ -14,14 +14,14 @@
     },
     "discord": {
         "client_id": "886274617994535013",
-        "client_secret": "Mlli9yZYouW4DqmwejKt1GDkqvs4Hbp4",
+        "client_secret": "",
         "guildID": "788856559387148308",
         "oauth2": {
             "link": "http://localhost:3000",
             "callbackpath": "/callback"
         },
         "bot": {
-            "token": "ODg2Mjc0NjE3OTk0NTM1MDEz.YTzNjw.fiGPN5g8D7xgWWWpoLTegSCxu-0"
+            "token": ""
         }
     },
     "ip": {

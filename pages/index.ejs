@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title><%= settings.website.name %></title>
+    <% if (settings.api.arcio.enabled == true) { %>
+        <script async src="https://arc.io/widget.min.js#<%= settings.api.arcio.widgetid %>"></script>
+    <% } %>
+</head>
+
+<body>
+    <a href="/login" class="button">Login</a>
+    <a><%= session %></a>
+</body>

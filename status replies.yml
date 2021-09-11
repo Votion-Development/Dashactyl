@@ -1,0 +1,58 @@
+success:
+  BOUGHT_RESOURCES: You have successfully bought resources.
+  CLAIMEDCOUPON: You have successfully claimed the coupon.
+  CREATED_SERVER: You have successfully created a server.
+  DELETED_SERVER: You have successfully deleted a server.
+  LOGOUT: You have successfully logged out.
+  MODIFIED_SERVER: You have successfully modified a server.
+  REGENERATE_PASSWORD: Your new password is <code>${variables.password}</code>;
+  RENEWED_SERVER: You have successfully renewed a server.
+  SIGN_IN: You have successfully signed in.
+  TOGGLED_AUTO: You have successfully enabled automatic renewals on a server.
+  TOGGLED_SUSPEND: You have successfully disabled automatic renewals on a server.
+  UPDATE_INFO: You have successfully updated your user information.
+
+error:
+  ALL_VALUES_CANNOT_BE_ZERO: All the values for resources cannot be zero.
+  ANOTHER_ACCOUNT: An unexpected error has occurred when trying to sign in. (ANOTHER_ACCOUNT)
+  BLACKLISTED: You have been blacklisted from HuntMC.
+  CANCELLED: You have cancelled your login progress.
+  CANNOT_AFFORD_RESOURCE: You do not have enough coins to afford the amount of resources you want to buy.
+  CANNOT_GET_GUILDS: An unexcepted error has occurred where we cannot get your Discord guilds.
+  CANNOT_GET_INFO: An unexpected error has occurred where we cannot get your user information. (CANNOT_GET_INFO)
+  DO_NOT_NEED_TO_RENEW: You do not need to renew this server.
+  EGG_MUST_BE_A_STRING: The provided egg ID must be a string.
+  ERROR_ON_CREATION: There was an unexpected error creating your server. (ERROR_ON_CREATION)
+  ERROR_ON_DELETION: There was an unexpected error deleting your server. (ERROR_ON_DELETION)
+  ERROR_ON_MODIFICATION: There was an unexpected error modifying your server. (ERROR_ON_MODIFICATION)
+  ERROR_ON_TOGGLE: An error has occurred where you cannot toggle the renewal system on the selected server.
+  ERROR_ON_UPDATE_INFO: An unexpected error where attempting to update your user information. (ERROR_ON_UPDATE_INFO)
+  EXCEEDS_SERVER_PLAN: These resources exceed what your server plan offers.
+  INSUFFICIENT_COINS: You do not have enough coins to complete this purchase.
+  INVALIDCOUPONCODE: This coupon code is invalid.
+  INVALID_CODE: The provided Discord OAuth2 code is invalid. Please try again.
+  INVALID_EGG: The selected egg does not exist.
+  INVALID_LOCATION: The selected location does not exist.
+  INVALID_RESOURCES: You have not provided the resource values.
+  INVALID_SCOPES: You have not logged in with the required scopes.
+  INVALID_SERVER: Could not find a server with the provided server ID.
+  LOCATION_DISABLED: This location has been disabled. Please try a different location.
+  LOCATION_MUST_BE_A_STRING: The provided location ID must be a string.
+  MISSINGCOUPONCODE: You have not provided your coupon code value.
+  MISSING_CODE: An error has occurred where your Discord OAuth2 code was not provided.
+  MISSING_EGG: An unexpected error has occured where the egg for the server could not be found. (MISSING_EGG)
+  MISSING_RESOURCES: You have not provided your resource values.
+  MUST_RENEW_FIRST: You must renew the selected server, before you can enable automatic renewals.
+  NOTLOGGEDIN: You are not logged in. 
+  NO_ACCESS_TO_LOCATION: Your package does not have access to the selected location.
+  NO_CHANGES_TO_SERVER: You have not provided any resource modifications to the selected server.
+  OVER_RESOURCES: Cannot renew server, because the amount of resources your servers have exceeded your resource quota.
+  RESOURCES_EXCEED_PLAN: Cannot create server, because the amount of resources you have provided would exceed your resource quota.
+  RESOURCE_CHECK_ERRORS: ${variables.hardcoded_resource_check_errors.join("<br>")}
+  SERVER_NAME_IS_TOO_LONG: The provided server name is too long.
+  SERVER_NAME_IS_TOO_SHORT: The provided server name is too short.
+  SERVER_NAME_MUST_BE_A_STRING: The provided server name must be a string.
+  STORE_DISABLED: The store is currently disabled. Come back later!
+  TOO_LITTLE_RESOURCES: You cannot create a server with too little resources.
+  TOO_MANY_RESOURCES: Your server exceeded the amount of resources a server with this egg can be created.
+  UNVERIFIED: You must have a verified email on your Discord account to login.

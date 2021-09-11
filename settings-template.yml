@@ -1,0 +1,129 @@
+# Due to MySQL integer (number) limitations, the maximum amount a number should be is '2147483647'.
+# '1073741823' should be the maximum number you put in these settings. (unless you know what you are doing)
+# Keep in mind decimals will not work. MySQL rounds them up.
+
+website:
+  port: 8000
+  secret: 'Enter your session password here.'
+  secure: false # This option requires https.
+
+discord:
+  id: "Enter your Discord OAuth2 ID here."
+  secret: "Enter your Discord OAuth2 secret here."
+  callbackpath: "http://localhost:8000/accounts/callback"
+  prompt: false 
+
+  token: "Insert your bot token here."
+  guild: "000000000000000000" # Add your server ID you want to force users to join on login here.
+
+pterodactyl:
+  domain: "Enter your Pterodactyl Panel domain here."
+  key: "Enter your Pterodactyl Panel application API key here." # Make sure to higher/remove rate limits for application API keys, so the dashboard doesn't get rate limited.
+  generate_password_on_sign_up: true
+
+database: # MySQL database.
+  host: "Enter your database IP here."
+  port: "Enter your database port here."
+  user: "Enter your database user here."
+  password: "Enter your database password here."
+  database: "dashactyl"
+
+api: # The client area might break if there are no API codes, so I highly recommend adding a single secure API code.
+  apicodepassword: # This would be the "Bearer apicodepassword".
+    user info: true
+    blacklist user: true
+    unblacklist user: true
+    set coins: true
+    set package: true
+    set resources: true
+    create coupon: true
+    revoke coupon: true
+
+locations:
+  "1": # Location ID.
+    name: "Location Name" # Location display name.
+    enabled: true # Enable or disable server creation on this location.
+    package: null # Required package to make a server on this location.
+
+    # package:
+    # - default
+    # - another_package_name
+
+    renewal: true # Enables renewals for this feature. (Do not toggle after setting up this node on the client area. It might break things.)
+
+eggs: # These are the eggs servers can be created with.
+  paper:
+    display: "Paper"
+    minimum:
+      memory: 100
+      disk: 100
+      cpu: 10
+    maximum:
+      memory: null
+      disk: null
+      cpu: null
+    info:
+      egg: 3
+      docker_image: quay.io/pterodactyl/core:java
+      startup: java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -jar {{SERVER_JARFILE}}
+      environment:
+        SERVER_JARFILE: 'server.jar'
+        BUILD_NUMBER: 'latest'
+      feature_limits:
+        databases: 1
+        backups: 1
+
+packages: # These are packages. They are organized categories on how much resources you would give to anyone with this package.
+  default: "default"
+  list:
+    default:
+      display: "The package name."
+      memory: 1024
+      disk: 1024
+      cpu: 100
+      servers: 1
+    pro:
+      display: "Pro Package"
+      memory: 2048
+      disk: 2048
+      cpu: 200
+      servers: 2
+
+store: # This is the store options.
+
+  # 'enabled' is an option, which toggles if you can buy a single type of resource of.
+  # 'cost' is the amount of coins 'per' of a resource would cost.
+
+  memory:
+    enabled: true
+    cost: 10
+    per: 10
+
+  disk:
+    enabled: true
+    cost: 10
+    per: 10
+
+  cpu:
+    enabled: true
+    cost: 10
+    per: 10
+
+  servers:
+    enabled: true
+    cost: 10
+    per: 10
+
+afk:
+  domain_lock: 
+    - localhost:8000 # Change this to your actual domain.
+  redirect_on_attempt_to_steal_code: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+  everywhat: 60 # seconds
+  gaincoins: 1 # coins
+
+renewal:
+  renewal_time: 6.048e+8
+  deletion_time: 8.64e+7
+
+  renew_fee: 10 # coins

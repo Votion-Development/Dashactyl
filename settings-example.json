@@ -31,5 +31,9 @@
     "database": {
         "url": "",
         "dbname": "dashactyl"
+    },
+    "pterodactyl": {
+        "domain": "",
+        "apikey": ""
     }
 }

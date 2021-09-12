@@ -113,6 +113,7 @@ app.get("/callback", async function (req, res) {
       }
     );
     let userinfo = JSON.parse(await userjson.text());
+    console.log(userinfo)
 
     let check_if_banned = (await fetch(
       `https://discord.com/api/guilds/${settings.discord.guildID}/bans/${userinfo.id}`,
@@ -155,11 +156,29 @@ app.get("/callback", async function (req, res) {
       const userInDB = await users.findOne({ userid: userinfo.id })
 
       if (userInDB === null) {
-        const addedUser = await users.insertMany([{ userid: userinfo.id, userName: userinfo.username }]);
+        let addedPanelUser_raw = await fetch(
+          `${settings.pterodactyl.domain}/api/application/users`,
+          {
+            method: "post",
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${settings.pterodactyl.apikey}`, 'Accept': 'application/json' },
+            body: JSON.stringify({
+              "email": userinfo.email,
+              "username": userinfo.id,
+              "first_name": userinfo.username,
+              "last_name": userinfo.discriminator
+            }),
+          }
+        );
+
+        const addedPanelUser = await addedPanelUser_raw.json()
+
+        console.log(addedPanelUser.attributes.id)
+
+        const addedUser = await users.insertMany([{ userid: userinfo.id, username: userinfo.username, useremail: userinfo.email, panelid: addedPanelUser.attributes.id, paneluuid: addedPanelUser.attributes.uuid, panelusercreatedat: addedPanelUser.attributes.created_at }]);
         console.log('Added a user to the database: ' + addedUser);
       }
 
-      res.redirect(`/dashboard?token=${json.access_token}`);
+      res.redirect(`/dashboard?token=${codeinfo.access_token}`);
     }
   }
 });

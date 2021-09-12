@@ -31,15 +31,6 @@ dbconnect()
 const db = client.db(settings.database.dbname);
 const users = db.collection('users');
 
-async function test() {
-  //const insertResult = await users.insertMany([{ a: 1, b: 2 }]);
-  //console.log('Inserted documents =>', insertResult);
-
-  const filteredDocs = await users.findOne({ a: 1 })
-  console.log(filteredDocs);
-}
-test()
-
 // Catch errors
 store.on("error", function (error) {
   console.log(error);

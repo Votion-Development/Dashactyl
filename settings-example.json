@@ -1,0 +1,35 @@
+{
+    "version": "0.0.1",
+    "defaulttheme": "default",
+    "website": {
+      "port": 3000,
+      "secret": "",
+      "name": ""
+    },
+    "api": {
+        "arcio": {
+            "enabled": true,
+            "widgetid": ""
+        }
+    },
+    "discord": {
+        "client_id": "",
+        "client_secret": "",
+        "guildID": "",
+        "oauth2": {
+            "link": "http://localhost:3000",
+            "callbackpath": "/callback"
+        },
+        "bot": {
+            "token": ""
+        }
+    },
+    "ip": {
+        "trust x-forwarded-for": true,
+        "block": []
+    },
+    "database": {
+        "url": "",
+        "dbname": "dashactyl"
+    }
+}

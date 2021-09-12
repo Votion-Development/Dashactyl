@@ -2,13 +2,35 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" href="/stylesheets/stylelogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!--<link rel="stylesheet" href="/stylesheets/style.css">-->
     <title><%= settings.website.name %></title>
     <% if (settings.api.arcio.enabled == true) { %>
         <script async src="https://arc.io/widget.min.js#<%= settings.api.arcio.widgetid %>"></script>
     <% } %>
+    <style>
+        body {
+            background-image: url("https://wallpaperaccess.com/full/1616118.png") !important;
+            background-repeat: no-repeat !important;
+            height: 100% !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+    </style>
 </head>
 
 <body>
-    <button onclick="location.href='/login';" class="flex items-center justify-center object-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+    <div class="login-dark">
+        <form>
+            <h2 class="sr-only">Login Form</h2>
+            <div class="form-group"><a href="/login" class="btn btn-primary btn-block">Login</a>
+        </form>
+    </div>
 </body>

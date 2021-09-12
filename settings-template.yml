@@ -115,6 +115,8 @@ store: # This is the store options.
     per: 10
 
 afk:
+  enable: false # set to true for add arc
+  id: 0 # the widget id after # e.g. vgLu9vyn
   domain_lock: 
     - localhost:8000 # Change this to your actual domain.
   redirect_on_attempt_to_steal_code: https://www.youtube.com/watch?v=dQw4w9WgXcQ

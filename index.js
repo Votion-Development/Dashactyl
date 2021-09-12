@@ -115,7 +115,6 @@ app.get("/callback", async function (req, res) {
       }
     );
     let userinfo = JSON.parse(await userjson.text());
-    console.log(userinfo)
 
     let check_if_banned = (await fetch(
       `https://discord.com/api/guilds/${settings.discord.guildID}/bans/${userinfo.id}`,
@@ -180,12 +179,32 @@ app.get("/callback", async function (req, res) {
         console.log('Added a user to the database: ' + addedUser);
       }
 
-      res.redirect(`/dashboard?token=${codeinfo.access_token}`);
+      let panelinfo_raw = await fetch(
+        `${settings.pterodactyl.domain}/api/application/users/${panel_id}?include=servers`,
+        {
+          method: "get",
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.pterodactyl.key}` }
+        }
+      );
+
+      if (await panelinfo_raw.statusText == "Not Found") return functions.doRedirect(req, res, redirects.cannotgetinfo);
+      
+      panelinfo = (await panelinfo_raw.json()).attributes;
+
+      req.session.data = {
+        userinfo: userinfo,
+        panelinfo: panelinfo
+      };
+
+      res.redirect(`/dashboard`);
     }
   }
 });
 
 app.get("/dashboard", function (req, res) {
+  if (!req.session.data || !req.session.data.userinfo) {
+    res.status(403)
+  }
   res.send("working")
 });
 

@@ -205,7 +205,7 @@ app.get("/callback", async function (req, res) {
 
 app.get("/dashboard", function (req, res) {
   if (!req.session.data || !req.session.data.userinfo) {
-    res.status(403)
+    return res.sendStatus(403)
   }
   res.send("working")
 });

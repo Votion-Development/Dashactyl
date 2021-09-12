@@ -179,11 +179,13 @@ app.get("/callback", async function (req, res) {
         console.log('Added a user to the database: ' + addedUser);
       }
 
+      const panel_id = userInDB.panelid
+
       let panelinfo_raw = await fetch(
         `${settings.pterodactyl.domain}/api/application/users/${panel_id}?include=servers`,
         {
           method: "get",
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.pterodactyl.key}` }
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${settings.pterodactyl.apikey}` }
         }
       );
 

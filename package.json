@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "yarn build:css && node index.js",
-    "build:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
+    "build:css": "echo Building CSS... Please wait. && postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
   },
   "repository": {
     "type": "git",

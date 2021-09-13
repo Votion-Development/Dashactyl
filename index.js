@@ -207,7 +207,7 @@ app.get("/dashboard", function (req, res) {
   if (!req.session.data || !req.session.data.userinfo) {
     return res.sendStatus(403)
   }
-  res.send("working")
+  res.render("dashboard")
 });
 
 app.get("/logout", function (req, res) {

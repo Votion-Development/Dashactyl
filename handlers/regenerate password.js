@@ -3,7 +3,7 @@ const functions = require("../functions.js");
 
 module.exports.load = async function(app, ifValidAPI, ejs) {
 
-    app.post("/accounts/regenerate_password", 
+    app.get("/accounts/regenerate_password", 
     
     process.rateLimit({
         windowMs: 1000,

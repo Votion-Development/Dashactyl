@@ -3,7 +3,7 @@ const functions = require("../functions.js");
 const suspendCheck = require("./server suspension system.js");
 
 module.exports.load = async function(app, ifValidAPI, ejs) {
-    app.post("/accounts/update_information", 
+    app.get("/accounts/update_information", 
     
     process.rateLimit({
         windowMs: 1000,

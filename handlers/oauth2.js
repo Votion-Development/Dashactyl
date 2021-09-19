@@ -168,7 +168,7 @@ module.exports.load = async function(app, ifValidAPI, ejs) {
       panelinfo: panelinfo
     };
 
-    if (generated_password) req.session.variables = {
+    if (generated_password) req.session.dashactyl = {
       password: generated_password
     };
 

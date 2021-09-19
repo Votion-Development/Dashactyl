@@ -35,7 +35,7 @@ module.exports.load = async function(app, ifValidAPI, ejs) {
             }
         );
 
-        req.session.variables = {
+        req.session.dashactyl = {
             password: generated_password
         };
 

@@ -29,8 +29,16 @@
         "block": []
     },
     "database": {
-        "url": "",
-        "dbname": "dashactyl"
+        "type": {
+            "mysql": {
+                "enabled": "false"
+            },
+            "mongo": {
+                "enabled": "false",
+                "url": "",
+                "dbname": "dashactyl"
+            }
+        }
     },
     "pterodactyl": {
         "domain": "",

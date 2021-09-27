@@ -28,6 +28,7 @@
     "express-ws": "^5.0.2",
     "mongodb": "^4.1.1",
     "mongodb-connection-string-url": "^2.0.0",
+    "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
     "postcss": "^8.3.6",
     "postcss-cli": "^8.3.1",

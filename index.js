@@ -80,6 +80,16 @@ if (settings.api.arcio.enabled === true) {
   });
 };
 
+// Router Support
+const routerFiles = fs.readdirSync('./router').filter(file => file.endsWith('.js'));
+
+for (const file of routerFiles) {
+	const route = require(`./router/${file}`);
+  let fileName = file.split(".")
+  app.use("/", route);
+  console.log(`Router - ${fileName} has loaded.`)
+}
+
 app.get("/login", function (req, res) {
   res.redirect("https://discord.com/api/oauth2/authorize?client_id=886274617994535013&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email")
 });

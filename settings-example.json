@@ -35,5 +35,10 @@
     "pterodactyl": {
         "domain": "",
         "apikey": ""
+    },
+    "dashboard": {
+        "defaultRam": "512",
+        "defaultCPU": "100",
+        "defaultStorage": "1000"
     }
 }

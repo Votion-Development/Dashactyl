@@ -81,7 +81,6 @@ if (settings.api.arcio.enabled === true) {
 };
 
 app.get("/login", function (req, res) {
-  if (req.session.isLoggedIn) res.redirect("/dashboard")
   res.redirect("https://discord.com/api/oauth2/authorize?client_id=886274617994535013&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email")
 });
 
@@ -175,7 +174,7 @@ app.get("/callback", async function (req, res) {
 
         console.log(addedPanelUser.attributes.id)
 
-        const addedUser = await users.insertMany([{ userid: userinfo.id, username: userinfo.username, useremail: userinfo.email, panelid: addedPanelUser.attributes.id, paneluuid: addedPanelUser.attributes.uuid, panelusercreatedat: addedPanelUser.attributes.created_at }]);
+        const addedUser = await users.insertMany([{ userid: userinfo.id, username: userinfo.username, useremail: userinfo.email, panelid: addedPanelUser.attributes.id, paneluuid: addedPanelUser.attributes.uuid, panelusercreatedat: addedPanelUser.attributes.created_at, availableRam: settings.dashboard.defaultRam, usedRam: 0, availableCPU: settings.dashboard.defaultCPU, usedCPU: 0, availableStorage: settings.dashboard.defaultStorage, usedStorage: 0 }]);
         console.log('Added a user to the database: ' + addedUser);
       }
 

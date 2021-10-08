@@ -48,6 +48,10 @@ pages:
   earn/redeem:
     file: earn redeem.ejs
     permission: 1
+    
+  earn/j4r:
+    file: earn j4r.ejs
+    permission: 1
 
   earn/afk:
     file: earn afk.ejs

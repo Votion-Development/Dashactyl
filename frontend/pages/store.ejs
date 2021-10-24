@@ -1,0 +1,38 @@
+<h1>Store</h1>
+
+<% if (variables) { %>
+    <% if (variables.error && status_replies.error[variables.error]) { %>
+        <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+    <% } else if (variables.success && status_replies.success[variables.success]) { %>
+        <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+    <% } else { %>
+        <p>
+            <%= JSON.stringify(variables) %>
+        </p>
+    <% } %>
+<% } %>
+
+<form action="/store/buy_resources" method="POST">
+    <% if (settings.store.memory.enabled) { %>
+        <label for="memory">Memory: (<%= settings.store.memory.per %>MB costs <%= settings.store.memory.cost %> coins)</label>
+        <input id="memory" name="memory">
+        <br>
+    <% } %>
+    <% if (settings.store.disk.enabled) { %>
+        <label for="disk">Disk: (<%= settings.store.disk.per %>MB costs <%= settings.store.disk.cost %> coins)</label>
+        <input id="disk" name="disk">
+        <br>
+    <% } %>
+    <% if (settings.store.cpu.enabled) { %>
+        <label for="cpu">CPU: (<%= settings.store.cpu.per %>% costs <%= settings.store.cpu.cost %> coins)</label>
+        <input id="cpu" name="cpu">
+        <br>
+    <% } %>
+    <% if (settings.store.servers.enabled) { %>
+        <label for="servers">Servers: (<%= settings.store.servers.per %> server<%= settings.store.servers.per == 1 ? "" : "s" %> costs <%= settings.store.servers.cost %> coins)</label>
+        <input id="servers" name="servers">
+        <br>
+    <% } %>
+    <br>
+    <input type="submit" value="Buy resources.">
+</form>

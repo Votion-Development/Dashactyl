@@ -1,0 +1,131 @@
+<h1>Welcome <%= data.userinfo.username %>#<%= data.userinfo.discriminator %>!</h1>
+
+<% if (variables) { %>
+    <% if (variables.error && status_replies.error[variables.error]) { %>
+        <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+    <% } else if (variables.success && status_replies.success[variables.success]) { %>
+        <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+    <% } else { %>
+        <p>
+            <%= JSON.stringify(variables) %>
+        </p>
+    <% } %>
+<% } %>
+
+<p>Panel link: <a href="<%= settings.pterodactyl.domain %>"><%= settings.pterodactyl.domain %></a></p>
+<p>Panel Username: <%= data.panelinfo.username %></p>
+<p>Coins: <%= data.dbinfo.coins %> coin<%= data.dbinfo.coins == 1 ? "" : "s" %></p>
+<p>Package Name: <%= package.display %> (ID: <code><%= package.id %></code>)</p>
+<p>Memory: <%= current.memory %>MB / <%= total.memory %>MB</p>
+<p>Disk: <%= current.disk %>MB / <%= total.disk %>MB</p>
+<p>CPU: <%= current.cpu %>% / <%= total.cpu %>%</p>
+<p>Servers: <%= current.servers %> server<%= current.servers == 1 ? "" : "s" %> / <%= total.servers %> server<%= total.servers == 1 ? "" : "s" %></p>
+
+<p><a href="/servers/new"><button>Create server.</button></a> <a href="/store"><button>Check out the store.</button></a></p>
+
+<h3>Server List</h3>
+<% if (!current.servers) { %>
+    You have no servers.
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Server Name</th>
+                <th>Memory</th>
+                <th>Disk</th>
+                <th>CPU</th>
+                <th>Renew By</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let currentDate = Date.now() %>
+            <% for (let server of data.panelinfo.relationships.servers.data) { %>
+                <tr>
+                    <td><%= server.attributes.name.length> 15 ? server.attributes.name.slice(0, 12) + "..." : server.attributes.name %></td>
+                    <td><%= server.attributes.limits.memory %>MB</td>
+                    <td><%= server.attributes.limits.disk %>MB</td>
+                    <td><%= server.attributes.limits.cpu %>%</td>
+                    <td>
+                        <% if (Object.entries(settings.eggs).filter(egg => server.attributes.egg == egg[1].info.egg).length == 1) { %>
+                            <% if (server_timers[server.attributes.id] && server_timers[server.attributes.id].action !== "???") { %>
+                                <% // https://stackoverflow.com/questions/9763441/milliseconds-to-time-in-javascript
+                                    let s = server_timers[server.attributes.id].timer - currentDate;
+                                    if (s < 0) s = 0;
+                                    let ms = s % 1000;
+                                    s = (s - ms) / 1000;
+                                    let secs = s % 60;
+                                    s = (s - secs) / 60;
+                                    let mins = s % 60;
+                                    let hrs = (s - mins) / 60;
+                                    let output = hrs + ' hours';
+                                %>
+                                <% if (server_timers[server.attributes.id].action == "auto") { %>
+                                    Automatically renewing in: <%= output %>
+                                <% } else if (server_timers[server.attributes.id].action == "suspend") { %>
+                                    <%= output %>
+                                <% } else if (server_timers[server.attributes.id].action == "deletion") { %>
+                                    Server deletion in: <%= output %><br><b>RENEW ASAP</b>
+                                <% } %>
+                            <% } else { %>
+                                None.
+                            <% } %>
+                        <% } %>
+                    </td>
+                    <td>
+                        <%
+                            let renewcost;
+                            let renewcoststring;
+                            renewcoststring = settings.renewal.renew_fee + " coin" + (settings.renewal.renew_fee == 1 ? "" : "s");
+                        %>
+
+                        <% if (server_timers[server.attributes.id] && server_timers[server.attributes.id].action !== "???") { %>
+                        <form action="/servers/renew/<%= server.attributes.id %>" method="POST">
+                            <input type="submit" id="one" style="display: none" value="Renew (<%= renewcoststring %>)">
+                        </form>
+                        
+                        <a href="#" onclick="document.getElementById('one').click()"> Renew </a><% if (server_timers[server.attributes.id].action !== "deletion") { %> | <a href="#" onclick="document.getElementById('two').click()"><%= server_timers[server.attributes.id].action == "auto" ? "Disable" : "Enable" %> Automatic Renewal</a><% } %><br>
+                        <a href="#" onclick="document.getElementById('three').click()">Delete</a> | <a href="/servers/modify?id=<%= server.attributes.id %>">Modify </a>
+
+                        <% if (server_timers[server.attributes.id].action !== "deletion") { %>
+                            <form action="/servers/auto_renew/<%= server.attributes.id %>" method="POST">
+                                <% let toggle_type = server_timers[server.attributes.id].action == "auto" ? "Disable" : "Enable" %>
+                                <input type="submit" style="display: none" id="two" value="<%= toggle_type %> automatic renewals.">
+                            </form>
+                            <% } %>
+                        <% } else { %>
+                            <a href="#" onclick="document.getElementById('three').click()">Delete</a> | <a href="/servers/modify?id=<%= server.attributes.id %>">Modify </a>
+                        <% } %>
+
+                        <% if (Object.entries(settings.eggs).filter(egg=> server.attributes.egg == egg[1].info.egg).length == 1) { %>
+                            <form action="/servers/renew/<%= server.attributes.id %>" method="POST">
+                                <input type="submit" style="display: none;">
+                            </form>
+                        <% } %>
+                        <form action="/servers/delete/<%= server.attributes.id %>" method="POST">
+                            <input type="submit" id="three"style="display: none;"value="Delete">
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+<% } %>
+
+<br><br>
+
+<form action="/accounts/regenerate_password" method="POST">
+    <input type="submit" value="Regenerate password.">
+</form>
+  
+<form action="/accounts/update_information" method="POST">
+    <input type="submit" value="Update user information.">
+</form>
+
+<a href="/earn/afk"><button>AFK for coins.</button></a>
+
+<% if (data.panelinfo.root_admin) { %>
+    <a href="/admin"><button>Administrator settings.</button></a>
+<% } %>
+
+<p><a href="/accounts/logout">Logout</a></p>

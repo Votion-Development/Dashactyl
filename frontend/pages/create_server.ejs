@@ -1,0 +1,55 @@
+<h1>Create server</h1>
+
+<% if (variables) { %>
+  <% if (variables.error && status_replies.error[variables.error]) { %>
+      <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+  <% } else if (variables.success && status_replies.success[variables.success]) { %>
+      <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+  <% } else { %>
+      <p>
+          <%= JSON.stringify(variables) %>
+      </p>
+  <% } %>
+<% } %>
+
+<p>Free nodes require you to pay <%= settings.renewal.renew_fee %> coins to create a server, and require you to renew the server every 2 weeks.</p>
+
+<% if (Object.entries(settings.locations).filter(loc => loc[1].enabled && (loc[1].package ? loc[1].package.includes(package.name) : true)).length == 0) { %>
+  At the moment, there are no nodes you can create servers. Please try again later!
+<% } else { %>
+  <form action="/servers/create" method="POST">
+    <div>
+        <label for="name">Server Name</label>
+        <input placeholder="MCSERVER" name="name" required>
+      </div>
+    <div>
+        <label for="location">Location:</label>
+        <select name="location">
+            <% for (let [name, value] of Object.entries(settings.locations).filter(loc => loc[1].enabled && (loc[1].package ? loc[1].package.includes(package.id) : true))) { %>
+                <option value="<%= name %>"><%= value.name %></option>
+              <% } %>
+        </select>
+      </div>
+    <div>
+        <label for="egg">Egg:</label>
+        <select name="egg">
+            <% for (let [name, value] of Object.entries(settings.eggs)) { %>
+                <option value="<%= name %>"><%= value.display %></option>
+              <% } %>
+        </select>
+      </div>
+      <div>
+        <label for="memory">Memory (RAM)</label>
+        <input name="memory" type="number" value="<%= total.memory - current.memory %>" required>
+    </div>
+    <div>
+        <label for="disk">DISK</label>
+        <input name="disk" type="number" value="<%= total.disk - current.disk %>" required>
+    </div>
+    <div>
+        <label for="cpu">CPU</label>
+        <input name="cpu" type="number" value="<%= total.cpu - current.cpu %>" required>
+    </div>
+    <input type="submit" value="Create server">
+  </form>
+<% } %>

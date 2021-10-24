@@ -1,0 +1,19 @@
+<h1>Redeem a coupon.</h1>
+
+<% if (variables) { %>
+    <% if (variables.error && status_replies.error[variables.error]) { %>
+        <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+    <% } else if (variables.success && status_replies.success[variables.success]) { %>
+        <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+    <% } else { %>
+        <p>
+            <%= JSON.stringify(variables) %>
+        </p>
+    <% } %>
+<% } %>
+
+<form action="/earn/redeem_coupon" method="POST">
+    <label name="code">Code: </label>
+    <input name="code" required><br>
+    <input type="submit">
+</form>

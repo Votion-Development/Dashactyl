@@ -1,0 +1,15 @@
+<% if (variables) { %>
+    <% if (variables.error && status_replies.error[variables.error]) { %>
+        <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+    <% } else if (variables.success && status_replies.success[variables.success]) { %>
+        <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+    <% } else { %>
+        <p>
+            <%= JSON.stringify(variables) %>
+        </p>
+    <% } %>
+<% } %>
+
+<a href="/dashboard">
+  <button>Login</button>
+</a>

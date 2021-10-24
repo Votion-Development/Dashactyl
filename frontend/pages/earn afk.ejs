@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<!-- Add arc.io widget here. -->
+
+		<style>
+			#afk_disconnected {
+			  display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="afk_main">
+			<p>Every <%= special.everywhat %> seconds, you will get <%= special.gaincoins %> coins.</p>
+			<p>You will gain <%= special.gaincoins %> coins <span id="afk_again"></span>in <span id="afk_timer"><%= special.everywhat %></span> seconds.</p>
+			<p>You have gained <span id="afk_gainedcoins">0</span> coins currently.</p>
+		</div>
+	
+		<div id="afk_disconnected">
+			<p>An error has occured and you have been disconnected from the AFK page.</p>
+			<p>To resolve this error, you must reload the page.</p>
+			<p>Error: <span id="afk_error"></span></p>
+			<p id="afk_reconnectattempt"></p>
+		</div>
+
+		<%- special.src %>
+	</body>
+</html>

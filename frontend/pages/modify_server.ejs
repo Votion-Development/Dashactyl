@@ -1,0 +1,67 @@
+<% if (!req.query.id) { %>
+  <script>
+      window.location.href = "/dashboard";
+  </script>
+<% } else if (data.panelinfo.relationships.servers.data.filter(server => server.attributes.id.toString() == req.query.id).length !== 1) { %>
+  <script>
+      window.location.href = "/dashboard";
+  </script>
+<% } else { %>
+  <% 
+      let server = data.panelinfo.relationships.servers.data.filter(server => server.attributes.id == req.query.id)[0].attributes;
+  %>
+
+  <% if (Object.entries(settings.eggs).filter(egg => server.egg == egg[1].info.egg).length !== 1) { %>
+      <script>
+          window.location.href = "/dashboard";
+      </script>
+  <% } else { %>
+      <%
+          let egg = Object.entries(settings.eggs).filter(egg => server.egg == egg[1].info.egg)[0];
+      %>
+      
+      <h1>Modify server</h1>
+
+      <% if (variables) { %>
+        <% if (variables.error && status_replies.error[variables.error]) { %>
+            <p style="color: red;"><%- eval(`\`${status_replies.error[variables.error]}\``) %></p>
+        <% } else if (variables.success && status_replies.success[variables.success]) { %>
+            <p style="color: green;"><%- eval(`\`${status_replies.success[variables.success]}\``) %></p>
+        <% } else { %>
+            <p>
+                <%= JSON.stringify(variables) %>
+            </p>
+        <% } %>
+    <% } %>
+      
+      <form action="/servers/modify/<%= req.query.id %>" method="POST">
+          <label>Server name:</label>
+          <input value="<%= server.name %>" disabled>
+          
+          <label>Location:</label>
+          <select disabled>
+              <%
+                  let location = Object.entries(settings.locations).filter(location => location[0] == 1);
+                  let name = location.length == 1 ? location[0][1].name : "???"
+              %>
+              <option><%= name %></option>
+          </select>
+          
+          <label>Egg:</label>
+          <select disabled>
+              <option><%= egg[1].display %></option>
+          </select>
+          
+          <label for="memory">Memory (RAM):</label>
+          <input name="memory" type="number" value="<%= server.limits.memory %>" required>
+          
+          <label for="disk">Disk:</label>
+          <input name="disk" type="number" value="<%= server.limits.disk %>" required>
+          
+          <label for="cpu">CPU:</label>
+          <input name="cpu" type="number" value="<%= server.limits.cpu %>" required>
+          
+          <input type="submit" value="Modify server.">
+      </form>
+  <% } %>
+<% } %>

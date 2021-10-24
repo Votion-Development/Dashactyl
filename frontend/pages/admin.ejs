@@ -1,0 +1,105 @@
+<h1>Administrator Options</h1>
+
+<h3>User Info</h3>
+<p>
+    <label>Discord ID:</label>
+    <input id="userinfo_id"><br>
+    <button onclick="asyncAlert(userInfo(document.getElementById('userinfo_id').value))">Get</button>
+    <button onclick="asyncAlert(blacklistUser(document.getElementById('userinfo_id').value))">Blacklist</button>
+    <button onclick="asyncAlert(unblacklistUser(document.getElementById('userinfo_id').value))">Unblacklist</button>
+</p>
+
+<h3>Set coins</h3>
+<p>
+    <label>Discord ID:</label>
+    <input id="setcoins_id">
+    <label>Coins:</label>
+     <input id="setcoins_coins"><br>
+    <button onclick="asyncAlert(setCoins(document.getElementById('setcoins_id').value, parseFloat(document.getElementById('setcoins_coins').value), true))">Add</button>
+    <button onclick="asyncAlert(setCoins(document.getElementById('setcoins_id').value, parseFloat(document.getElementById('setcoins_coins').value)))">Set</button>
+</p>
+
+<h3>Set package</h3>
+<p>
+    <label>Discord ID:</label>
+    <input id="setpackage_id">
+    <label>Package:</label>
+     <select id="setpackage_package">
+        <option value="">Default package. (ID: <%= settings.packages.default %>)</option>
+        <% for (let [ id, info ] of Object.entries(settings.packages.list)) { %>
+            <option value="<%= id %>"><%= info.display %> (ID: <%= id %>) | Memory: <%= info.memory %>MB, Disk: <%= info.disk %>, CPU: <%= info.cpu %>, Servers: <%= info.servers %></option>
+        <% } %>
+    </select><br>
+    <button onclick="asyncAlert(setPackage(document.getElementById('setpackage_id').value, document.getElementById('setpackage_package').value.length == 0 ? null : document.getElementById('setpackage_package').value))">Set</button>
+</p>
+
+<h3>Set extra resources</h3>
+<p>Be careful when using this tool. The user might lose their extra resources from leaving a J4R server. Since resources can't become negatives, if their resources is supposed to go under zero, their resources will just be set to 0.</p>
+<p>
+    <label>Discord ID:</label>
+     <input id="setresources_id">
+     <label>Memory:</label>
+     <input id="setresources_memory">
+    <label>Disk:</label>
+     <input id="setresources_disk">
+    <label>CPU:</label>
+     <input id="setresources_cpu">
+    <label>Servers:</label>
+     <input id="setresources_servers"><br>
+    <button onclick="asyncAlert(setResources(document.getElementById('setresources_id').value, parseFloat(document.getElementById('setresources_memory').value), parseFloat(document.getElementById('setresources_disk').value), parseFloat(document.getElementById('setresources_cpu').value), parseFloat(document.getElementById('setresources_servers').value), true))">Add</button>
+    <button onclick="asyncAlert(setResources(document.getElementById('setresources_id').value, parseFloat(document.getElementById('setresources_memory').value), parseFloat(document.getElementById('setresources_disk').value), parseFloat(document.getElementById('setresources_cpu').value), parseFloat(document.getElementById('setresources_servers').value)))">Set</button>
+</p>
+
+<h3>Create coupon.</h3>
+<p>
+    <label>Code:</label>
+    <input id="createcoupon_code">
+    <label>Coins:</label>
+    <input id="createcoupon_coins">
+    <label>Memory:</label>
+    <input id="createcoupon_memory">
+    <label>Disk:</label>
+    <input id="createcoupon_disk">
+    <label>CPU:</label>
+    <input id="createcoupon_cpu">
+    <label>Servers:</label>
+    <input id="createcoupon_servers"><br>
+    <button onclick="asyncAlert(createCoupon(document.getElementById('createcoupon_code').value, parseFloat(document.getElementById('createcoupon_coins').value), parseFloat(document.getElementById('createcoupon_memory').value), parseFloat(document.getElementById('createcoupon_disk').value), parseFloat(document.getElementById('createcoupon_cpu').value), parseFloat(document.getElementById('createcoupon_servers').value)))">Create</button>
+</p>
+
+<h3>Revoke coupon.</h3>
+<p>
+    <label>Code:</label>
+    <input id="revokecoupon_code"><br>
+    <button onclick="asyncAlert(revokeCoupon(document.getElementById('revokecoupon_code').value));">Revoke</button>
+</p>
+
+<h3>Create J4R.</h3>
+<p>You cannot modify or remove a J4R after it has been made. Make sure you have every information correct before creating the J4R.<br>
+Keep in mind you can have multiple J4Rs on the same server.<br>
+Users will need to click "Update user information." after joining the corresponding J4R server.</p>
+<p>
+    <label>J4R ID:</label>
+    <input id="createj4r_j4rid">
+    <label>Discord Server ID:</label>
+    <input id="createj4r_serverid">
+    <label>Expires on X days:</label>
+    <input id="createj4r_expiresonindays">
+    <label>Memory:</label>
+    <input id="createj4r_memory">
+    <label>Disk:</label>
+    <input id="createj4r_disk">
+    <label>CPU:</label>
+    <input id="createj4r_cpu">
+    <label>Servers:</label>
+    <input id="createj4r_servers"><br>
+    <button onclick="asyncAlert(createJ4R(document.getElementById('createj4r_j4rid').value, document.getElementById('createj4r_serverid').value, parseFloat(document.getElementById('createj4r_expiresonindays').value), parseFloat(document.getElementById('createj4r_memory').value), parseFloat(document.getElementById('createj4r_disk').value), parseFloat(document.getElementById('createj4r_cpu').value), parseFloat(document.getElementById('createj4r_servers').value)));">Create</button>
+</p>
+
+<script>
+    async function asyncAlert(func) {
+        alert(JSON.stringify(await func));
+    };
+</script>
+
+<script src="/assets/js/admin.js"></script>

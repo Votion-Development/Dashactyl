@@ -1,5 +1,6 @@
-const fetch = require('node-fetch');
-const mysql = require('mysql2');
+/* eslint-disable camelcase */
+const fetch = require('node-fetch')
+const mysql = require('mysql2')
 
 const pool = mysql.createPool({
   host: process.env.database.host,
@@ -10,7 +11,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
-});
+})
 
 // If you were smart, you would complete redo the coin system by using something that could higher the coin limit, while being able to handle big numbers. (since Javascript sucks at handling big numbers)
 
@@ -28,7 +29,7 @@ pool.query(
       \`servers\` int(11) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
   `
-);
+)
 
 pool.query(
   `
@@ -38,7 +39,7 @@ pool.query(
       \`action\` varchar(255) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
   `
-);
+)
 
 pool.query(
   `
@@ -51,7 +52,7 @@ pool.query(
       \`servers\` int(11) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
   `
-);
+)
 
 pool.query( // This is for the list/information of J4Rs.
   `
@@ -65,7 +66,7 @@ pool.query( // This is for the list/information of J4Rs.
       \`servers\` int(11) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
   `
-);
+)
 
 pool.query( // This is for the resources users get from J4Rs.
   `
@@ -74,17 +75,17 @@ pool.query( // This is for the resources users get from J4Rs.
       \`discord_id\` varchar(255) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
   `
-);
+)
 
 module.exports = {
-  async createAccountOnDB(discord_id, pterodactyl_id) {
+  async createAccountOnDB (discord_id, pterodactyl_id) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO accounts (discord_id, pterodactyl_id, blacklisted, coins, package, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        'INSERT INTO accounts (discord_id, pterodactyl_id, blacklisted, coins, package, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           discord_id,
           pterodactyl_id,
-          "false",
+          'false',
           0,
           null,
           0,
@@ -94,21 +95,21 @@ module.exports = {
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(true);
+          resolve(true)
         }
-      );
-    });
+      )
+    })
   },
 
-  async createOrFindAccount(username, email, first_name, last_name) {
-    let generated_password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  async createOrFindAccount (username, email, first_name, last_name) {
+    const generated_password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 
-    let account = await fetch(
+    const account = await fetch(
       `${process.env.pterodactyl.domain}/api/application/users`,
       {
-        method: "post",
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.pterodactyl.key}`
@@ -121,247 +122,243 @@ module.exports = {
           password: process.env.pterodactyl.generate_password_on_sign_up ? generated_password : undefined
         })
       }
-    ); 
+    )
 
-    if (await account.status == 201) { // Successfully created account.
+    if (await account.status === 201) { // Successfully created account.
+      const accountinfo = await account.json()
 
-      const accountinfo = await account.json();
+      await this.createAccountOnDB(username, accountinfo.attributes.id)
 
-      await this.createAccountOnDB(username, accountinfo.attributes.id);
+      accountinfo.attributes.password = generated_password
 
-      accountinfo.attributes.password = generated_password;
+      accountinfo.attributes.relationships = { servers: { object: 'list', data: [] } }
 
-      accountinfo.attributes.relationships = { servers: { object: "list", data: [] } };
-
-      return accountinfo.attributes;
-
+      return accountinfo.attributes
     } else { // Find account.
-
-      let accountlistjson = await fetch(
+      const accountlistjson = await fetch(
         `${process.env.pterodactyl.domain}/api/application/users?include=servers&filter[email]=${encodeURIComponent(email)}`,
         {
-          method: "get",
+          method: 'get',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.pterodactyl.key}`
           }
         }
-      );
+      )
 
-      const accountlist = await accountlistjson.json();
-      const user = accountlist.data.filter(acc => acc.attributes.email == email);
+      const accountlist = await accountlistjson.json()
+      const user = accountlist.data.filter(acc => acc.attributes.email === email)
 
-      if (user.length == 1) {
+      if (user.length === 1) {
+        const userid = user[0].attributes.id
+        await this.createAccountOnDB(username, userid)
 
-        let userid = user[0].attributes.id;
-        await this.createAccountOnDB(username, userid);
-
-        return user[0].attributes;
-
+        return user[0].attributes
       };
 
-      return false;
+      return false
     };
-    
   },
 
-  async fetchAccountPterodactylID(pterodactyl_id) {
+  async fetchAccountPterodactylID (pterodactyl_id) {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM accounts WHERE pterodactyl_id = ?`, [pterodactyl_id], function (error, results, fields) {
-        if (error) return reject(error);
-      
-        if (results.length !== 1) return resolve(null);
+      pool.query('SELECT * FROM accounts WHERE pterodactyl_id = ?', [pterodactyl_id], function (error, results, fields) {
+        if (error) return reject(error)
 
-        let userInfo = results[0];
-    
-        resolve(userInfo);
-      });
-    });
+        if (results.length !== 1) return resolve(null)
+
+        const userInfo = results[0]
+
+        resolve(userInfo)
+      })
+    })
   },
 
-  async fetchAccountDiscordID(discord_id) {
+  async fetchAccountDiscordID (discord_id) {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM accounts WHERE discord_id = ?`, [discord_id], function (error, results, fields) {
-        if (error) return reject(error);
-      
-        if (results.length !== 1) return resolve(null);
+      pool.query('SELECT * FROM accounts WHERE discord_id = ?', [discord_id], function (error, results, fields) {
+        if (error) return reject(error)
 
-        let userInfo = results[0];
-        userInfo.blacklisted = userInfo.blacklisted == "true";
-    
-        resolve(userInfo);
-      });
-    });
+        if (results.length !== 1) return resolve(null)
+
+        const userInfo = results[0]
+        userInfo.blacklisted = userInfo.blacklisted === 'true'
+
+        resolve(userInfo)
+      })
+    })
   },
 
-  async getCoinsByDiscordID(discord_id) {
-    let dbinfo = await this.fetchAccountDiscordID(discord_id);
-    if (!dbinfo) return null;
+  async getCoinsByDiscordID (discord_id) {
+    const dbinfo = await this.fetchAccountDiscordID(discord_id)
+    if (!dbinfo) return null
 
-    return dbinfo.coins || 0;
+    return dbinfo.coins || 0
   },
 
-  async addCoinsByDiscordID(discord_id, amount) {
-    let dbinfo = await this.fetchAccountDiscordID(discord_id);
-    if (!dbinfo) return null;
+  async addCoinsByDiscordID (discord_id, amount) {
+    const dbinfo = await this.fetchAccountDiscordID(discord_id)
+    if (!dbinfo) return null
 
-    let coins = dbinfo.coins || 0;
-    coins += amount;
+    let coins = dbinfo.coins || 0
+    coins += amount
 
-    coins = Math.round(coins);
+    coins = Math.round(coins)
 
-    if (coins < 0) coins = 0;
-    if (coins > 2147483647) coins = 2147483647;
+    if (coins < 0) coins = 0
+    if (coins > 2147483647) coins = 2147483647
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `UPDATE accounts SET coins = ? WHERE accounts.discord_id = ?`,
+        'UPDATE accounts SET coins = ? WHERE accounts.discord_id = ?',
         [
           coins,
           discord_id
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(coins);
+          resolve(coins)
         }
-      );
-    });
+      )
+    })
   },
 
-  async setCoinsByDiscordID(discord_id, amount) {
-    let dbinfo = await this.fetchAccountDiscordID(discord_id);
-    if (!dbinfo) return null;
+  async setCoinsByDiscordID (discord_id, amount) {
+    const dbinfo = await this.fetchAccountDiscordID(discord_id)
+    if (!dbinfo) return null
 
-    let coins = Math.round(amount);
+    let coins = Math.round(amount)
 
-    if (coins < 0) coins = 0;
-    if (coins > 2147483647) coins = 2147483647;
+    if (coins < 0) coins = 0
+    if (coins > 2147483647) coins = 2147483647
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `UPDATE accounts SET coins = ? WHERE discord_id = ?`,
+        'UPDATE accounts SET coins = ? WHERE discord_id = ?',
         [
           coins,
           discord_id
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(Math.round(coins));
+          resolve(Math.round(coins))
         }
-      );
-    });
+      )
+    })
   },
 
-  async setPackageByDiscordID(discord_id, package) {
+  async setPackageByDiscordID (discord_id, pkg) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `UPDATE accounts SET package = ? WHERE discord_id = ?`,
+        'UPDATE accounts SET package = ? WHERE discord_id = ?',
         [
-          package,
+          pkg,
           discord_id
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(package);
+          resolve(pkg)
         }
-      );
-    });
+      )
+    })
   },
 
-  async setResourcesByDiscordID(discord_id, memory, disk, cpu, servers) {
-    let additions = [];
-    let the_array = []; // Contains variables for "?" in MySQL.
+  async setResourcesByDiscordID (discord_id, memory, disk, cpu, servers) {
+    const additions = []
+    const the_array = [] // Contains variables for "?" in MySQL.
 
     // Beautiful code that hurts my eyes, and I'm lazy af. - Two
-    
-    if (typeof memory == "number") {
-      additions.push("memory = ?");
-      the_array.push(memory);
 
-      if (memory > 1073741823) memory = 1073741823;
+    if (typeof memory === 'number') {
+      additions.push('memory = ?')
+      the_array.push(memory)
+
+      if (memory > 1073741823) memory = 1073741823
     }
 
-    if (typeof disk == "number") {
-      additions.push("disk = ?");
-      the_array.push(disk);
+    if (typeof disk === 'number') {
+      additions.push('disk = ?')
+      the_array.push(disk)
 
-      if (disk > 1073741823) disk = 1073741823;
+      if (disk > 1073741823) disk = 1073741823
     }
 
-    if (typeof cpu == "number") {
-      additions.push("cpu = ?");
-      the_array.push(cpu);
+    if (typeof cpu === 'number') {
+      additions.push('cpu = ?')
+      the_array.push(cpu)
 
-      if (cpu > 1073741823) cpu = 1073741823;
+      if (cpu > 1073741823) cpu = 1073741823
     }
 
-    if (typeof servers == "number") {
-      additions.push("servers = ?");
-      the_array.push(servers);
+    if (typeof servers === 'number') {
+      additions.push('servers = ?')
+      the_array.push(servers)
 
-      if (servers > 1073741823) servers = 1073741823;
+      if (servers > 1073741823) servers = 1073741823
     }
 
-    the_array.push(discord_id);
+    the_array.push(discord_id)
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `UPDATE accounts SET ${additions.join(", ")} WHERE discord_id = ?`,
+        `UPDATE accounts SET ${additions.join(', ')} WHERE discord_id = ?`,
         the_array,
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(true);
+          resolve(true)
         }
-      );
-    });
+      )
+    })
   },
 
-  async getAllRenewalTimers() {
+  async getAllRenewalTimers () {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM renewal_timer`, function (error, results, fields) {
-        if (error) return reject(error);
-    
-        resolve(results);
-      });
-    });
+      pool.query('SELECT * FROM renewal_timer', function (error, results, fields) {
+        if (error) return reject(error)
+
+        resolve(results)
+      })
+    })
   },
 
-  async getSingleRenewalDate(server_id) {
+  async getSingleRenewalDate (server_id) {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM renewal_timer WHERE server_id = ?`, [server_id], function (error, results, fields) {
-        if (error) return reject(error);
+      pool.query('SELECT * FROM renewal_timer WHERE server_id = ?', [server_id], function (error, results, fields) {
+        if (error) return reject(error)
 
-        if (results.length !== 1) return resolve({
-          action: "???",
-          timer: "???"
-        });
-    
+        if (results.length !== 1) {
+          return resolve({
+            action: '???',
+            timer: '???'
+          })
+        }
+
         resolve({
           action: results[0].action,
           timer: parseFloat(results[0].date)
-        });
-      });
-    });
+        })
+      })
+    })
   },
 
-  async runDBTimerActions(server_id, date, action = "suspend") {
-    await this.removeRenewTimerFromDB(server_id);
-    await this.addRenewTimerToDB(server_id, date, action);
-    return true;
+  async runDBTimerActions (server_id, date, action = 'suspend') {
+    await this.removeRenewTimerFromDB(server_id)
+    await this.addRenewTimerToDB(server_id, date, action)
+    return true
   },
 
-  async addRenewTimerToDB(server_id, date, action) {
+  async addRenewTimerToDB (server_id, date, action) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO renewal_timer (server_id, date, action) VALUES (?, ?, ?)`,
+        'INSERT INTO renewal_timer (server_id, date, action) VALUES (?, ?, ?)',
         [
           server_id,
           date,
@@ -369,38 +366,38 @@ module.exports = {
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(true);
+          resolve(true)
         }
-      );
-    });
+      )
+    })
   },
 
-  async removeRenewTimerFromDB(server_id) {
+  async removeRenewTimerFromDB (server_id) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `DELETE FROM renewal_timer WHERE server_id=?`,
+        'DELETE FROM renewal_timer WHERE server_id=?',
         [
           server_id
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(true);
+          resolve(true)
         }
-      );
-    });
+      )
+    })
   },
 
-  async createCoupon(code, coins, memory, disk, cpu, servers) {
-    let check_if_coupon_exists = await this.getCouponInfo(code);
+  async createCoupon (code, coins, memory, disk, cpu, servers) {
+    const check_if_coupon_exists = await this.getCouponInfo(code)
 
     if (!check_if_coupon_exists) {
       return new Promise((resolve, reject) => {
         pool.query(
-          `INSERT INTO coupons (code, coins, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?)`,
+          'INSERT INTO coupons (code, coins, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?)',
           [
             code,
             coins,
@@ -409,18 +406,18 @@ module.exports = {
             cpu,
             servers
           ],
-  
+
           function (error, results, fields) {
-            if (error) return reject(error);
-  
-            resolve(true);
+            if (error) return reject(error)
+
+            resolve(true)
           }
-        );
-      });
+        )
+      })
     } else {
       return new Promise((resolve, reject) => {
         pool.query(
-          `UPDATE coupons SET coins = ?, memory = ?, disk = ?, cpu = ?, servers = ? WHERE code = ?`,
+          'UPDATE coupons SET coins = ?, memory = ?, disk = ?, cpu = ?, servers = ? WHERE code = ?',
           [
             coins,
             memory,
@@ -429,151 +426,144 @@ module.exports = {
             servers,
             code
           ],
-  
+
           function (error, results, fields) {
-            if (error) return reject(error);
-  
-            resolve(true);
+            if (error) return reject(error)
+
+            resolve(true)
           }
-        );
-      });
+        )
+      })
     }
   },
 
-  async claimCoupon(code) {
-    let check_if_coupon_exists = await this.getCouponInfo(code);
+  async claimCoupon (code) {
+    const check_if_coupon_exists = await this.getCouponInfo(code)
 
     if (check_if_coupon_exists) {
-      return new Promise(async(resolve, reject) => {
+      return new Promise((resolve, reject) => {
         pool.query(
-          `DELETE FROM coupons WHERE code = ?`,
+          'DELETE FROM coupons WHERE code = ?',
           [
             code
           ],
-  
+
           async (error, results, fields) => {
-            if (error) return reject(error);
-  
-            resolve(check_if_coupon_exists);
+            if (error) return reject(error)
+
+            resolve(check_if_coupon_exists)
           }
-        );
-      });
+        )
+      })
     } else {
-      return null;
+      return null
     }
   },
 
-  async getCouponInfo(code) {
+  async getCouponInfo (code) {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM coupons WHERE code = ?`, [code], function (error, results, fields) {
-        if (error) return reject(error);
+      pool.query('SELECT * FROM coupons WHERE code = ?', [code], function (error, results, fields) {
+        if (error) return reject(error)
 
-        if (results.length !== 1) resolve(null);
-        resolve(results[0]);
-      });
-    });
+        if (results.length !== 1) resolve(null)
+        resolve(results[0])
+      })
+    })
   },
 
-  async checkJ4R(discord_id, user_guilds) {
-    let userinfo = await process.db.fetchAccountDiscordID(discord_id);
-    if (!userinfo) console.error("[CHECK J4R] Could not find user with ID.")
+  async checkJ4R (discord_id, user_guilds) {
+    const userinfo = await process.db.fetchAccountDiscordID(discord_id)
+    if (!userinfo) console.error('[CHECK J4R] Could not find user with ID.')
 
-    let j4r_list = await this.allJ4Rs();
+    const j4r_list = await this.allJ4Rs()
 
-    let supposed_to_be_in = await new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM user_j4rs WHERE discord_id = ?`, [discord_id], function (error, results, fields) {
-        if (error) return reject(error);
+    const supposed_to_be_in = await new Promise((resolve, reject) => {
+      pool.query('SELECT * FROM user_j4rs WHERE discord_id = ?', [discord_id], function (error, results, fields) {
+        if (error) return reject(error)
 
-        resolve(results);
-      });
-    });
+        resolve(results)
+      })
+    })
 
-    for (let { j4r_id, server_id, expires_on, memory, disk, cpu, servers } of j4r_list) {
-      if (user_guilds.filter(s => s.id == server_id).length == 1) { // In J4R server.
-
+    for (const { j4r_id, server_id, expires_on, memory, disk, cpu, servers } of j4r_list) {
+      if (user_guilds.filter(s => s.id === server_id).length === 1) { // In J4R server.
         if (expires_on > Date.now()) { // If the J4R didn't expire.
-
-          if (supposed_to_be_in.filter(s => s.j4r_id == j4r_id).length !== 1) { // If it didn't give resources already, give resources.
-            userinfo.memory += memory;
-            userinfo.disk += disk;
-            userinfo.cpu += cpu;
-            userinfo.servers += servers;
+          if (supposed_to_be_in.filter(s => s.j4r_id === j4r_id).length !== 1) { // If it didn't give resources already, give resources.
+            userinfo.memory += memory
+            userinfo.disk += disk
+            userinfo.cpu += cpu
+            userinfo.servers += servers
 
             await new Promise((resolve, reject) => {
               pool.query(
-                `INSERT INTO user_j4rs (j4r_id, discord_id) VALUES (?, ?)`,
+                'INSERT INTO user_j4rs (j4r_id, discord_id) VALUES (?, ?)',
                 [
                   j4r_id,
                   discord_id
                 ],
-        
+
                 function (error, results, fields) {
-                  if (error) return reject(error);
-        
-                  resolve(true);
+                  if (error) return reject(error)
+
+                  resolve(true)
                 }
-              );
-            });
+              )
+            })
           }
-
         }
-
       } else { // Not in J4R server.
+        if (supposed_to_be_in.filter(s => s.j4r_id === j4r_id).length === 1) { // If user left the server, remove resources.
+          userinfo.memory -= memory
+          userinfo.disk -= disk
+          userinfo.cpu -= cpu
+          userinfo.servers -= servers
 
-        if (supposed_to_be_in.filter(s => s.j4r_id == j4r_id).length == 1) { // If user left the server, remove resources.
-          userinfo.memory -= memory;
-          userinfo.disk -= disk;
-          userinfo.cpu -= cpu;
-          userinfo.servers -= servers;
-
-          await new Promise(async(resolve, reject) => {
+          await new Promise((resolve, reject) => {
             pool.query(
-              `DELETE FROM user_j4rs WHERE j4r_id = ? AND discord_id = ?`,
+              'DELETE FROM user_j4rs WHERE j4r_id = ? AND discord_id = ?',
               [
                 j4r_id,
                 discord_id
               ],
-      
+
               async (error, results, fields) => {
-                if (error) return reject(error);
-      
-                resolve(true);
+                if (error) return reject(error)
+
+                resolve(true)
               }
-            );
-          });
-
-
+            )
+          })
         }
       }
     }
 
-    await this.setResourcesByDiscordID(discord_id, userinfo.memory, userinfo.disk, userinfo.cpu, userinfo.servers);
+    await this.setResourcesByDiscordID(discord_id, userinfo.memory, userinfo.disk, userinfo.cpu, userinfo.servers)
   },
 
-  async allJ4Rs() {
+  async allJ4Rs () {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM all_j4rs`, function (error, results, fields) {
-        if (error) return reject(error);
+      pool.query('SELECT * FROM all_j4rs', function (error, results, fields) {
+        if (error) return reject(error)
 
-        resolve(results);
-      });
-    });
+        resolve(results)
+      })
+    })
   },
 
-  async checkIfJ4RWithNameExists(id) {
+  async checkIfJ4RWithNameExists (id) {
     return new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM all_j4rs WHERE j4r_id = ?`, [id], function (error, results, fields) {
-        if (error) return reject(error);
+      pool.query('SELECT * FROM all_j4rs WHERE j4r_id = ?', [id], function (error, results, fields) {
+        if (error) return reject(error)
 
-        resolve(results.length == 0 ? false : true);
-      });
-    });
+        resolve(results.length !== 0)
+      })
+    })
   },
 
-  async createJ4R(j4r_id, server_id, expires_on, memory, disk, cpu, servers) {
+  async createJ4R (j4r_id, server_id, expires_on, memory, disk, cpu, servers) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO all_j4rs (j4r_id, server_id, expires_on, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        'INSERT INTO all_j4rs (j4r_id, server_id, expires_on, memory, disk, cpu, servers) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [
           j4r_id,
           server_id,
@@ -585,35 +575,35 @@ module.exports = {
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(true);
+          resolve(true)
         }
-      );
-    });
+      )
+    })
   },
 
-  async blacklistStatus(discord_id) {
-    return (await this.fetchAccountDiscordID(discord_id)).blacklisted;
+  async blacklistStatus (discord_id) {
+    return (await this.fetchAccountDiscordID(discord_id)).blacklisted
   },
 
-  async toggleBlacklist(discord_id, specific) {
-    let new_status = specific || !(await this.blacklistStatus(discord_id));
+  async toggleBlacklist (discord_id, specific) {
+    const new_status = specific || !(await this.blacklistStatus(discord_id))
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `UPDATE accounts SET blacklisted = ? WHERE discord_id = ?`,
+        'UPDATE accounts SET blacklisted = ? WHERE discord_id = ?',
         [
           new_status.toString(), // Is .toString() required? Too lazy to check.
           discord_id
         ],
 
         function (error, results, fields) {
-          if (error) return reject(error);
+          if (error) return reject(error)
 
-          resolve(new_status);
+          resolve(new_status)
         }
-      );
-    });
+      )
+    })
   }
-};
+}

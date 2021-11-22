@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Two",
   "license": "ISC",
+  "scripts": {
+    "lint": "npx eslint --fix ."
+  },
   "dependencies": {
     "better-sqlite3": "^7.4.3",
     "better-sqlite3-session-store": "^0.0.2",
@@ -18,5 +21,13 @@
     "js-yaml": "^4.1.0",
     "mysql2": "^2.2.5",
     "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1"
   }
 }

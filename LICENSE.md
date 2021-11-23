@@ -1,3 +1,5 @@
+Two's Development "Dashactyl Premium" License
+
 Copyright (c) 2021 Two
 
 Permission is hereby granted, to the user ("You" or "User") obtaining a copy

@@ -7,9 +7,6 @@ nopermission: nopermission.ejs
 notfound: 404.ejs
 renderfail: rendererror.ejs
 
-apimessages: 
-  invalidAPIkey: "Invalid API key!"
-
 pages:
   
   arc-sw.js:
@@ -47,10 +44,6 @@ pages:
     
   earn/redeem:
     file: earn redeem.ejs
-    permission: 1
-    
-  earn/j4r:
-    file: earn j4r.ejs
     permission: 1
 
   earn/afk:

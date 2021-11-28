@@ -1,7 +1,3 @@
-# This repository is now archived and locked. Go to https://github.com/orgs/Dashactyl-Development/repositories for more update-to-date updates.
-
----
-
 ![Banner](https://media.discordapp.net/attachments/706970617471303761/768606122147708968/pterodactyl-panel.png)
 
 # Dashactyl

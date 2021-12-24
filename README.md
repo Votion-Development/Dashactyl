@@ -6,7 +6,7 @@ Dashactyl is a client area, which allows users to split resources throughout mul
 
 Dashactyl is developed by the community and people. Check out the Discord: https://discord.gg/uSQBWP9fMR
 
-Website: https://dashactyl.com
+Website: https://votion.dev
 
 # Wiki
 

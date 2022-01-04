@@ -3,8 +3,8 @@
 # Keep in mind decimals will not work. MySQL rounds them up.
 
 website:
-  port: 8000
-  secret: 'Enter your session password here.'
+  port: 8000 # The port you want Dashactyl to run on.
+  secret: 'Enter your session password here.' # Make this very secure and complicated.
   secure: false # This option requires https.
 
 discord:

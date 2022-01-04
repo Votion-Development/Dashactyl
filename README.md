@@ -16,7 +16,7 @@ Check out the wiki! https://github.com/Votion-Development/Dashactyl/wiki
 
 # Disclaimer
 
-We (Votion Development) does not make responsable for any damages, direct or indirect to you (as a person), to the user, nor to the organization. Use at your own risk
+We (Votion Development) are not responsable for any damages, direct or indirect to you (as a person), to the user, nor to the organization. Use at your own risk
 
 You should not download anything from the develop branch! These files are not ready for production yet, and will be soon!
 

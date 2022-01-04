@@ -12,10 +12,12 @@ Website: https://votion.dev
 
 Need to install Dashactyl? Need API documentations? Need a place to find themes?
 
-Check out the wiki! https://github.com/real2two/dashactyl/wiki
+Check out the wiki! https://github.com/Votion-Development/Dashactyl/wiki
 
 # Disclaimer
 
-We are not responsible for any damages.
+We (Votion Development) does not make responsable for any damages, direct or indirect to you (as a person), to the user, nor to the organization. Use at your own risk
 
 You should not download anything from the develop branch! These files are not ready for production yet, and will be soon!
+
+Copyright (c) Votion Development. All rights reserved.

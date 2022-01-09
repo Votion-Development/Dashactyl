@@ -4,14 +4,14 @@
 
 website:
   port: 8000 # The port you want Dashactyl to run on.
-  secret: 'Enter your session password here.' # Make this very secure and complicated.
+  secret: "Enter your session password here." # Make this very secure and complicated.
   secure: false # This option requires https.
 
 discord:
   id: "Enter your Discord OAuth2 ID here."
   secret: "Enter your Discord OAuth2 secret here."
   callbackpath: "http://localhost:8000/accounts/callback"
-  prompt: false 
+  prompt: false
 
   token: "Insert your bot token here."
   guild: "000000000000000000" # Add your server ID you want to force users to join on login here.
@@ -67,8 +67,8 @@ eggs: # These are the eggs servers can be created with.
       docker_image: quay.io/pterodactyl/core:java
       startup: java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -jar {{SERVER_JARFILE}}
       environment:
-        SERVER_JARFILE: 'server.jar'
-        BUILD_NUMBER: 'latest'
+        SERVER_JARFILE: "server.jar"
+        BUILD_NUMBER: "latest"
       feature_limits:
         databases: 1
         backups: 1
@@ -90,7 +90,6 @@ packages: # These are packages. They are organized categories on how much resour
       servers: 2
 
 store: # This is the store options.
-
   # 'enabled' is an option, which toggles if you can buy a single type of resource of.
   # 'cost' is the amount of coins 'per' of a resource would cost.
 
@@ -115,13 +114,13 @@ store: # This is the store options.
     per: 10
 
 afk:
-  domain_lock: 
+  domain_lock:
     - localhost:8000 # Change this to your actual domain.
   redirect_on_attempt_to_steal_code: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
   everywhat: 60 # seconds
   gaincoins: 1 # coins
-
+  arc_id: "" # your arc widget id without the '#'
 renewal:
   renewal_time: 6.048e+8
   deletion_time: 8.64e+7

@@ -1,9 +1,9 @@
 {
   "name": "dashactyl-v1",
-  "version": "1.0.0",
-  "description": "The finished version of Dashactyl.",
+  "version": "1.0.1",
+  "description": "A client panel to split resources among users for pterodactyl.",
   "main": "index.js",
-  "author": "Two",
+  "author": "Jamie_#0001, Two#3864",
   "license": "ISC",
   "scripts": {
     "lint": "npx eslint --fix ."

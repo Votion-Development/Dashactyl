@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-eval */
 const fetch = require('node-fetch')
+const nodemailer = require('nodemailer')
 const functions = require('../functions.js')
 const renew_server = require('./renew server.js')
 
@@ -119,6 +120,17 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
       if (serverinfo_req.statusText !== 'Created') {
         console.log(await serverinfo_req.text())
         return functions.doRedirect(req, res, redirects.erroroncreation)
+      } else {
+      if(process.env.emailsystem.enabled == true){
+      // here is the SMTP configuration 
+      const emailContent = {
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+      <header>
+        
+       </header>
+      }
+      }
+
       }
 
       const serverinfo = await serverinfo_req.json()

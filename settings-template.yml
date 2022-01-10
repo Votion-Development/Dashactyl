@@ -15,7 +15,6 @@ email_system: # This feature enable email system for Dashactyl v1
   enabled: true # enable or disable the email system
   smtphost: "Enter your SMTP Host" 
   smtport: "Enter your SMTP Port"
-  smtpencryption: "Enter your SMTP encryption method" # SSL or TLS
   smtpuser: "Enter your SMTP User"
   smtpassword: "Enter your SMTP Password"
 

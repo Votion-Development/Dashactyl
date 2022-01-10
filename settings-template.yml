@@ -7,6 +7,10 @@ website:
   secret: "Enter your session password here." # Make this very secure and complicated.
   secure: false # This option requires https.
 
+auditlogs: # This feature enable auditlogs for dashactyl v1
+  enabled: true # enable or disable the Audit Logs
+  webhookurl: "Enter your webhook URL"
+  
 discord:
   id: "Enter your Discord OAuth2 ID here."
   secret: "Enter your Discord OAuth2 secret here."

@@ -12,7 +12,7 @@ Website: https://votion.dev
 
 Need to install Dashactyl? Need API documentations? Need a place to find themes?
 
-Check out the wiki! https://github.com/Votion-Development/Dashactyl/wiki
+Check out the wiki! https://docs.votion.dev/docs/Dashactyl/introduction
 
 # Disclaimer
 

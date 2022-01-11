@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-eval */
 const fetch = require('node-fetch')
+const nodemailer = require('nodemailer')
 const functions = require('../functions.js')
 const suspendCheck = require('./server suspension system.js')
 
@@ -79,8 +80,58 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
             }
       )
 
-      if (await serverinfo_req.statusText !== 'OK') return functions.doRedirect(req, res, redirects.erroronmodification, `?id=${req.params.id}`)
+      if (await serverinfo_req.statusText !== 'OK'){
+      return functions.doRedirect(req, res, redirects.erroronmodification, `?id=${req.params.id}`)
+    } else {
+            if(process.env.email_system.enabled == true){ //check if email_system is enabled or no.
+      
+      var contentHTML = `
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+      <div class="bg-dark">
+       <a href="${process.env.email_system.extra.dashboard_url}" style="text-decoration:none"><header class="text-center fs-4 py-3 text-white">
+        <img src="${process.env.email_system.extra.dashboard_icon}" width="50" height="50">
+        ${process.env.email_system.extra.dashboard_name}
+       </header></a>
+        </div>
+       <div class="ms-0 py-4">
+       <h1 class="text-black text-center">Server ${name} Modified!</h1>
+       <h4 class="text-center">You are receiving this email because you have modified a server in ${${process.env.email_system.extra.dashboard_name}}.</h4>
 
+       <div class="container text-center my-4">
+       <button class="btn btn-primary" onclick="window.location.href = '${process.env.email_system.extra.dashboard_url}/servers'">View more information</button>
+       <p>If the button doesnt work <a href="${process.env.email_system.extra.dashboard_url}/servers">Click here</a></p>
+         </div>
+        </div>
+    `; 
+      // here is the SMTP configuration 
+      async function main() {
+
+        let transporter = nodemailer.createTransport({
+          host: `${process.env.email_system.smtp_host}`,
+          port: process.env.email_system.smtp_port,
+          secure: false, // if your smtp port is 465 you need to enable this.
+          auth: {
+            user: process.env.email_system.smtp_user, // smtp user
+            pass: process.env.email_system.smtp_password, // smtp password
+          },
+        });
+      
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from: process.env.email_system.smtp_user, // email will be send from this email 
+          to: req.userinfo.email, // User email
+          subject: "Server Modified - Dashactyl", // You can change this 
+          html: contentHTML, // you can edit the email format in var contentHTML section
+        });
+      
+        console.log("Message sent: %s", info.messageId); // Send a console log with email message id (you can delete this line.)
+      }
+      
+      main().catch(console.error); // this checks for an error
+      }
+
+      }
+    }
       const serverinfo = await serverinfo_req.json()
 
       const new_all_server_data = req.session.data.panelinfo.relationships.servers.data.filter(server => server.attributes.id.toString() !== server_id)

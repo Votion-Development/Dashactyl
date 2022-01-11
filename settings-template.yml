@@ -17,7 +17,9 @@ email_system: # This feature enable email system for Dashactyl v1
   smtport: "Enter your SMTP Port"
   smtpuser: "Enter your SMTP User"
   smtpassword: "Enter your SMTP Password"
-
+  extras: # Some additional things, this will edit some links in the HTML format that will be sent by email
+    dashboard url: "Enter your dashboard url with https"
+ 
 discord:
   id: "Enter your Discord OAuth2 ID here."
   secret: "Enter your Discord OAuth2 secret here."

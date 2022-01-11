@@ -13,12 +13,13 @@ auditlogs: # This feature enable auditlogs for dashactyl v1
 
 email_system: # This feature enable email system for Dashactyl v1
   enabled: true # enable or disable the email system
-  smtp_host: "Enter your SMTP Host" 
-  smtp_port: "Enter your SMTP Port"
-  smtp_user: "Enter your SMTP User"
-  smtp_password: "Enter your SMTP Password"
+  smtp_host: "Enter your SMTP Host" # You need to put here your smtp host from your email software (gmail, zoho, etc.) like smtp.zoho.com
+  smtp_port: "Enter your SMTP Port" # Put the port of your smtp host like 465
+  smtp_user: "Enter your SMTP User" # Your email like nohaxito@mydomain.gg
+  smtp_password: "Enter your SMTP Password" # Your email password.
   extras: # Some additional things, this will edit some links in the HTML format that will be sent by email
-    dashboard_url: "Enter your dashboard url with https"
+    dashboard_url: "Enter your dashboard url with https" # Necessary
+    dashboard_name: "Enter the name of your host, like ColourNodes" # Necessary 
  
 discord:
   id: "Enter your Discord OAuth2 ID here."

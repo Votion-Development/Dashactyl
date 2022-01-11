@@ -121,14 +121,57 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
         console.log(await serverinfo_req.text())
         return functions.doRedirect(req, res, redirects.erroroncreation)
       } else {
-      if(process.env.emailsystem.enabled == true){
-      // here is the SMTP configuration 
-      const emailContent = {
+      if(process.env.email_system.enabled == true){ //check if email_system is enabled or no.
+      
+      var contentHTML = `
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <header>
-        
-       </header>
+      <div class="bg-dark">
+       <a href="${process.env.email_system.extra.dashboard_url}" style="text-decoration:none"><header class="text-center fs-4 py-3 text-white">
+        <img src="https://spiralnodes.xyz/assets/images/icon-modified.png" alt="" width="50" height="50">
+        ${process.env.email_system.extra.dashboard_name}
+       </header></a>
+        </div>
+       <div class="ms-0 py-4">
+       <h1 class="text-black text-center">Server ${name} Created!</h1>
+       <h4 class="text-center">You are receiving this email because you have created a server in SpiralNodes with the following specifications:</h4>
+       <center><div class="card text-center justify-content-center" style="width:260px">
+       <ul class="list-unstyled">
+         <li>RAM: ${memory} MB</li>
+         <li>DISK: ${disk} MB</li>
+         <li>CPU: ${cpu}%</li>
+       </ul>
+       </div></center>
+       <div class="container text-center my-4">
+       <button class="btn btn-primary" onclick="window.location.href = '${process.env.email_system.extra.dashboard_url}'">View more information</button>
+       <p>If the button doesnt work <a href="${process.env.email_system.extra.dashboard_url}">Click here</a></p>
+         </div>
+        </div>
+    `; 
+      // here is the SMTP configuration 
+      async function main() {
+
+        let transporter = nodemailer.createTransport({
+          host: `${process.env.email_system.smtp_host}`,
+          port: process.env.email_system.smtp_port,
+          secure: false, // if your smtp port is 465 you need to enable this.
+          auth: {
+            user: process.env.email_system.smtp_user, // smtp user
+            pass: process.env.email_system.smtp_password, // smtp password
+          },
+        });
+      
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from: process.env.email_system.smtp_user, // email will be send from this email 
+          to: req.userinfo.email, // User email
+          subject: "Server Created - Dashactyl", // You can change this 
+          html: contentHTML, // you can edit the email format in var contentHTML section
+        });
+      
+        console.log("Message sent: %s", info.messageId); // Send a console log with email message id (you can delete this line.)
       }
+      
+      main().catch(console.error); // this checks for an error
       }
 
       }

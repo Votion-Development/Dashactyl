@@ -9,16 +9,16 @@ website:
 
 auditlogs: # This feature enable auditlogs for dashactyl v1
   enabled: true # enable or disable the Audit Logs
-  webhookurl: "Enter your webhook URL"
+  webhook_url: "Enter your webhook URL"
 
 email_system: # This feature enable email system for Dashactyl v1
   enabled: true # enable or disable the email system
-  smtphost: "Enter your SMTP Host" 
-  smtport: "Enter your SMTP Port"
-  smtpuser: "Enter your SMTP User"
-  smtpassword: "Enter your SMTP Password"
+  smtp_host: "Enter your SMTP Host" 
+  smtp_port: "Enter your SMTP Port"
+  smtp_user: "Enter your SMTP User"
+  smtp_password: "Enter your SMTP Password"
   extras: # Some additional things, this will edit some links in the HTML format that will be sent by email
-    dashboard url: "Enter your dashboard url with https"
+    dashboard_url: "Enter your dashboard url with https"
  
 discord:
   id: "Enter your Discord OAuth2 ID here."

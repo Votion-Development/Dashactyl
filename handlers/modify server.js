@@ -106,7 +106,7 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
        <div class="bg-dark">
         <a href="${process.env.email_system.extra.dashboardurl}" style="text-decoration:none"><header class="text-center fs-4 py-3 text-white">
-         <img src="https://spiralnodes.xyz/assets/images/icon-modified.png" alt="" width="50" height="50" style="height:50px;width:50px;">
+         <img src="https://docs.votion.dev/img/logo.png" alt="" width="50" height="50" style="height:50px;width:50px;">
          ${process.env.email_system.extra.dashboardname}
         </header></a>
          </div>

@@ -17,9 +17,9 @@ email_system: # This feature enable email system for Dashactyl v1
   smtp_port: "Enter your SMTP Port" # Put the port of your smtp host like 465
   smtp_user: "Enter your SMTP User" # Your email like nohaxito@mydomain.gg
   smtp_password: "Enter your SMTP Password" # Your email password.
-  extras: # Some additional things, this will edit some links in the HTML format that will be sent by email
-    dashboard_url: "Enter your dashboard url with https" # Necessary
-    dashboard_name: "Enter the name of your host, like ColourNodes" # Necessary 
+  extra: # Some additional things, this will edit some links in the HTML format that will be sent by email
+    dashboardurl: "Enter your dashboard url with https" # Necessary
+    dashboardname: "Enter the name of your host, like ColourNodes" # Necessary 
  
 discord:
   id: "Enter your Discord OAuth2 ID here."

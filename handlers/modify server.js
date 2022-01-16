@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-eval */
 const fetch = require('node-fetch')
-const nodemailer = require('nodemailer') // Package to send email with nodejs, dont delete pls
+const nodemailer = require('nodemailer') // Package to send email with nodejs, dont delete pls :)
 const functions = require('../functions.js')
 const suspendCheck = require('./server suspension system.js')
 

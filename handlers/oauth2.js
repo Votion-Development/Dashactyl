@@ -48,8 +48,7 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
       const tokenInfo = JSON.parse(await oauth2Token.text())
       const scopes = tokenInfo.scope
 
-      if (scopes !== 'identify email guilds guilds.join') return functions.doRedirect(req, res, redirects.badscopes)
-
+      if (!scopes.includes('identify') ||  !scopes.includes('guilds.join') || !scopes.includes('email') || !scopes.includes('guilds')) return functions.doRedirect(req, res, redirects.badscopes)
       const userinfo_raw = await fetch(
         'https://discord.com/api/users/@me',
         {

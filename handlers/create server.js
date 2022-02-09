@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-eval */
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const nodemailer = require('nodemailer')
 const functions = require('../functions.js')
 const renew_server = require('./renew server.js')

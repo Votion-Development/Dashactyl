@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-eval */
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const nodemailer = require('nodemailer') // Package to send email with nodejs, dont delete pls :)
 const functions = require('../functions.js')
 const suspendCheck = require('./server suspension system.js')

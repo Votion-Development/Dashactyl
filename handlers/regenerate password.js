@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const functions = require('../functions.js')
 
 module.exports.load = async function (app, ifValidAPI, ejs) {

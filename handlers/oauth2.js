@@ -1,6 +1,4 @@
-/* eslint-disable no-constant-condition */
-/* eslint-disable camelcase */
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const functions = require('../functions.js')
 const suspendCheck = require('./server suspension system.js')
 

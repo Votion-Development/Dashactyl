@@ -81,6 +81,7 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
       userinfo.guilds = guilds
 
       if (process.env.discord.guild) {
+
         const check_if_banned = (await fetch(
         `https://discord.com/api/guilds/${process.env.discord.guild}/bans/${userinfo.id}`,
         {
@@ -110,6 +111,18 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
           )
         } else {
           console.log('[AUTO JOIN SERVER] For some reason, the status code is ' + check_if_banned + ', instead of 200 or 404. You should worry about this.')
+        }
+        if (process.env.discord.registeredrole) {
+          await fetch(
+                `https://discord.com/api/guilds/${process.env.discord.guild}/members/${userinfo.id}/roles/${process.env.discord.registeredrole}`,
+                {
+                  method: "put",
+                  headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bot ${newsettings.api.client.bot.token}`
+                  }
+                }
+              );
         }
       };
 

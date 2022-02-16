@@ -1,6 +1,6 @@
 {
   "name": "dashactyl-v1",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A client panel to split resources among users for pterodactyl.",
   "main": "index.js",
   "author": "Jamie_#0001, Two#3864",

@@ -7,6 +7,16 @@ website:
   secret: "Enter your session password here." # Make this very secure and complicated.
   secure: false # This option requires https.
 
+discord:
+  id: "Enter your Discord OAuth2 ID here."
+  secret: "Enter your Discord OAuth2 secret here."
+  callbackpath: "http://localhost:8000/accounts/callback"
+  prompt: false
+
+  token: "Insert your bot token here."
+  guild: "000000000000000000" # Add your server ID you want to force users to join on login here.
+  registeredrole: "000000000000000000" # Add the ID of the role you want to be granted when logging into the dashboard.
+
 auditlogs: # This feature enable auditlogs for dashactyl v1
   enabled: false # enable or disable the Audit Logs
   webhook_url: "Enter your webhook URL"
@@ -19,17 +29,7 @@ email_system: # This feature enable email system for Dashactyl v1
   smtp_password: "Enter your SMTP Password" # Your email password.
   extra: # Some additional things, this will edit some links in the HTML format that will be sent by email
     dashboardurl: "Enter your dashboard url with https" # Necessary
-    dashboardname: "Enter the name of your host, like ColourNodes" # Necessary 
- 
-discord:
-  id: "Enter your Discord OAuth2 ID here."
-  secret: "Enter your Discord OAuth2 secret here."
-  callbackpath: "http://localhost:8000/accounts/callback"
-  prompt: false
-
-  token: "Insert your bot token here."
-  guild: "000000000000000000" # Add your server ID you want to force users to join on login here.
-  registeredrole: "000000000000000000" # Add the ID of the role you want to be granted when logging into the dashboard.
+    dashboardname: "Dashactyl" # Necessary 
 
 pterodactyl:
   domain: "Enter your Pterodactyl Panel domain here."

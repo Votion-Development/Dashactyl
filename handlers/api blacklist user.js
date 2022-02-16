@@ -1,6 +1,4 @@
-/* eslint-disable no-mixed-operators */
-/* eslint-disable camelcase */
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 module.exports.load = async function (app, ifValidAPI, ejs) {
   app.post('/api/users/blacklist/:id', async (req, res) => {

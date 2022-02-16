@@ -1,6 +1,6 @@
 {
   "name": "dashactyl-v1",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A client panel to split resources among users for pterodactyl.",
   "main": "index.js",
   "author": "Jamie_#0001, Two#3864",
@@ -20,7 +20,8 @@
     "javascript-obfuscator": "^2.18.1",
     "js-yaml": "^4.1.0",
     "mysql2": "^2.2.5",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.2.0",
+    "nodemailer": "^6.7.2"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

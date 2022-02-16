@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const mysql = require('mysql2')
 
 const pool = mysql.createPool({

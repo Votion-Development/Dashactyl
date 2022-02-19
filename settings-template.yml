@@ -3,7 +3,7 @@
 # Keep in mind decimals will not work. MySQL rounds them up.
 
 website:
-  port: 8000 # The port you want Dashactyl to run on.
+  port: 4440 # The port you want Dashactyl to run on.
   secret: "Enter your session password here." # Make this very secure and complicated.
   secure: false # This option requires https.
 
@@ -130,7 +130,7 @@ store: # This is the store options.
 
 afk:
   domain_lock:
-    - localhost:8000 # Change this to your actual domain.
+    - localhost:4440 # Change this to your actual domain.
   redirect_on_attempt_to_steal_code: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
   everywhat: 60 # seconds

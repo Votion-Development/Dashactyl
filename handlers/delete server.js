@@ -1,4 +1,4 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 const functions = require('../functions.js')
 const renew_server = require('./renew server.js')
 const suspendCheck = require('./server suspension system.js')

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 const functions = require('../functions.js')
 
 module.exports = async (discord_id, isAdmin) => {

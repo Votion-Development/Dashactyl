@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 'use strict'
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 const db = require('../db.js')
 const functions = require('../functions.js')
 

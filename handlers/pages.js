@@ -1,6 +1,6 @@
 // NOTE FOR ANY DASHACTYL MODIFIERS: This file is needed or else index.js will error, unless correct modifications are made.
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 const functions = require('../functions.js')
 const afk = require('./earn afk.js')
 

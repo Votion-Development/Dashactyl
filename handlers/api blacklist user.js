@@ -1,4 +1,4 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 
 module.exports.load = async function (app, ifValidAPI, ejs) {
   app.post('/api/users/blacklist/:id', async (req, res) => {

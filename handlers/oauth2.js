@@ -116,7 +116,7 @@ module.exports.load = async function (app, ifValidAPI, ejs) {
                   method: "put",
                   headers: {
                     'Content-Type': 'application/json',
-                    "Authorization": `Bot ${newsettings.api.client.bot.token}`
+                    "Authorization": `Bot ${process.env.discord.token}`
                   }
                 }
               );

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./components/head.ejs", { title: "Dashboard", description: "Dashboard Overview" }) %>
+    <body>
+        <%#- include('./components/navbar') %>
+        <a>Resources:</a>
+        <a>Ram: <%= data.resources.ram %>/null</a>
+        <a>Disk: <%= data.resources.disk %>/null</a>
+        <a>CPU: <%= data.resources.cpu %>/null</a>
+        <a>Servers: <%= data.resources.servers %>/null</a>
+        <section>
+            <tr>
+                <th>Server Name</th>
+                <th>CPU</th>
+                <th>Memory</th>
+                <th>Storage</th>
+                <th>Renew Time</th>
+                <th>Manage</th>
+            </tr>
+            <% if (data.servers.length) { %>
+                <% for (let server of data.servers) { %>
+                    <% server = server.attributes %>
+                    <tr>
+                        <td><%= server.name.length > 15 ? server.name.slice(0, 12) +'...' : server.name %></td>
+                        <td><%= server.limits.cpu %></td>
+                        <td><%= server.limits.memory %>MB</td>
+                        <td><%= server.limits.disk %>MB</td>
+                        <td><%# TODO: implement renewal timers %>0</td>
+                        <td><a href=<%= settings.pterodactyl.domain +'/server/'+ server.identifier %>>Manage</td>
+                    </tr>
+                <% } %>
+            <% } else { %>
+                <tr>
+                    <td>You have no servers. <a href="/servers/new">Click here</a> to create one.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            <% } %>
+        </section>
+    </body>
+</html>

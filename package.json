@@ -1,0 +1,40 @@
+{
+  "name": "dashactyl",
+  "version": "2.0.0",
+  "description": "dashactyl is a client dashboard for the pterodactyl game panel",
+  "main": "index.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "clean": "rmdir build && mkdir build",
+    "dev": "npm i -D ts-node @types/ejs @types/node-fetch"
+  },
+  "keywords": [
+    "dashactyl",
+    "pterodactyl",
+    "dashboard",
+    "client",
+    "api"
+  ],
+  "author": "Devonte <https://github.com/devnote-dev>",
+  "contributors": [],
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cookie": "^6.0.0",
+    "@fastify/formbody": "^6.0.0",
+    "@fastify/session": "^8.1.0",
+    "ejs": "^3.1.7",
+    "fastify": "^3.29.0",
+    "mongoose": "^6.3.2",
+    "node-fetch": "^2.6.7",
+    "point-of-view": "^5.2.1",
+    "tsc": "^2.0.4",
+    "yaml": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/node-fetch": "^2.6.1",
+    "ts-node": "^10.7.0"
+  }
+}

@@ -1,0 +1,12 @@
+# directories
+/node_modules
+/build
+/logs
+/test
+
+# development
+*.test.*
+
+# files
+package-lock.json
+settings.yml

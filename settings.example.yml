@@ -1,0 +1,44 @@
+# dashactyl settings configuration
+# keep these credentials private at all times!
+# do not touch if you don't know what you are doing!
+
+# the port to run on
+port: 3000
+
+# whether to output debug logs
+debug: false
+
+# the cookie secret for requests
+# this can be random numbers and letters
+# it must be 32 characters long
+secret: ""
+
+# pterodactyl panel credentials
+# url - your panel url
+# key - your panel api key
+pterodactyl:
+  url: ""
+  key: ""
+
+# the connection uri for your mongo database
+database: ""
+
+# discord credentials
+discord:
+  # the id of your bot application
+  id: ""
+
+  # the id of the guild to add users to (optional)
+  guildId: ""
+
+  # the application secret of for your bot
+  secret: ""
+
+  # the token for your bot
+  token: ""
+
+  # the callback url for discord authentication
+  callback: http://localhost:3000/auth/callback
+
+  # the invite link to your discord server (optional)
+  invite: https://discord.gg/kTw8x4CH9c

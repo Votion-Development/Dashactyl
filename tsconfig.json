@@ -8,13 +8,15 @@
         "outDir": "./build"
     },
     "include": [
-        "./cmd",
-        "./index.ts",
-        "./logger.ts",
-        "./validate.ts"
+        "./log",
+        "./managers",
+        "./models",
+        "./routers",
+        "./index.ts"
     ],
     "exclude": [
         "./node_modules",
-        "./test"
+        "./test",
+        "./theme"
     ]
 }

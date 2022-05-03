@@ -9,6 +9,7 @@ import pointOfView from 'point-of-view';
 import Logger from './log';
 import PanelManager from './managers/panel';
 import { BaseSettings, loadBase } from './models/settings';
+import validate from './helpers/validator';
 import router from './routers';
 
 let settings: BaseSettings;
@@ -43,6 +44,9 @@ app.register(session, {
 
 (async () => {
     try {
+        log.info('validating settings...');
+        validate(settings);
+
         mongoose.connect(settings.database, {
             connectTimeoutMS: 10_000,
             autoIndex: false,

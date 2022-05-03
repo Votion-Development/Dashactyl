@@ -31,12 +31,12 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
         if (!AccountManager.hashMatch(user, body.password))
             return res.redirect('/login?err=INVALIDPASS');
 
-        req.session.account = {
+        req.session.set('account', {
             user,
             servers: [],
             type: SessionType.RETURNING,
             isAdmin: false
-        };
+        });
         return res.redirect('/dashboard');
     });
 
@@ -69,12 +69,12 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
             lastLogin: Date.now()
         });
 
-        req.session.account = {
+        req.session.set('account', {
             user,
             servers: [],
             type: SessionType.NEW_ACCOUNT,
             isAdmin: false
-        }
+        });
         return res.redirect('/dashboard');
     });
 

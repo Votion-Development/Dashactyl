@@ -41,7 +41,7 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
     );
 
     ctx.get('/dashboard', (req, res) => {
-        const session = req.session.account;
+        const session = req.session.get('account');
         if (!session) {
             res.redirect('/login');
         } else {

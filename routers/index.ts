@@ -47,8 +47,18 @@ export default async function (
     );
 
     ctx.get('/dashboard', (req, res) => {
-        const session = req.session.get('account');
-        res.view<Context>('dashboard.ejs', session);
+        // const session = req.session.get('account');
+        res.view('dashboard.ejs', {
+            user:{
+                resources:{
+                    memory: 0,
+                    disk: 0,
+                    cpu: 0,
+                    servers: 0
+                }
+            },
+            servers:[]
+        });
         // TODO: investigate save issues
         // if (!session) {
         //     res.redirect('/login');

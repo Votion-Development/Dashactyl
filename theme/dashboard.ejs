@@ -4,7 +4,7 @@
     <body>
         <%#- include('./components/navbar') %>
         <a>Resources:</a>
-        <a>Ram: <%= user.resources.ram %>/null</a>
+        <a>Memory: <%= user.resources.memory %>/null</a>
         <a>Disk: <%= user.resources.disk %>/null</a>
         <a>CPU: <%= user.resources.cpu %>/null</a>
         <a>Servers: <%= user.resources.servers %>/null</a>
@@ -19,14 +19,13 @@
             </tr>
             <% if (servers.length) { %>
                 <% for (let server of servers) { %>
-                    <% server = server.attributes %>
                     <tr>
                         <td><%= server.name.length > 15 ? server.name.slice(0, 12) +'...' : server.name %></td>
                         <td><%= server.limits.cpu %></td>
                         <td><%= server.limits.memory %>MB</td>
                         <td><%= server.limits.disk %>MB</td>
                         <td><%# TODO: implement renewal timers %>0</td>
-                        <td><a href=<%= settings.pterodactyl.domain +'/server/'+ server.identifier %>>Manage</td>
+                        <td><a href="<%= settings.pterodactyl.url %>/server/<%= server.identifier %>">Manage</td>
                     </tr>
                 <% } %>
             <% } else { %>

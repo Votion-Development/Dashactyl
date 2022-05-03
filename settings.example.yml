@@ -8,6 +8,9 @@ port: 3000
 # whether to output debug logs
 debug: false
 
+# ensures that the logs are saved before exiting the process (unsafe)
+ensureSave: false
+
 # the cookie secret for requests
 # this can be random numbers and letters
 # it must be 32 characters long

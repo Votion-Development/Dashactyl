@@ -8,6 +8,8 @@ export default function (data: BaseSettings): void {
 
     assert.strictEqual(typeof data.debug, 'boolean', 'Debug must be a boolean (true/false).');
 
+    assert.strictEqual(typeof data.ensureSave, 'boolean', 'Ensure Save must be a boolean (true/false).');
+
     assert.ok(data.secret.length >= 32, 'App secret must be greater than or equal to 32 characters length.');
 
     assert.strictEqual(typeof data.pterodactyl.url, 'string', 'Pterodactyl URL must be a string.');

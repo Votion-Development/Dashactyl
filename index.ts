@@ -20,7 +20,7 @@ try {
 }
 
 const app = fastify();
-const log = new Logger(settings.debug);
+const log = new Logger(settings.debug, settings.ensureSave);
 const panel = new PanelManager(
     log,
     settings.pterodactyl.url,

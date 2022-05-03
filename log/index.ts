@@ -17,7 +17,7 @@ export default class Logger {
     readonly C_WARN = '\x1b[33mWARN\x1b[0m';
     readonly C_ERROR = '\x1b[31mERROR\x1b[0m';
 
-    constructor(private debugMode: boolean) {
+    constructor(private debugMode: boolean, ensureSave: boolean) {
         this.stack = [];
         this.stats = {
             debug: 0,
@@ -26,6 +26,20 @@ export default class Logger {
             warn: 0,
             error: 0
         };
+
+        if (ensureSave) {
+            const guard = () => {
+                this.warn(
+                    'ensuring logs save...',
+                    'note: this is a risky process and can result in loss of logs'
+                );
+                this.save();
+                this.success('logs saved; exiting');
+                process.exit(0);
+            }
+            process.on('SIGINT', () => guard());
+            process.on('SIGTERM', () => guard());
+        }
     }
 
     private write(level: string, data: string[]): void {

@@ -6,6 +6,7 @@ const { Types } = Schema;
 export interface BaseSettings {
     port:           number;
     debug:          boolean;
+    ensureSave:     boolean;
     secret:         string;
     pterodactyl:{
         url:        string;

@@ -19,6 +19,11 @@ function hashMatch(account: IAccount, password: string) {
 }
 
 async function create(options: IAccount) {
+    options.password = createHash('sha256')
+        .update(options.password)
+        .digest()
+        .toString();
+
     return await new Account(options).save();
 }
 

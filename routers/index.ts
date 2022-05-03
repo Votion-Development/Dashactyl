@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import type Logger from '../log';
 import type PanelManager from '../managers/panel';
+import { BaseSettings } from '../models/settings';
 import { IAccount } from '../models/account';
 import authRouter from './auth';
 
@@ -22,21 +23,25 @@ export enum SessionType {
 export default async function (
     log: Logger,
     panel: PanelManager,
+    settings: BaseSettings,
     ctx: FastifyInstance,
     done: Closure
 ): Promise<void> {
     ctx.setNotFoundHandler((_, res) => res.view('errors.ejs', {
         code: 404,
-        message: 'Page Not Found'
+        name: 'Not Found',
+        message: 'Page Not Found',
+        invite: settings.discord.invite
     }));
 
-    ctx.addHook('onError', (_, res, err, done) => {
+    ctx.setErrorHandler((err, _, res) => {
         log.error(err.message);
         res.view('errors.ejs', {
-            code: err.code,
-            message: err.message
+            code: 500,
+            name: err.name,
+            message: err.message,
+            invite: settings.discord.invite
         });
-        return done();
     });
 
     ctx.get('/login', (_, res) => { res.view('login.ejs', {}); });
@@ -57,7 +62,8 @@ export default async function (
                     servers: 0
                 }
             },
-            servers:[]
+            servers:[],
+            settings
         });
         // TODO: investigate save issues
         // if (!session) {

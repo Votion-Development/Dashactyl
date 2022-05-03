@@ -32,7 +32,9 @@ app.register(pointOfView, {
     engine:{ ejs },
     root: join(process.cwd(), 'theme')
 });
-app.register((ctx, _, done) => router(log, panel, ctx, done));
+app.register(
+    (ctx, _, done) => router(log, panel, settings, ctx, done)
+);
 app.register(session, {
     secret: settings.secret,
     saveUninitialized: true,

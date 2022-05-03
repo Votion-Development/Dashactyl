@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import type Logger from '../log';
+import type PanelManager from '../managers/panel';
 import { IAccount } from '../models/account';
 import authRouter from './auth';
 
@@ -18,7 +19,12 @@ export enum SessionType {
     NEW_ACCOUNT
 }
 
-export default async function (log: Logger, ctx: FastifyInstance, done: Closure) {
+export default async function (
+    log: Logger,
+    panel: PanelManager,
+    ctx: FastifyInstance,
+    done: Closure
+): Promise<void> {
     ctx.setNotFoundHandler((_, res) => res.view('errors.ejs', {
         code: 404,
         message: 'Page Not Found'
@@ -36,7 +42,7 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
     ctx.get('/login', (_, res) => { res.view('login.ejs', {}); });
     ctx.get('/signup', (_, res) => { res.view('signup.ejs', {}); });
     ctx.register(
-        (api, _, done) => authRouter(log, api, done),
+        (api, _, done) => authRouter(log, panel, api, done),
         { prefix: '/auth' }
     );
 

@@ -7,6 +7,7 @@ import session from '@fastify/session';
 import mongoose from 'mongoose';
 import pointOfView from 'point-of-view';
 import Logger from './log';
+import PanelManager from './managers/panel';
 import { BaseSettings, loadBase } from './models/settings';
 import router from './routers';
 
@@ -19,6 +20,11 @@ try {
 
 const app = fastify();
 const log = new Logger(settings.debug);
+const panel = new PanelManager(
+    log,
+    settings.pterodactyl.url,
+    settings.pterodactyl.key
+);
 
 app.register(cookie);
 app.register(formbody);
@@ -26,7 +32,7 @@ app.register(pointOfView, {
     engine:{ ejs },
     root: join(process.cwd(), 'theme')
 });
-app.register((ctx, _, done) => router(log, ctx, done));
+app.register((ctx, _, done) => router(log, panel, ctx, done));
 app.register(session, {
     secret: settings.secret,
     saveUninitialized: true,

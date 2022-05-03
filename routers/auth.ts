@@ -1,10 +1,17 @@
 import { FastifyInstance } from 'fastify';
 import type Logger from '../log';
 import AccountManager from '../managers/accounts';
+import type PanelManager from '../managers/panel';
+import { CreateUserFields } from '../managers/panel';
 import Permissions from '../managers/permissions';
 import { Closure, SessionType } from '.';
 
-export default async function (log: Logger, ctx: FastifyInstance, done: Closure) {
+export default async function (
+    log: Logger,
+    panel: PanelManager,
+    ctx: FastifyInstance,
+    done: Closure
+): Promise<void> {
     ctx.addHook('onError', (_, res, err) => {
         log.error(err.message);
         return res.view('errors.ejs', {
@@ -26,16 +33,17 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
         }
     }, async (req, res) => {
         const body = req.body as Record<string, string>;
-        const user = await AccountManager.get(body.email);
-        if (!user) return res.redirect('/login?err=NOACCOUNT');
-        if (!AccountManager.hashMatch(user, body.password))
+        const acc = await AccountManager.get(body.email);
+        if (!acc) return res.redirect('/login?err=NOACCOUNT');
+        if (!AccountManager.hashMatch(acc, body.password))
             return res.redirect('/login?err=INVALIDPASS');
 
+        const user = await panel.fetchUser(acc.email);
         req.session.set('account', {
-            user,
+            user: acc,
             servers: [],
             type: SessionType.RETURNING,
-            isAdmin: false
+            isAdmin: user.rootAdmin
         });
         return res.redirect('/dashboard');
     });
@@ -54,9 +62,9 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
         }
     }, async (req, res) => {
         const body = req.body as Record<string, string>;
-        let user = await AccountManager.get(body.email);
-        if (user) return res.redirect('/signup?err=ACCOUNTEXISTS');
-        user = await AccountManager.create({
+        let acc = await AccountManager.get(body.email);
+        if (acc) return res.redirect('/signup?err=ACCOUNTEXISTS');
+        acc = await AccountManager.create({
             username: body.username,
             email: body.email,
             password: body.password,
@@ -68,12 +76,13 @@ export default async function (log: Logger, ctx: FastifyInstance, done: Closure)
             createdAt: Date.now(),
             lastLogin: Date.now()
         });
+        const user = await panel.createUser(body as unknown as CreateUserFields);
 
         req.session.set('account', {
-            user,
+            user: acc,
             servers: [],
             type: SessionType.NEW_ACCOUNT,
-            isAdmin: false
+            isAdmin: user.rootAdmin
         });
         return res.redirect('/dashboard');
     });

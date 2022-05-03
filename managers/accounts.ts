@@ -1,5 +1,13 @@
 import { createHash } from 'crypto';
-import { IAccount, Account } from '../models/account';
+import { IAccount, Account, Resources } from '../models/account';
+
+const DEFAULT_RESOURCES: Resources = {
+    memory: 1024,
+    disk: 1024,
+    cpu: 10,
+    servers: 1,
+    coins: 0
+}
 
 async function fetch() {
     return await Account.find({});
@@ -38,6 +46,7 @@ async function _delete(email: string) {
 }
 
 export default {
+    DEFAULT_RESOURCES,
     fetch,
     get,
     hashMatch,

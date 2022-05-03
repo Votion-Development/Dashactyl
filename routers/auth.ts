@@ -69,6 +69,7 @@ export default async function (
             email: body.email,
             password: body.password,
             avatar: 'https://www.gravatar.com/0',
+            resources: AccountManager.DEFAULT_RESOURCES,
             package: 'default',
             referral: null,
             permissions: Permissions.getUser(),

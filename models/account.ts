@@ -9,7 +9,7 @@ export interface IAccount {
     // resources
     package:        string;
     referral:       string | null;
-    permissions:    string[];
+    permissions:    number[];
     suspended:      boolean;
     createdAt:      number;
     lastLogin:      number;
@@ -22,7 +22,7 @@ const Model = new Schema<IAccount>({
     avatar: Types.String,
     package: Types.String,
     referral: Types.String,
-    permissions: [Types.String],
+    permissions: [Types.Number],
     suspended: Types.Boolean,
     createdAt: Types.Number,
     lastLogin: Types.Number

@@ -12,7 +12,10 @@ export interface BaseSettings {
         url:        string;
         key:        string;
     }
-    database:       string;
+    database:{
+        uri:        string;
+        key:        string;
+    }
     discord:{
         id:         string;
         guildId:    string;

@@ -1,7 +1,12 @@
 import { ISettings, Settings } from '../models/settings';
 
 async function create() {
-    const key = Math.random().toString(16).substring(2, 10);
+    const key = Math
+        .random()
+        .toString(16)
+        .substring(2, 10)
+        .toUpperCase();
+
     await new Settings({
         key,
         api:{
@@ -38,15 +43,23 @@ async function create() {
             create: false
         }
     }).save();
+    console.log(`GENERATED KEY: ${key}`);
 }
 
-async function update(options: ISettings) {
+async function fetch(key: string) {
+    return await Settings.findOne({ key });
+}
+
+async function update(key: string, options: Partial<ISettings>) {
+    let set = await Settings.findOne({ key });
+    set = Object.assign(set, options);
     return await Settings.findOneAndUpdate(
-        { key: options.key }, options, { new: true }
+        { key }, { $set: set }, { new: true }
     );
 }
 
 export default {
+    fetch,
     create,
     update
 }

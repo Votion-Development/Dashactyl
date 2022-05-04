@@ -21,12 +21,13 @@ export default function (data: BaseSettings): void {
     assert.strictEqual(typeof data.pterodactyl.key, 'string', 'Pterodactyl API key must be a string.');
     assert.ok(data.pterodactyl.key.length >= 30, 'Pterodactyl API key is invalid.');
 
-    assert.strictEqual(typeof data.database, 'string', 'Database URI must be a string.');
+    assert.strictEqual(typeof data.database.uri, 'string', 'Database URI must be a string.');
     assert.match(
-        data.database,
-        /^(?:mongodb\+srv|mongodb:\/\/)/gi,
+        data.database.uri,
+        /^mongodb(?:\+srv|:\/\/)/gi,
         'Database URI is an invalid MongoDB URI.'
     );
+    assert.strictEqual(typeof data.database.key, 'string', 'Database key must be a string.');
 
     assert.equal(typeof data.discord.id, 'string', 'Discord application ID must be a string number.');
     assert.match(data.discord.id, /\d{17,19}/g, 'Discord application ID is invalid.');

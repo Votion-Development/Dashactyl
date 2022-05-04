@@ -47,7 +47,7 @@ app.register(session, {
         log.info('validating settings...');
         validate(settings);
 
-        mongoose.connect(settings.database, {
+        mongoose.connect(settings.database.uri, {
             connectTimeoutMS: 10_000,
             autoIndex: false,
             maxPoolSize: 5,

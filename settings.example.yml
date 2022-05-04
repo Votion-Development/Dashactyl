@@ -23,8 +23,12 @@ pterodactyl:
   url: ""
   key: ""
 
-# the connection uri for your mongo database
-database: ""
+# mongodb credentials
+# uri - the connection uri for your mongo database
+# key - the settings key (generated on first run)
+database:
+  uri: ""
+  key: ""
 
 # discord credentials
 discord:

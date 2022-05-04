@@ -3,6 +3,7 @@ import type Logger from '../log';
 import type PanelManager from '../managers/panel';
 import { BaseSettings } from '../models/settings';
 import { IAccount } from '../models/account';
+import apiRouter from './api';
 import authRouter from './auth';
 
 export type Closure = (err?: Error | undefined) => void;
@@ -12,6 +13,7 @@ export interface Context {
     servers:    unknown[];
     type:       SessionType;
     isAdmin:    boolean;
+    validated:  boolean;
 }
 
 export enum SessionType {
@@ -49,6 +51,10 @@ export default async function (
     ctx.register(
         (api, _, done) => authRouter(log, panel, api, done),
         { prefix: '/auth' }
+    );
+    ctx.register(
+        (api, _, done) => apiRouter(log, api, done),
+        { prefix: '/api' }
     );
 
     ctx.get('/dashboard', (req, res) => {

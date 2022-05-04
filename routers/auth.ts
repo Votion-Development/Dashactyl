@@ -43,7 +43,8 @@ export default async function (
             user: acc,
             servers: [],
             type: SessionType.RETURNING,
-            isAdmin: user.rootAdmin
+            isAdmin: user.rootAdmin,
+            validated: true
         });
         return res.redirect('/dashboard');
     });
@@ -83,7 +84,8 @@ export default async function (
             user: acc,
             servers: [],
             type: SessionType.NEW_ACCOUNT,
-            isAdmin: user.rootAdmin
+            isAdmin: user.rootAdmin,
+            validated: true
         });
         return res.redirect('/dashboard');
     });

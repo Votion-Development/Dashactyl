@@ -50,10 +50,6 @@ export default class PanelManager {
         public key: string
     ) {}
 
-    private debug(message: string): void {
-        this.log.debug('http: '+ message);
-    }
-
     private transform<T>(data: any): T {
         const parsed: Record<string, any> = {};
         for (let [k, v] of Object.entries(data)) parsed[camelCase(k)] = v;
@@ -67,7 +63,11 @@ export default class PanelManager {
     ): Promise<Result<T, E>> {
         data &&= JSON.stringify(data);
 
-        this.debug(`${method} ${this.url}/api/application/${path}`);
+        this.log.debug(
+            `HTTP ${method} /api/application/${path}`,
+            `HTTP domain: ${this.url}`,
+            `HTTP body: ${!!data}`
+        );
         const res = await fetch(`${this.url}/api/application/${path}`, {
             method,
             body: data,
@@ -77,13 +77,18 @@ export default class PanelManager {
                 'Authorization': `Bearer ${this.key}`
             }
         });
-        this.debug(`status: ${res.status}`);
+        this.log.debug(`HTTP status: ${res.status}`);
 
         const body = await res.json().catch(()=>{});
-        if (!res.ok) return {
-            ok: false,
-            value: body.errors[0].detail || body.errors[0].code
-        };
+        if (!res.ok) {
+            this.log.debug(
+                `HTTP error: ${body.errors[0].detail || body.errors[0].code}`
+            );
+            return {
+                ok: false,
+                value: body.errors[0].detail || body.errors[0].code
+            }
+        }
         return { ok: true, value: body };
     }
 

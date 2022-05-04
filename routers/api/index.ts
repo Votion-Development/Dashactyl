@@ -33,7 +33,7 @@ export default async function (
     });
 
     ctx.setErrorHandler((err, _, res) => {
-        log.error(err.message);
+        log.withError(err);
         res.status(err.statusCode || 500).send({
             status: 'error',
             data:{

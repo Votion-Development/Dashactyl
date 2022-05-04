@@ -37,7 +37,7 @@ export default async function (
     }));
 
     ctx.setErrorHandler((err, _, res) => {
-        log.error(err.message);
+        log.withError(err);
         res.view('errors.ejs', {
             code: 500,
             name: err.name,

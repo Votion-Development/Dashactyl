@@ -98,6 +98,10 @@ export default class Logger {
         this.write('error', data.map(d => `${this.C_ERROR}] ${d}`));
     }
 
+    withError(err: Error): void {
+        this.write('error', err.message.split('\n').map(d => `${this.C_ERROR}] ${d}`));
+    }
+
     fatal(...data: string[]): never {
         this.write('error', data.map(d => `${this.C_ERROR}] ${d}`));
         process.exit(1);

@@ -58,7 +58,8 @@ app.register(session, {
         mongoose.connection.on('err', e => log.error(`database error: ${e}`));
         mongoose.connection.on('disconnected', () => log.warn('disconnected from the database'));
     } catch (err) {
-        log.fatal((err as Error).message);
+        log.withError(err as Error);
+        process.exit(1);
     }
 
     app.listen(settings.port, (err, _) => {

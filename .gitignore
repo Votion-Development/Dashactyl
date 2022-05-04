@@ -6,6 +6,7 @@
 
 # development
 *.test.*
+*.log
 
 # files
 package-lock.json

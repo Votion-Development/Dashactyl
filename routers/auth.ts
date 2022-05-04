@@ -13,7 +13,7 @@ export default async function (
     done: Closure
 ): Promise<void> {
     ctx.addHook('onError', (_, res, err) => {
-        log.error(err.message);
+        log.withError(err);
         return res.view('errors.ejs', {
             code: 500,
             message: err.message

@@ -38,7 +38,7 @@ export default async function (
 
 function transform(data: IAccount & { _id: Types.ObjectId }): object {
     return {
-        id: data.id || data._id.toString(),
+        id: data._id.toString(),
         username: data.username,
         email: data.email,
         avatar: data.avatar,

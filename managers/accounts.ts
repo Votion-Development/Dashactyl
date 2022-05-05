@@ -14,7 +14,8 @@ async function fetch() {
 }
 
 async function get(id: string) {
-    return await Account.findOne({ id });
+    return (await Account.find({}))
+        .find(d => d._id.toString() === id);
 }
 
 function hashMatch(account: IAccount, password: string) {

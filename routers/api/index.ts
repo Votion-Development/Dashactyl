@@ -32,6 +32,16 @@ export default async function (
     //     });
     // });
 
+    ctx.setNotFoundHandler((_, res) => {
+        return res.status(404).send({
+            status: 'error',
+            data:{
+                code: 404,
+                error: 'requested endpoint not found'
+            }
+        });
+    });
+
     ctx.setErrorHandler((err, _, res) => {
         log.withError(err);
         res.status(err.statusCode || 500).send({
@@ -43,7 +53,17 @@ export default async function (
         });
     });
 
-    ctx.register((ctx, _, end) => apiUserHandler(ctx, end));
+    ctx.register(
+        (ctx, _, end) => apiUserHandler(ctx, end),
+        { prefix: '/users' }
+    );
+
+    ctx.get('/', (_, res) => {
+        res.send({
+            status: 'ok',
+            data: null // might return something useful later
+        });
+    });
 
     done();
 }

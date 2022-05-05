@@ -8,7 +8,7 @@ export default async function (
     ctx: FastifyInstance,
     done: Closure
 ): Promise<void> {
-    ctx.get('/users', async (_, res) => {
+    ctx.get('/', async (_, res) => {
         const users = await AccountManager.fetch();
         return res.send({
             status: 'ok',
@@ -16,7 +16,7 @@ export default async function (
         });
     });
 
-    ctx.get('/users/:id', async (req, res) => {
+    ctx.get('/:id', async (req, res) => {
         const params = req.params as Record<string, string>;
         const user = await AccountManager.get(params.id);
         if (!user) return res.status(404).send({

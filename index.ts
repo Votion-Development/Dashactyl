@@ -63,7 +63,10 @@ app.register(session, {
     }
 
     app.listen(settings.port, (err, _) => {
-        if (err) log.fatal(err.message);
+        if (err) {
+            log.withError(err);
+            process.exit(1);
+        }
         log.success(`listening on port: ${settings.port}`);
     });
 })();

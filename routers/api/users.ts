@@ -1,5 +1,7 @@
 import { FastifyInstance } from 'fastify';
+import { Types } from 'mongoose';
 import AccountManager from '../../managers/accounts';
+import { IAccount } from '../../models/account';
 import { Closure } from '..';
 
 export default async function (
@@ -28,15 +30,31 @@ export default async function (
             });
             return res.send({
                 status: 'ok',
-                data: user
+                data: transform(user)
             });
         }
         const users = await AccountManager.fetch();
         return res.send({
             status: 'ok',
-            data: users
+            data: users.map(transform)
         });
     });
 
     done();
+}
+
+function transform(data: IAccount & { _id: Types.ObjectId }): object {
+    return {
+        id: data.id || data._id.toString(),
+        username: data.username,
+        email: data.email,
+        avatar: data.avatar,
+        resources: data.resources,
+        package: data.package,
+        referral: data.referral,
+        permissions: data.permissions,
+        suspended: data.suspended,
+        created_at: data.createdAt,
+        last_login: data.lastLogin
+    }
 }

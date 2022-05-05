@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import type Logger from '../../log';
-import ApiKeyManager from '../../managers/apikeys';
+// import ApiKeyManager from '../../managers/apikeys';
 import apiUserHandler from './users';
 import { Closure } from '..';
 

@@ -4,7 +4,7 @@ import type { BaseSettings } from '../models/settings';
 export default function (data: BaseSettings): void {
     assert.strictEqual(typeof data.port, 'number', 'Port must be a number.');
     assert.ok(data.port >= 1000, 'Port must be greater than or equal to 1000.');
-    assert.ok(data.port <= 9000, 'Port must be less than or equal to 9000.');
+    assert.ok(data.port <= 65535, 'Port must be less than or equal to 65535.');
 
     assert.strictEqual(typeof data.debug, 'boolean', 'Debug must be a boolean (true/false).');
 

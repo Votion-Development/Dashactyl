@@ -50,12 +50,13 @@ app.register(session, {
         mongoose.connect(settings.database.uri, {
             connectTimeoutMS: 10_000,
             autoIndex: false,
-            maxPoolSize: 5,
+            maxPoolSize: 10,
             family: 4
         });
 
+        mongoose.connection.on('connecting', () => log.info('establishing mongodb connection...'));
         mongoose.connection.on('connected', () => log.info('connected to the database'));
-        mongoose.connection.on('err', e => log.error(`database error: ${e}`));
+        mongoose.connection.on('error', e => log.error('database error:', e));
         mongoose.connection.on('disconnected', () => log.warn('disconnected from the database'));
     } catch (err) {
         log.withError(err as Error);

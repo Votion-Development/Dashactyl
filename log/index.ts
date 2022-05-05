@@ -12,7 +12,6 @@ export default class Logger {
     }
 
     readonly C_DEBUG = '\x1b[1mDEBUG\x1b[0m';
-    readonly C_SUCCESS = '\x1b[32mSUCCESS\x1b[0m';
     readonly C_INFO = '\x1b[34mINFO\x1b[0m';
     readonly C_WARN = '\x1b[33mWARN\x1b[0m';
     readonly C_ERROR = '\x1b[31mERROR\x1b[0m';
@@ -34,7 +33,7 @@ export default class Logger {
                     'note: this is a risky process and can result in loss of logs'
                 );
                 this.save();
-                this.success('logs saved; exiting');
+                this.info('logs saved; exiting');
                 process.exit(0);
             }
             process.on('SIGINT', () => guard());
@@ -80,10 +79,6 @@ export default class Logger {
 
     debug(...data: string[]): void {
         this.write('debug', data.map(d => `${this.C_DEBUG}] ${d}`));
-    }
-
-    success(...data: string[]): void {
-        this.write('success', data.map(d => `${this.C_SUCCESS}] ${d}`));
     }
 
     info(...data: string[]): void {

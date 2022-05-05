@@ -68,6 +68,6 @@ app.register(session, {
             log.withError(err);
             process.exit(1);
         }
-        log.success(`listening on port: ${settings.port}`);
+        log.info(`listening on: http://localhost:${settings.port}`);
     });
 })();

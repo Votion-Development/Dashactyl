@@ -10,6 +10,7 @@ export interface Resources {
 }
 
 export interface IAccount {
+    id:             string;
     username:       string;
     email:          string;
     password:       string;
@@ -24,6 +25,10 @@ export interface IAccount {
 }
 
 const Model = new Schema<IAccount>({
+    id:{
+        type: Types.String,
+        auto: true
+    },
     username: Types.String,
     email: Types.String,
     password: Types.String,

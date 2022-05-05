@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { IAccount, Account, Resources } from '../models/account';
+import { Account, IAccount, Resources } from '../models/account';
 
 const DEFAULT_RESOURCES: Resources = {
     memory: 1024,
@@ -13,8 +13,8 @@ async function fetch() {
     return await Account.find({});
 }
 
-async function get(email: string) {
-    return await Account.findOne({ email });
+async function get(id: string) {
+    return await Account.findOne({ id });
 }
 
 function hashMatch(account: IAccount, password: string) {
@@ -26,7 +26,7 @@ function hashMatch(account: IAccount, password: string) {
     return account.password === password;
 }
 
-async function create(options: IAccount) {
+async function create(options: Omit<IAccount, 'id'>) {
     options.password = createHash('sha256')
         .update(options.password)
         .digest()

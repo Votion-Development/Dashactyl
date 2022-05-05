@@ -27,7 +27,7 @@ function hashMatch(account: IAccount, password: string) {
     return account.password === password;
 }
 
-async function create(options: Omit<IAccount, 'id'>) {
+async function create(options: IAccount) {
     options.password = createHash('sha256')
         .update(options.password)
         .digest()

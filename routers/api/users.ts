@@ -33,6 +33,21 @@ export default async function (
         });
     });
 
+    ctx.delete('/:id', async (req, res) => {
+        const params = req.params as Record<string, string>;
+        const user = await AccountManager.get(params.id);
+        if (!user) return res.send({
+            status: 'error',
+            data:{
+                code: 404,
+                error: 'user account with that id not found'
+            }
+        });
+
+        await AccountManager.delete(user.email);
+        return res.status(204).send();
+    });
+
     done();
 }
 

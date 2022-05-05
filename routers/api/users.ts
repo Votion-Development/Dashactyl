@@ -18,7 +18,7 @@ export default async function (
 
     ctx.get('/:id', async (req, res) => {
         const params = req.params as Record<string, string>;
-        const user = await AccountManager.get(params.id);
+        const user = await AccountManager.getById(params.id);
         if (!user) return res.status(404).send({
             status: 'error',
             data:{
@@ -35,7 +35,7 @@ export default async function (
 
     ctx.delete('/:id', async (req, res) => {
         const params = req.params as Record<string, string>;
-        const user = await AccountManager.get(params.id);
+        const user = await AccountManager.getById(params.id);
         if (!user) return res.send({
             status: 'error',
             data:{

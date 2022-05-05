@@ -33,7 +33,7 @@ export default async function (
         }
     }, async (req, res) => {
         const body = req.body as Record<string, string>;
-        const acc = await AccountManager.get(body.email);
+        const acc = await AccountManager.getByEmail(body.email);
         if (!acc) return res.redirect('/login?err=NOACCOUNT');
         if (!AccountManager.hashMatch(acc, body.password))
             return res.redirect('/login?err=INVALIDPASS');
@@ -63,7 +63,7 @@ export default async function (
         }
     }, async (req, res) => {
         const body = req.body as Record<string, string>;
-        let acc = await AccountManager.get(body.email);
+        let acc = await AccountManager.getByEmail(body.email);
         if (acc) return res.redirect('/signup?err=ACCOUNTEXISTS');
         acc = await AccountManager.create({
             username: body.username,

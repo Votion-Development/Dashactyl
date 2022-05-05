@@ -13,9 +13,13 @@ async function fetch() {
     return await Account.find({});
 }
 
-async function get(id: string) {
+async function getById(id: string) {
     return (await Account.find({}))
         .find(d => d._id.toString() === id);
+}
+
+async function getByEmail(email: string) {
+    return await Account.findOne({ email });
 }
 
 function hashMatch(account: IAccount, password: string) {
@@ -49,7 +53,8 @@ async function _delete(email: string) {
 export default {
     DEFAULT_RESOURCES,
     fetch,
-    get,
+    getById,
+    getByEmail,
     hashMatch,
     create,
     update,

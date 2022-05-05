@@ -9,28 +9,28 @@ export default async function (
     ctx: FastifyInstance,
     done: Closure
 ): Promise<void> {
-    ctx.addHook('onRequest', async (req, res) => {
-        // const session = req.session.get('account');
-        // if (session?.validated) return;
+    // ctx.addHook('onRequest', async (req, res) => {
+    //     const session = req.session.get('account');
+    //     if (session?.validated) return;
 
-        const auth = req.headers.authorization;
-        if (!auth) return res.status(401).send({
-            status: 'error',
-            data:{
-                code: 401,
-                error: 'you are not authorized to access this endpoint'
-            }
-        });
+    //     const auth = req.headers.authorization;
+    //     if (!auth) return res.status(401).send({
+    //         status: 'error',
+    //         data:{
+    //             code: 401,
+    //             error: 'you are not authorized to access this endpoint'
+    //         }
+    //     });
 
-        const key = await ApiKeyManager.getById(auth);
-        if (!key) return res.status(401).send({
-            status: 'error',
-            data:{
-                code: 401,
-                error: 'you are not authorized to access this endpoint'
-            }
-        });
-    });
+    //     const key = await ApiKeyManager.getById(auth);
+    //     if (!key) return res.status(401).send({
+    //         status: 'error',
+    //         data:{
+    //             code: 401,
+    //             error: 'you are not authorized to access this endpoint'
+    //         }
+    //     });
+    // });
 
     ctx.setErrorHandler((err, _, res) => {
         log.withError(err);

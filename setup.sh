@@ -13,7 +13,7 @@ fi
 if [[ ! -f settings.yml ]]
 then
   if [[ -f settings.example.yml ]]
-	then
+  then
     cp settings.example.yml settings.yml
     echo "copied example to settings file"
   else

@@ -6,6 +6,7 @@ import formbody from '@fastify/formbody';
 import session from '@fastify/session';
 import mongoose from 'mongoose';
 import pointOfView from 'point-of-view';
+import { MongoDBStore } from 'connect-mongodb-session';
 import Logger from './log';
 import PanelManager from './managers/panel';
 import { BaseSettings, loadBase } from './models/settings';
@@ -27,6 +28,12 @@ const panel = new PanelManager(
     settings.pterodactyl.key
 );
 
+const MongoStore = require('connect-mongodb-session')(session);
+const store = new MongoStore({
+    uri: settings.database.uri,
+    collection: 'sessions'
+});
+
 app.register(cookie);
 app.register(formbody);
 app.register(pointOfView, {
@@ -39,7 +46,8 @@ app.register(
 app.register(session, {
     secret: settings.secret,
     saveUninitialized: true,
-    cookie:{ secure: true }
+    cookie:{ secure: true },
+    store: <MongoDBStore>store
 });
 
 (async () => {

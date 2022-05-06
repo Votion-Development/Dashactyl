@@ -7,7 +7,7 @@ const router = Router();
 // TODO: api key validation
 // router.use((req, res, next) => {});
 
-router.all('/users', apiUserHandler);
+router.use('/users', apiUserHandler);
 
 router.get('/', (_, res) => res.json({
     status: 'ok',

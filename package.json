@@ -9,7 +9,7 @@
     "start": "node build/index.js",
     "clean:win": "rmdir /q /s build && mkdir build",
     "clean:lnx": "rm -rf build && mkdir build",
-    "dev": "npm i -D @types/ejs @types/express @types/mongoose @types/node-fetch ts-node"
+    "dev": "npm i -D @types/ejs @types/express @types/ecpress-session @types/mongoose @types/node-fetch ts-node"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,10 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "connect-mongo": "^4.6.0",
     "ejs": "^3.1.7",
     "express": "^4.18.1",
+    "express-session": "^1.17.2",
     "mongoose": "^6.3.2",
     "node-fetch": "^2.6.7",
     "typescript": "^4.6.4",
@@ -40,6 +42,7 @@
   "devDependencies": {
     "@types/ejs": "^3.1.0",
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
     "@types/mongoose": "^5.11.97",
     "@types/node-fetch": "^2.6.1",
     "ts-node": "^10.7.0"

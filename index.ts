@@ -1,7 +1,9 @@
+import MongoStore from 'connect-mongo';
 import ejs from 'ejs';
-import { join } from 'path';
 import express from 'express';
+import session from 'express-session';
 import mongoose from 'mongoose';
+import { join } from 'path';
 import Logger from './log';
 import { BaseSettings, loadBase } from './models/settings';
 import validate from './helpers/validator';
@@ -26,7 +28,24 @@ app.use(express.json({
     limit: '200kb',
     strict: true
 }));
-app.use(express.urlencoded());
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(session({
+    cookie:{
+        maxAge: 8.64e7,
+        path: '/',
+        sameSite: 'lax',
+        secure: true
+    },
+    saveUninitialized: false,
+    secret: settings.secret,
+    resave: false,
+    store: MongoStore.create({
+        mongoUrl: settings.database.uri,
+        dbName: 'sessions'
+    })
+}));
 
 app.use('/api', apiRouter);
 app.use('/auth', authRouter);

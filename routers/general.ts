@@ -1,20 +1,5 @@
 import { Router } from 'express';
 // import { BaseSettings } from '../models/settings';
-import { IAccount } from '../models/account';
-
-export interface Context {
-    user:       IAccount;
-    servers:    unknown[];
-    type:       SessionType;
-    isAdmin:    boolean;
-    validated:  boolean;
-}
-
-export enum SessionType {
-    NONE,
-    RETURNING,
-    NEW_ACCOUNT
-}
 
 const router = Router();
 
@@ -23,17 +8,19 @@ router.get('/login', (_, res) => res.render('login.ejs'));
 router.get('/signup', (_, res) => res.render('signup.ejs'));
 
 // Dashboard
-router.get('/dashboard', (_, res) => res.render('dashboard.ejs', {
-    user:{
-        resources:{
-            memory: 0,
-            disk: 0,
-            cpu: 0,
-            servers: 0
-        }
-    },
-    servers:[]
-}));
+router.get('/dashboard', (req, res) => {
+    return res.render('dashboard.ejs', {
+        user:{
+            resources:{
+                memory: 0,
+                disk: 0,
+                cpu: 0,
+                servers: 0
+            }
+        },
+        servers:[]
+    });
+});
 
 // Main
 router.get('/', (_, res) => res.render('home.ejs'));

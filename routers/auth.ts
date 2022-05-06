@@ -2,6 +2,20 @@ import { Router } from 'express';
 import AccountManager from '../managers/accounts';
 // import PanelManager from '../managers/panel';
 import Permissions from '../managers/permissions';
+import { IAccount } from '../models/account';
+
+export interface Context {
+    user:       IAccount;
+    servers:    unknown[];
+    type:       SessionType;
+    isAdmin:    boolean;
+}
+
+export enum SessionType {
+    NONE,
+    RETURNING,
+    NEW_ACCOUNT
+}
 
 const router = Router();
 
@@ -14,6 +28,14 @@ router.post('/login', async (req, res) => {
     if (!AccountManager.hashMatch(acc, body.password))
         return res.redirect(401, '/login?err=INVALIDPASS');
 
+    // @ts-ignore
+    req.session.account = {
+        user: acc,
+        servers:[],
+        type: SessionType.RETURNING,
+        isAdmin: false
+    }
+    req.session.save();
     return res.redirect('/dashboard');
 });
 

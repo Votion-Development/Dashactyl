@@ -5,7 +5,7 @@ import Permissions from '../managers/permissions';
 
 const router = Router();
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     let body = <Record<string, string>>req.body;
     if (!body.email || !body.password) return res.redirect(400, '/login?err=MISSINGCREDS');
 
@@ -17,7 +17,7 @@ router.get('/login', async (req, res) => {
     return res.redirect('/dashboard');
 });
 
-router.get('/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
     const body = <Record<string, string>>req.body;
     if (!body.username || !body.email || !body.password)
         return res.redirect(400, '/signup?err=MISSINGCREDS');

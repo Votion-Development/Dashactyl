@@ -6,6 +6,7 @@ import Logger from './log';
 import { BaseSettings, loadBase } from './models/settings';
 import validate from './helpers/validator';
 import apiRouter from './routers/api';
+import authRouter from './routers/auth';
 import generalRouter from './routers/general';
 
 let settings: BaseSettings;
@@ -28,6 +29,7 @@ app.use(express.json({
 app.use(express.urlencoded());
 
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 app.use('/', generalRouter);
 
 (async () => {

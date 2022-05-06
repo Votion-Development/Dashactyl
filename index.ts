@@ -1,17 +1,12 @@
-import * as ejs from 'ejs';
+import ejs from 'ejs';
 import { join } from 'path';
-import fastify from 'fastify';
-import cookie from '@fastify/cookie';
-import formbody from '@fastify/formbody';
-import session from '@fastify/session';
+import express from 'express';
 import mongoose from 'mongoose';
-import pointOfView from 'point-of-view';
-import { MongoDBStore } from 'connect-mongodb-session';
 import Logger from './log';
-import PanelManager from './managers/panel';
 import { BaseSettings, loadBase } from './models/settings';
 import validate from './helpers/validator';
-import router from './routers';
+import apiRouter from './routers/api';
+import generalRouter from './routers/general';
 
 let settings: BaseSettings;
 try {
@@ -20,35 +15,20 @@ try {
     process.exit(1);
 }
 
-const app = fastify();
+const app = express();
 const log = new Logger(settings.debug, settings.ensureSave);
-const panel = new PanelManager(
-    log,
-    settings.pterodactyl.url,
-    settings.pterodactyl.key
-);
 
-const MongoStore = require('connect-mongodb-session')(session);
-const store = new MongoStore({
-    uri: settings.database.uri,
-    collection: 'sessions'
-});
+app.set('view engine', ejs);
 
-app.register(cookie);
-app.register(formbody);
-app.register(pointOfView, {
-    engine:{ ejs },
-    root: join(process.cwd(), 'theme')
-});
-app.register(
-    (ctx, _, done) => router(log, panel, settings, ctx, done)
-);
-app.register(session, {
-    secret: settings.secret,
-    saveUninitialized: true,
-    cookie:{ secure: true },
-    store: <MongoDBStore>store
-});
+app.use(express.json({
+    inflate: true,
+    limit: '200kb',
+    strict: true
+}));
+app.use(express.urlencoded());
+
+app.use('/api', apiRouter);
+app.use('/', generalRouter);
 
 (async () => {
     try {
@@ -71,11 +51,8 @@ app.register(session, {
         process.exit(1);
     }
 
-    app.listen(settings.port, (err, _) => {
-        if (err) {
-            log.withError(err);
-            process.exit(1);
-        }
-        log.info(`listening on: http://localhost:${settings.port}`);
-    });
+    app.listen(
+        settings.port,
+        () => log.info(`listening on: http://localhost:${settings.port}`)
+    );
 })();

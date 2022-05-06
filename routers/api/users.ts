@@ -1,55 +1,49 @@
-import { FastifyInstance } from 'fastify';
+import { Router } from 'express';
 import { Types } from 'mongoose';
 import AccountManager from '../../managers/accounts';
 import { IAccount } from '../../models/account';
-import { Closure } from '..';
 
-export default async function (
-    ctx: FastifyInstance,
-    done: Closure
-): Promise<void> {
-    ctx.get('/', async (_, res) => {
-        const users = await AccountManager.fetch();
-        return res.send({
-            status: 'ok',
-            data: users.map(transform)
-        });
+const router = Router();
+
+router.get('/', async (_, res) => {
+    const users = await AccountManager.fetch();
+    return res.json({
+        status: 'ok',
+        data: users.map(transform)
+    });
+});
+
+router.get('/:id', async (req, res) => {
+    const user = await AccountManager.getById(req.params.id);
+    if (!user) return res.status(404).json({
+        status: 'error',
+        data:{
+            code: 404,
+            message: 'user account with that id not found'
+        }
     });
 
-    ctx.get('/:id', async (req, res) => {
-        const params = req.params as Record<string, string>;
-        const user = await AccountManager.getById(params.id);
-        if (!user) return res.status(404).send({
-            status: 'error',
-            data:{
-                code: 404,
-                error: 'user account with that id not found'
-            }
-        });
+    return res.json({
+        status: 'ok',
+        data: transform(user)
+    });
+});
 
-        return res.send({
-            status: 'ok',
-            data: transform(user)
-        });
+router.delete('/:id', async (req, res) => {
+    const user = await AccountManager.getById(req.params.id);
+    if (!user) return res.status(404).json({
+        status: 'error',
+        data:{
+            code: 404,
+            message:' user account with that id not found'
+        }
     });
 
-    ctx.delete('/:id', async (req, res) => {
-        const params = req.params as Record<string, string>;
-        const user = await AccountManager.getById(params.id);
-        if (!user) return res.send({
-            status: 'error',
-            data:{
-                code: 404,
-                error: 'user account with that id not found'
-            }
-        });
+    await AccountManager.delete(user.email);
+    return res.status(204).end();
+});
 
-        await AccountManager.delete(user.email);
-        return res.status(204).send();
-    });
-
-    done();
-}
+export default router;
 
 function transform(data: IAccount & { _id: Types.ObjectId }): object {
     return {

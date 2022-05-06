@@ -5,9 +5,11 @@
         "lib": ["ES2020"],
         "strict": true,
         "resolveJsonModule": true,
+        "esModuleInterop": true,
         "outDir": "./build"
     },
     "include": [
+        "./helpers",
         "./log",
         "./managers",
         "./models",
@@ -17,6 +19,6 @@
     "exclude": [
         "./node_modules",
         "./test",
-        "./theme"
+        "./views"
     ]
 }

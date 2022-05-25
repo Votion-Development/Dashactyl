@@ -1,13 +1,1 @@
-# directories
-/node_modules
-/build
-/logs
-/test
-
-# development
-*.test.*
-*.log
-
-# files
-package-lock.json
-settings.yml
+node_modules

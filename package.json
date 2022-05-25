@@ -1,50 +1,14 @@
 {
-  "name": "dashactyl",
-  "version": "2.0.0",
-  "description": "dashactyl is a client dashboard for the pterodactyl game panel",
-  "main": "index.ts",
-  "private": true,
-  "scripts": {
-    "build": "tsc",
-    "start": "node build/index.js",
-    "clean:win": "rmdir /q /s build && mkdir build",
-    "clean:lnx": "rm -rf build && mkdir build",
-    "dev": "npm i -D @types/ejs @types/express @types/ecpress-session @types/mongoose @types/node-fetch ts-node"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Votion-Development/Dashactyl-v2.git"
-  },
-  "keywords": [
-    "dashactyl",
-    "pterodactyl",
-    "dashboard",
-    "client",
-    "api"
-  ],
-  "author": "Votion Development",
-  "contributors": [
-    "Devonte <https://github.com/devnote-dev>",
-    "Cblaze <https://github.com/blazecoding2009>",
-    "Jamie <https://github.com/JamieGrimwood>"
-  ],
+  "name": "Dashactyl-v2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Votion-Development/Dashactyl-v2.git",
+  "author": "Jamie_ <volcanomonster07@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "connect-mongo": "^4.6.0",
-    "ejs": "^3.1.7",
+    "@devnote-dev/pterojs": "^1.4.2",
+    "connect-mongodb-session": "^3.1.1",
     "express": "^4.18.1",
-    "express-session": "^1.17.2",
-    "mongoose": "^6.3.2",
-    "node-fetch": "^2.6.7",
-    "typescript": "^4.6.4",
-    "yaml": "^2.0.1"
-  },
-  "devDependencies": {
-    "@types/ejs": "^3.1.0",
-    "@types/express": "^4.17.13",
-    "@types/express-session": "^1.17.4",
-    "@types/mongoose": "^5.11.97",
-    "@types/node-fetch": "^2.6.1",
-    "ts-node": "^10.7.0"
+    "express-session": "^1.17.3"
   }
 }

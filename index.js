@@ -47,6 +47,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
 });
 
-app.listen(3003, () => {
-    log.web("Server started on port 3003");
+app.listen(webconfig.port, () => {
+    log.web(`Server started on port ${webconfig.port}`);
 });

@@ -7,8 +7,16 @@
   "license": "MIT",
   "dependencies": {
     "@devnote-dev/pterojs": "^1.4.2",
+    "bcrypt": "^5.0.1",
+    "chalk": "4.1.2",
     "connect-mongodb-session": "^3.1.1",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
-    "express-session": "^1.17.3"
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "mongodb": "^4.6.0",
+    "path": "^0.12.7",
+    "uuid": "^8.3.2",
+    "yaml": "^2.1.0"
   }
 }

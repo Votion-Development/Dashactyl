@@ -1,0 +1,9 @@
+port: 3003
+ssl: false
+secret: u/N8qR{Yr\~^w3V~p/"af4nfapqh;_U3~jL9NMwjkeqt\2DJVhMuN.?*mZ$\TJJ]JtDc(`(QcCuZ,BncvVHvUAtR?eB4j:-@jasqAA4W!sBpJf<*EGv7^+!qZ.g-y?tH'Lf}qaVKdxF}gKvb\pr6PJ;-C[J'af`4kdU}b8xBWWh%+sE!C4RuA\&c%S*/gGzvry}E:yw;Ek%z:Q`jB!._8}T~`m]`Qr7H8g7W[ECNcMCC"dKG[d8Mc:55P,[*k#P7
+environment: production
+debug: true
+
+# For MongoDB
+connection_uri: mongodb://root:L3g0br1ck09%2a@personal1.jmgcoding.com:27017
+database: Dashactyl-v2-Testing

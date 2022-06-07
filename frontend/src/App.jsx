@@ -1,11 +1,13 @@
 import { Router, Route, Routes } from 'react-router-dom';
 import AuthRouter from './routers/AuthRouter';
+import DashboardRouter from './routers/DashboardRouter';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<div>Loading</div>} />
-      <Route path="/login/*" element={<AuthRouter/>} />
+      <Route path="/auth/*" element={<AuthRouter/>} />
+      <Route path="/dashboard/*" element={<DashboardRouter/>} />
     </Routes>
   );
 }

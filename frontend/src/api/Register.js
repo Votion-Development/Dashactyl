@@ -3,10 +3,11 @@ import fetch from 'node-fetch';
 export default (event) => {
     event.preventDefault();
     return new Promise((resolve, reject) => {
-        console.log(event.target)
-        fetch(`http://personal1.jmgcoding.com:3003/api/auth/login`,
+        console.log(event.target.username.value)
+        fetch(`http://personal1.jmgcoding.com:3003/api/auth/register`,
             {
                 body: JSON.stringify({
+                    username: event.target.username.value,
                     email: event.target.email.value,
                     password: event.target.password.value
                 }),

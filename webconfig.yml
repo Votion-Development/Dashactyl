@@ -5,5 +5,5 @@ environment: production
 debug: true
 
 # For MongoDB
-connection_uri: mongodb://root:L3g0br1ck09%2a@personal1.jmgcoding.com:27017
+connection_uri: mongodb://root:J4m130907%2a@personal1.jmgcoding.com:27017
 database: Dashactyl-v2-Testing

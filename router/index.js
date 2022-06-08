@@ -21,6 +21,7 @@ router.get('/getName', async (req, res) => {
 router.get('/me', async (req, res) => {
     if (!req.session.account) return res.json({ user: req.session.account })
     const user = await db.getUser(req.session.account.email)
+    if (!user) return res.json({ user: req.session.account })
     const settings = await db.getSettings()
     if (!settings.pterodactyl_url) return res.json({ "error": "Pterodactyl URL not set" })
     if (!settings.pterodactyl_key) return res.json({ "error": "Pterodactyl Key not set" })
@@ -131,6 +132,101 @@ router.get('/afk', async (req, res) => {
 router.get('/logout', async (req, res) => {
     req.session.destroy();
     res.redirect('/');
+})
+
+router.get('/admin/getEggs', async (req, res) => {
+    const eggs = await db.getEggs()
+    res.json(eggs)
+})
+
+router.get('/admin/getLocations', async (req, res) => {
+    const locations = await db.getLocations()
+    res.json(locations)
+})
+
+router.post('/admin/addEgg', async (req, res) => {
+    const settings = await db.getSettings()
+    if (!settings.pterodactyl_url) return res.json({ "error": "Pterodactyl URL not set" })
+    if (!settings.pterodactyl_key) return res.json({ "error": "Pterodactyl Key not set" })
+    const egg = await db.getEgg(req.body.name)
+    if (egg) return res.send({ "error": "An egg with that name already exists." })
+    await db.addEgg(req.body.name, req.body.egg_id, req.body.egg_docker_image, req.body.egg_startup, req.body.egg_databases, req.body.egg_backups, req.body.egg_environment)
+    res.send({ "success": true })
+})
+
+router.post('/admin/addLocation', async (req, res) => {
+    const settings = await db.getSettings()
+    if (!settings.pterodactyl_url) return res.json({ "error": "Pterodactyl URL not set" })
+    if (!settings.pterodactyl_key) return res.json({ "error": "Pterodactyl Key not set" })
+    const location = await db.getLocation(req.body.location_name)
+    if (location) return res.send({ "error": "A location with that name already exists." })
+    await db.addLocation(req.body.location_id, req.body.location_name, req.body.location_enabled)
+    res.send({ "success": true })
+})
+
+router.post('/createServer', async (req, res) => {
+    const user = await db.getUser(req.session.account.email)
+    const package = await db.getPackage(user.package)
+    const available_cpu = package.cpu + user.extra.cpu - user.used_cpu
+    const available_ram = package.ram + user.extra.ram - user.used_ram
+    const available_disk = package.disk + user.extra.disk - user.used_disk
+    if (available_cpu < req.body.cpu || available_ram < req.body.ram || available_disk < req.body.disk) return res.json({ "error": "Not enough resources available." })
+
+    if (parseInt(req.body.cpu) <= 0 || parseInt(req.body.ram) <= 0 || parseInt(req.body.disk) <= 0) return res.json({ "error": "CPU, RAM and Disk must be greater than 0." })
+
+    if (Number.isInteger(req.body.cpu) == false || Number.isInteger(req.body.ram) == false || Number.isInteger(req.body.disk) == false) return res.json({ "error": "CPU, RAM and Disk must be integers." })
+
+    const settings = await db.getSettings()
+
+    const egg = await db.getEgg(req.body.egg)
+
+    const location = await db.getLocation(req.body.location)
+
+    const environment = JSON.parse(egg.environment)
+
+    const serverinfo_req = await fetch(`${settings.pterodactyl_url}/api/application/servers`, {
+        method: 'post',
+        headers: {
+            "Accept": "application/json",
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${settings.pterodactyl_key}`
+        },
+        body: JSON.stringify({
+            "name": req.body.name,
+            "user": req.session.account.pterodactyl_id,
+            "egg": egg.id,
+            "docker_image": egg.docker_image,
+            "startup": egg.startup,
+            "environment": environment,
+            "limits": {
+                "memory": req.body.ram,
+                "cpu": req.body.cpu,
+                "disk": req.body.disk,
+                "swap": 0,
+                "io": 500,
+            },
+            "feature_limits": {
+                "databases": +egg.databases,
+                "backups": +egg.backups
+            },
+            "deploy": {
+                "locations": [parseFloat(location.id)],
+                "dedicated_ip": false,
+                "port_range": []
+            }
+        })
+    })
+
+    const added = await db.addUsed(req.session.account.email, req.body.cpu, req.body.ram, req.body.disk)
+
+    if (added != true) return res.json({ "error": "Failed to add used resources. Error: " + added })
+
+    if (serverinfo_req.statusText !== 'Created') {
+        const status = await serverinfo_req.text()
+        console.log(status)
+        return res.send({ "error": status })
+    }
+    return res.send({ "success": true })
 })
 
 module.exports = router;

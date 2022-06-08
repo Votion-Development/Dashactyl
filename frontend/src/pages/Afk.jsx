@@ -5,7 +5,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 import CardAfk from "../components/Cards/CardAfk";
 
-export default function Dashboard() {
+export default function Afk() {
     const [isConnected, setIsConnected] = React.useState(false);
     const [coins, setCoins] = React.useState(0);
 

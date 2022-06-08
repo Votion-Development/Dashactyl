@@ -13,6 +13,7 @@ import FooterAdmin from "../components/Footers/FooterAdmin";
 import Dashboard from "../pages/Dashboard";
 import Afk from "../pages/Afk";
 import CreateServer from "../pages/CreateServer";
+import Store from "../pages/Store"
 import Admin from "../pages/Admin";
 
 export default () => (
@@ -27,6 +28,7 @@ export default () => (
                     <Route path={`/`} element={<Dashboard />} />
                     <Route path={`/afk`} element={<Afk />} />
                     <Route path={`/create`} element={<CreateServer />} />
+                    <Route path={`/store`} element={<Store />} />
                     <Route path={`/admin`} element={<Admin />} />
                 </Routes>
                 <FooterAdmin />

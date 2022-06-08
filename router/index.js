@@ -164,6 +164,13 @@ router.post('/admin/addLocation', async (req, res) => {
     res.send({ "success": true })
 })
 
+router.get('/store', async (req, res) => {
+    const settings = await db.getSettings()
+    if (!settings.pterodactyl_url) return res.json({ "error": "Pterodactyl URL not set" })
+    if (!settings.pterodactyl_key) return res.json({ "error": "Pterodactyl Key not set" })
+    res.json({ "ram_price": settings.ram_price, "cpu_price": settings.cpu_price, "disk_price": settings.disk_price })
+})
+
 router.post('/createServer', async (req, res) => {
     const user = await db.getUser(req.session.account.email)
     const package = await db.getPackage(user.package)
@@ -174,7 +181,7 @@ router.post('/createServer', async (req, res) => {
 
     if (parseInt(req.body.cpu) <= 0 || parseInt(req.body.ram) <= 0 || parseInt(req.body.disk) <= 0) return res.json({ "error": "CPU, RAM and Disk must be greater than 0." })
 
-    if (Number.isInteger(req.body.cpu) == false || Number.isInteger(req.body.ram) == false || Number.isInteger(req.body.disk) == false) return res.json({ "error": "CPU, RAM and Disk must be integers." })
+    if (Number.isInteger(parseInt(req.body.cpu)) == false || Number.isInteger(parseInt(req.body.ram)) == false || Number.isInteger(parseInt(req.body.disk)) == false) return res.json({ "error": "CPU, RAM and Disk must be integers." })
 
     const settings = await db.getSettings()
 
@@ -227,6 +234,96 @@ router.post('/createServer', async (req, res) => {
         return res.send({ "error": status })
     }
     return res.send({ "success": true })
+})
+
+router.post('/store/purchaseRam/:amount', async (req, res) => {
+    if (parseInt(req.params.amount) <= 0) return res.json({ "error": "The amount has to be over 0." })
+
+    if (Number.isInteger(parseInt(req.params.amount)) == false) return res.json({ "error": "The amount must be a integer." })
+
+    const user = await db.getUser(req.session.account.email)
+
+    if (!user) return res.send({ "error": "User not found." })
+
+    const settings = await db.getSettings()
+
+    const price = parseInt(req.params.amount) * parseInt(settings.ram_price)
+
+    if (parseInt(user.coins) < parseInt(price)) return res.json({ "error": "You do not have enough coins." })
+
+    const new_coins = parseInt(user.coins) - parseInt(price)
+
+    const new_ram = parseInt(user.extra.ram) + parseInt(req.params.amount)
+
+    const updated = await db.updateCoins(user.email, parseInt(new_coins))
+
+    if (updated != true) return res.json({ "error": "Failed to update users coins. Error: " + updated })
+
+    const updated_ram = await db.updateExtraRam(user.email, parseInt(new_ram))
+
+    if (updated_ram != true) return res.json({ "error": "Failed to update users extra ram. Error: " + updated_ram })
+
+    res.json({ "success": true })
+})
+
+router.post('/store/purchaseCpu/:amount', async (req, res) => {
+    if (parseInt(req.params.amount) <= 0) return res.json({ "error": "The amount has to be over 0." })
+
+    if (Number.isInteger(parseInt(req.params.amount)) == false) return res.json({ "error": "The amount must be a integer." })
+
+    const user = await db.getUser(req.session.account.email)
+
+    if (!user) return res.send({ "error": "User not found." })
+
+    const settings = await db.getSettings()
+
+    const price = req.params.amount * settings.cpu_price
+
+    if (user.coins < price) return res.json({ "error": "You do not have enough coins." })
+
+    const new_coins = user.coins - price
+
+    const new_cpu = user.extra.cpu + req.params.amount
+
+    const updated = await db.updateCoins(user.email, new_coins)
+
+    if (updated != true) return res.json({ "error": "Failed to update users coins. Error: " + updated })
+
+    const updated_cpu= await db.updateExtraCpu(user.email, new_cpu)
+
+    if (updated_cpu != true) return res.json({ "error": "Failed to update users extra ram. Error: " + updated_cpu })
+
+    res.json({ "success": true })
+})
+
+router.post('/store/purchaseDisk/:amount', async (req, res) => {
+    if (parseInt(req.params.amount) <= 0) return res.json({ "error": "The amount has to be over 0." })
+
+    if (Number.isInteger(parseInt(eq.params.amount)) == false) return res.json({ "error": "The amount must be a integer." })
+
+    const user = await db.getUser(req.session.account.email)
+
+    if (!user) return res.send({ "error": "User not found." })
+
+    const settings = await db.getSettings()
+
+    const price = req.params.amount * settings.disk_price
+
+    if (user.coins < price) return res.json({ "error": "You do not have enough coins." })
+
+    const new_coins = user.coins - price
+
+    const new_disk = user.extra.disk + req.params.amount
+
+    const updated = await db.updateCoins(user.email, new_coins)
+
+    if (updated != true) return res.json({ "error": "Failed to update users coins. Error: " + updated })
+
+    const updated_disk = await db.updateExtraRam(user.email, new_disk)
+
+    if (updated_disk != true) return res.json({ "error": "Failed to update users extra ram. Error: " + updated_disk })
+
+    res.json({ "success": true })
 })
 
 module.exports = router;

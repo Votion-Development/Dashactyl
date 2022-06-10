@@ -3,6 +3,10 @@ const db = require("../lib/database")
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const { MongoClient } = require('mongodb');
+const functions = require('../lib/functions');
+
+const webconfig = functions.loadWebconfig();
 
 router.post('/install', async (req, res) => {
     const obj = JSON.parse(JSON.stringify(req.body));
@@ -117,7 +121,9 @@ router.get('/dashboard-info', async (req, res) => {
 router.ws('/afk', async (ws, req) => {
     const settings = await db.getSettings()
     setInterval(async function () {
-        await db.addCoins(req.session.account.email, +settings.afk_coins)
+        const user = await db.getUser(req.session.account.email)
+        const new_coins = parseInt(user.coins) + parseInt(settings.afk_coins)
+        await db.updateCoins(user.email, parseInt(new_coins))
         ws.send(settings.afk_coins);
     }, settings.afk_interval * 1000);
 });
@@ -289,7 +295,7 @@ router.post('/store/purchaseCpu/:amount', async (req, res) => {
 
     if (updated != true) return res.json({ "error": "Failed to update users coins. Error: " + updated })
 
-    const updated_cpu= await db.updateExtraCpu(user.email, new_cpu)
+    const updated_cpu = await db.updateExtraCpu(user.email, new_cpu)
 
     if (updated_cpu != true) return res.json({ "error": "Failed to update users extra ram. Error: " + updated_cpu })
 
@@ -325,5 +331,17 @@ router.post('/store/purchaseDisk/:amount', async (req, res) => {
 
     res.json({ "success": true })
 })
+
+router.ws('/watch', async (ws, req) => {
+    const client = new MongoClient(webconfig.connection_uri);
+    await client.connect()
+    const db = client.db(webconfig.database);
+    const collection = db.collection("users");
+    const changeStream = collection.watch();
+
+    changeStream.on('change', (changes) => {
+        console.log(changes)
+    });
+});
 
 module.exports = router;

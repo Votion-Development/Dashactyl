@@ -10,6 +10,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const log = require("./lib/logger")
 require("./lib/database")
 const db = require("./lib/database")
+const fetch = require('node-fetch');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,6 +41,27 @@ app.use(session({
     store: store
 }))
 
+const checkRenewals = async function () {
+    const renewals = await db.getRenewals()
+    const now = Date.now()
+    const settings = await db.getSettings()
+    renewals.forEach(async renewal => {
+        if (renewal.renewal_enabled != false) return
+        if (renewal.renew_by < now) {
+            await fetch(`${settings.pterodactyl_url}/api/application/servers/${renewal.server_id}/suspend`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${settings.pterodactyl_key}`
+                }
+            })
+        }
+    });
+}
+checkRenewals()
+
+setInterval(checkRenewals, 60000);
+
 app.use('*', async (req, res, next) => {
     const pathname = req._parsedUrl.pathname;
     const settings = await db.getSettings()
@@ -52,17 +74,15 @@ app.use('*', async (req, res, next) => {
         if (!req.session.account) return res.redirect('/auth/login')
         return res.redirect('/dashboard')
     }
-    if (pathname.includes('/dashboard')) if (!req.session.account) return res.redirect('/')
-
     next()
 })
 
-app.use(express.static(path.resolve(__dirname, './frontend/build')));
+app.use(express.static(path.resolve(__dirname, './frontend/dist')));
 
-app.use('/api', require("./router/index"));
+app.use(require("./router/index.js"));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './frontend/dist', 'index.html'));
 });
 
 app.listen(webconfig.port, () => {

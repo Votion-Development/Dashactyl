@@ -10,7 +10,7 @@ Website: https://votion.dev
 
 Need to install Dashactyl? Need API documentations? Need a place to find themes?
 
-Check out the wiki! [https://docs.votion.dev/docs/Dashactyl/introduction](http://localhost:3001/docs/Dashactyl/v2/introduction)
+Check out the wiki! [https://docs.votion.dev/docs/Dashactyl/v2/introduction](https://docs.votion.dev/docs/Dashactyl/v2/introduction)
 
 # Disclaimer
 

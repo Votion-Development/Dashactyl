@@ -2,7 +2,7 @@
 
 Dashactyl is a client area, which allows users to split resources throughout multiple servers on the Pterodactyl Panel. 
 
-Dashactyl is developed by the community and people. Check out the Discord: https://discord.gg/uSQBWP9fMR
+Dashactyl is developed by the community and people. Check out the Discord: [https://discord.gg/votion](https://discord.gg/votion)
 
 Website: https://votion.dev
 

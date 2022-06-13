@@ -13,13 +13,14 @@ export default function CardManageServer() {
     const [server, setServer] = React.useState(String);
     const [pterodactylUrl, setPterodactylUrl] = React.useState(String);
     const [renewal, setRenewal] = React.useState(String);
+    const [renewalCost, setRenewalCost] = React.useState(String);
     const [renewalEnabled, setRenewalEnabled] = React.useState(String);
 
     const params = useParams();
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/getServer/${params.id}`, {
+        fetch(`/api/server/get/${params.id}`, {
             credentials: 'include'
         })
             .then(response => response.json())
@@ -32,7 +33,7 @@ export default function CardManageServer() {
                     navigate("/dashboard");
                 })
                 setServer(json.server)
-                fetch('http://personal1.jmgcoding.com:3003/api/dashboard-info', {
+                fetch('/api/dashboard-info', {
                     credentials: 'include'
                 })
                     .then(response => response.json())
@@ -43,7 +44,7 @@ export default function CardManageServer() {
                             text: json.error,
                         })
                         setPterodactylUrl(json.pterodactyl_url)
-                        fetch(`http://personal1.jmgcoding.com:3003/api/getRenewal/${params.id}`, {
+                        fetch(`/api/renew/get/${params.id}`, {
                             credentials: 'include'
                         })
                             .then(response => response.json())
@@ -57,6 +58,7 @@ export default function CardManageServer() {
                                 const timestamp = new Date(json.renewal.renew_by);
                                 const date = new Intl.DateTimeFormat('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
                                 setRenewal(date)
+                                setRenewalCost(json.renewal.renew_cost)
                                 setRenewalEnabled(json.renewal.renewal_enabled)
                                 setIsLoading(false)
                             })
@@ -69,45 +71,57 @@ export default function CardManageServer() {
     }
 
     const renewServer = () => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/renew/${params.id}`, {
-            method: 'post',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.error) return MySwal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: json.error,
+        MySwal.fire({
+            title: 'Are you sure you want to do this?',
+            text: `This will cost you ${renewalCost} coins.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/api/renew/${params.id}`, {
+                    method: 'post',
+                    credentials: 'include'
                 })
-                if (json.success) {
-                    fetch(`http://personal1.jmgcoding.com:3003/api/getRenewal/${params.id}`, {
-                        credentials: 'include'
-                    })
-                        .then(response => response.json())
-                        .then(json => {
-                            if (json.error) return MySwal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: json.error,
-                            })
-                            console.log(json.renewal)
-                            const timestamp = new Date(json.renewal.renew_by);
-                            const date = new Intl.DateTimeFormat('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
-                            setRenewal(date)
-                            setRenewalEnabled(json.renewal.renewal_enabled)
+                    .then(response => response.json())
+                    .then(json => {
+                        if (json.error) return MySwal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: json.error,
                         })
-                    return MySwal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'The server has been renewed!',
+                        if (json.success) {
+                            fetch(`/api/renew/get/${params.id}`, {
+                                credentials: 'include'
+                            })
+                                .then(response => response.json())
+                                .then(json => {
+                                    if (json.error) return MySwal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: json.error,
+                                    })
+                                    const timestamp = new Date(json.renewal.renew_by);
+                                    const date = new Intl.DateTimeFormat('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
+                                    setRenewal(date)
+                                    setRenewalCost(json.renewal.renew_cost)
+                                    setRenewalEnabled(json.renewal.renewal_enabled)
+                                })
+                            return MySwal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'The server has been renewed!',
+                            })
+                        }
                     })
-                }
-            })
+            }
+        })
     }
 
     const deleteServer = () => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/delete/${params.id}`, {
+        fetch(`/api/server/delete/${params.id}`, {
             method: 'delete',
             credentials: 'include'
         })
@@ -163,7 +177,10 @@ export default function CardManageServer() {
                                     <br></br>
                                     {renewalEnabled
                                         ?
-                                        <a>Renew by: {renewal}</a>
+                                        <>
+                                            <a>Renew by: {renewal}</a><br></br>
+                                            <a>Renewal Cost: {renewalCost}</a>
+                                        </>
                                         :
                                         <a>Renew by: Never</a>
                                     }

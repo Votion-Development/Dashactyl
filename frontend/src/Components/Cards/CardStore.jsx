@@ -15,7 +15,7 @@ export default function CardStore() {
 
     function purchaseRam() {
         const amount = document.getElementById("ram_amount").value;
-        fetch(`http://personal1.jmgcoding.com:3003/api/store/purchaseRam/${amount}`, {
+        fetch(`/api/store/purchase/ram/${amount}`, {
             method: 'POST',
             credentials: 'include'
         })
@@ -38,7 +38,7 @@ export default function CardStore() {
 
     function purchaseCpu() {
         const amount = document.getElementById("cpu_amount").value;
-        fetch(`http://personal1.jmgcoding.com:3003/api/store/purchaseCpu/${amount}`, {
+        fetch(`/api/store/purchase/cpu/${amount}`, {
             method: 'POST',
             credentials: 'include'
         })
@@ -61,7 +61,7 @@ export default function CardStore() {
 
     function purchaseDisk() {
         const amount = document.getElementById("disk_amount").value;
-        fetch(`http://personal1.jmgcoding.com:3003/api/store/purchaseDisk/${amount}`, {
+        fetch(`/api/store/purchase/disk/${amount}`, {
             method: 'POST',
             credentials: 'include'
         })
@@ -83,7 +83,7 @@ export default function CardStore() {
     }
 
     React.useEffect(() => {
-        fetch('http://personal1.jmgcoding.com:3003/api/store', {
+        fetch('/api/store', {
             credentials: 'include'
         })
             .then(response => response.json())

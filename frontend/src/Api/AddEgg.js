@@ -1,7 +1,7 @@
 export default (event) => {
     event.preventDefault();
     return new Promise((resolve, reject) => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/admin/addEgg`, {
+        fetch(`/api/admin/egg/add`, {
             body: JSON.stringify({
                 name: event.target.name.value,
                 egg_id: event.target.egg_id.value,

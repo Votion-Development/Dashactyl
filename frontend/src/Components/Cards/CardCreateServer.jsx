@@ -17,13 +17,13 @@ export default function CardCreateServer() {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        fetch('http://personal1.jmgcoding.com:3003/api/admin/getEggs', {
+        fetch('/api/admin/egg/get/all', {
             credentials: 'include'
         })
             .then(response => response.json())
             .then(json => {
                 setEggs(json)
-                fetch('http://personal1.jmgcoding.com:3003/api/admin/getLocations', {
+                fetch('/api/admin/location/get/all', {
                     credentials: 'include'
                 })
                     .then(response => response.json())

@@ -9,14 +9,14 @@ export default function CardAccountInfo() {
   const [user, setUser] = React.useState(String)
 
   React.useEffect(() => {
-    fetch('http://personal1.jmgcoding.com:3003/api/dashboard-info', {
+    fetch('/api/dashboard-info', {
       credentials: 'include'
     })
       .then(response => response.json())
       .then(json => {
         setDiscordInvite(json.discord_invite)
         setPterodactylURL(json.pterodactyl_url)
-        fetch('http://personal1.jmgcoding.com:3003/api/me', {
+        fetch('/api/me', {
           credentials: 'include'
         })
           .then(response => response.json())

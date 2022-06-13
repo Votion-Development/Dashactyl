@@ -25,6 +25,7 @@ router.post('/:id', async (req, res) => {
     const server = servers.find(server => server.attributes.id == req.params.id);
     if (!server) return res.send({ "error": "Server not found" })
     const package = await db.getPackage(user.package)
+    if (user.coins < package.renewal_price) return res.send({ "error": "Not enough coins to renew the server." })
     const new_time = Date.now() + parseInt(package.renewal_time)
     await db.updateRenewal(server.attributes.id, new_time)
     const new_coins = parseInt(user.coins) - parseInt(package.renewal_price)

@@ -1,7 +1,7 @@
 export default (event) => {
     event.preventDefault();
     return new Promise((resolve, reject) => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/auth/login`,
+        fetch(`/api/auth/login`,
             {
                 body: JSON.stringify({
                     email: event.target.email.value,

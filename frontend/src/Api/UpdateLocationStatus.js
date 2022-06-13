@@ -1,7 +1,7 @@
 export default (event) => {
     event.preventDefault();
     return new Promise((resolve, reject) => {
-        fetch(`http://personal1.jmgcoding.com:3003/api/admin/updateLocationStatus`,
+        fetch(`/api/admin/location/update/status`,
             {
                 body: JSON.stringify({
                     location: event.target.location.value,

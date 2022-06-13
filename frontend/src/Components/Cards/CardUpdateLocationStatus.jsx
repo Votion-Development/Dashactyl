@@ -13,7 +13,7 @@ export default function CardUpdateLocationStatus() {
     const [locations, setLocations] = React.useState(String);
 
     React.useEffect(() => {
-        fetch('http://personal1.jmgcoding.com:3003/api/admin/getLocations', {
+        fetch('/api/admin/location/get/all', {
             credentials: 'include'
         })
             .then(response => response.json())

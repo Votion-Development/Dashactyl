@@ -48,7 +48,7 @@ export default function HeaderStats() {
   }, []);
 
   React.useEffect(() => {
-    fetch('http://personal1.jmgcoding.com:3003/api/me', {
+    fetch('/api/me', {
       credentials: 'include'
     })
       .then(response => response.json())

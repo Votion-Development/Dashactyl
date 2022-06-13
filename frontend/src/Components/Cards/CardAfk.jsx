@@ -8,7 +8,7 @@ export default function CardAfk({ isConnected, coins }) {
     const [afkCoins, setAfkCoins] = React.useState(null);
 
     React.useEffect(() => {
-        fetch('http://personal1.jmgcoding.com:3003/api/afk', {
+        fetch('/api/afk', {
             credentials: 'include'
         })
             .then(response => response.json())

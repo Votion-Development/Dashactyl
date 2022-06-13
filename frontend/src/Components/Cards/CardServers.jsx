@@ -8,7 +8,7 @@ export default function CardServers() {
   const [servers, setServers] = React.useState(String);
 
   React.useEffect(() => {
-    fetch('http://personal1.jmgcoding.com:3003/api/me', {
+    fetch('/api/me', {
       credentials: 'include'
     })
       .then(response => response.json())

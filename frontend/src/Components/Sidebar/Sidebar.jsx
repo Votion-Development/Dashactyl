@@ -51,13 +51,13 @@ export default function Sidebar() {
   }, []);
 
   React.useEffect(() => {
-    fetch('http://personal1.jmgcoding.com:3003/api/getName', {
+    fetch('/api/getName', {
       credentials: 'include'
     })
       .then(response => response.json())
       .then(json => {
         setName(json.name)
-        fetch('http://personal1.jmgcoding.com:3003/api/me', {
+        fetch('/api/me', {
           credentials: 'include'
         })
           .then(response => response.json())

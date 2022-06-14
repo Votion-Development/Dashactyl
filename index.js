@@ -62,6 +62,15 @@ checkRenewals()
 
 setInterval(checkRenewals, 60000);
 
+router.post('/install', async (req, res) => {
+    const obj = JSON.parse(JSON.stringify(req.body));
+    const body = JSON.parse(obj.data);
+    const settings = await db.getSettings()
+    if (settings.pterodactyl_url || settings.pterodactyl_key) return res.json({ "error": "Already installed" })
+    await db.setSettings(body)
+    res.json({ "success": true })
+})
+
 app.use('*', async (req, res, next) => {
     const pathname = req._parsedUrl.pathname;
     const settings = await db.getSettings()

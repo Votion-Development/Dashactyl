@@ -3,6 +3,7 @@ ssl: false
 secret: 
 environment: production
 debug: false
+dashboard_url: 
 
 # For MongoDB
 connection_uri: 

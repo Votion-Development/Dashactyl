@@ -187,7 +187,7 @@ Please follow out the following information. They are all required fields.
         e.preventDefault();
         const values = $(this).serializeObject();
         $.ajax({
-            type: 'POST', url: '/api/install', data: { data: JSON.stringify(values) }
+            type: 'POST', url: '/install', data: { data: JSON.stringify(values) }
         }).done(function (response) {
             if (!response.error) {
                 if (response.success === true) {

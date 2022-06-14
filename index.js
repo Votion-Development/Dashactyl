@@ -63,6 +63,7 @@ checkRenewals()
 setInterval(checkRenewals, 60000);
 
 app.use('*', async (req, res, next) => {
+    const pathname = req._parsedUrl.pathname;
     const settings = await db.getSettings()
     if (!settings.pterodactyl_url || !settings.pterodactyl_key) {
         if (!pathname.includes('/api/')) {

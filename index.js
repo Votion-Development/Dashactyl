@@ -62,7 +62,7 @@ checkRenewals()
 
 setInterval(checkRenewals, 60000);
 
-router.post('/install', async (req, res) => {
+app.post('/install', async (req, res) => {
     const obj = JSON.parse(JSON.stringify(req.body));
     const body = JSON.parse(obj.data);
     const settings = await db.getSettings()

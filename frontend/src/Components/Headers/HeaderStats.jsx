@@ -19,7 +19,8 @@ export default function HeaderStats() {
   const [isConnected, setIsConnected] = React.useState(false)
 
   React.useEffect(() => {
-    const ws = new W3CWebSocket("ws://personal1.jmgcoding.com:3003/api/watch");
+    const webSocketProtocol = window.location.protocol == "https:" ? "wss://" : "ws://";
+    const ws = new W3CWebSocket(`${webSocketProtocol}${window.location.host}/api/watch`);
 
     ws.onopen = function (event) {
       if (isConnected === true) return ws.close()

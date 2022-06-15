@@ -58,9 +58,8 @@ const checkRenewals = async function () {
         }
     });
 }
-checkRenewals()
 
-setInterval(checkRenewals, 60000);
+setInterval(checkRenewals, 30000);
 
 app.post('/install', async (req, res) => {
     const obj = JSON.parse(JSON.stringify(req.body));

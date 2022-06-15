@@ -72,12 +72,16 @@ router.get('/afk', async (req, res) => {
 
 router.ws('/afk', async (ws, req) => {
     const settings = await db.getSettings()
-    setInterval(async function () {
+    const loop = setInterval(async function () {
         const user = await db.getUser(req.session.account.email)
         const new_coins = parseInt(user.coins) + parseInt(settings.afk_coins)
         await db.updateCoins(user.email, parseInt(new_coins))
         ws.send(settings.afk_coins);
     }, settings.afk_interval * 1000);
+    
+    ws.onclose = async () => {
+      clearInterval(loop)
+    }
 });
 
 router.ws('/watch', async (ws, req) => {

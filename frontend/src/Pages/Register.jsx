@@ -39,7 +39,7 @@ export default function Register() {
 											className="w-5 mr-1"
 											src={discordImg}
 										/>
-										Discord
+										Discord (Not yet working)
 									</button>
 								</div>
 								<hr className="mt-6 border-b-1 border-blueGray-300" />

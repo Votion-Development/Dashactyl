@@ -6,7 +6,6 @@
   "author": "Jamie_ <volcanomonster07@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@devnote-dev/pterojs": "^2.0.1",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "chalk": "4.1.2",
@@ -21,5 +20,10 @@
     "path": "^0.12.7",
     "uuid": "^8.3.2",
     "yaml": "^2.1.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "build-frontend": "cd frontend && npm run build",
+    "update": "git pull && npm i && npm run build-frontend && echo 'Updated completed!'"
   }
 }

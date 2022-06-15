@@ -6,8 +6,11 @@ const db = require('../lib/database');
 router.use('*', async (req, res, next) => {
     const pathname = req._parsedUrl.pathname;
     if (!req.session.account) {
-        if (pathname.startsWith('/auth')) return
-        return res.redirect('/auth/login')
+        if (pathname.startsWith('/auth')) {
+
+        } else {
+            return res.redirect('/auth/login');
+        }
     }
     if (pathname.startsWith('/dashboard/admin')) {
         const user = await db.getUser(req.session.account.email)

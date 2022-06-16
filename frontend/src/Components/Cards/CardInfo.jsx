@@ -31,6 +31,10 @@ export default function CardAccountInfo() {
 		window.open(pterodactylURL);
 	}
 
+	const openDiscord = () => {
+		window.open(discordInvite);
+	}
+
 	return (
 		<>
 			<div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
@@ -132,7 +136,7 @@ export default function CardAccountInfo() {
 											</svg>
 										</div>
 										:
-										<a href={`${discordInvite}`}>{discordInvite}</a>
+										<button onClick={openDiscord}><a>{discordInvite}</a></button>
 									}
 								</td>
 							</tr>

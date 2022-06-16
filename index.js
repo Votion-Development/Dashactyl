@@ -80,6 +80,7 @@ app.get('/', async (req, res) => {
 });
 
 app.use('*', async (req, res, next) => {
+	const pathname = req._parsedUrl.pathname;
 	const settings = await db.getSettings();
 	if (!settings.pterodactyl_url || !settings.pterodactyl_key) {
 		if (!pathname.includes('/api/')) {
@@ -89,9 +90,9 @@ app.use('*', async (req, res, next) => {
 	next();
 });
 
-app.use(require('./router/index.js'));
-
 app.use(express.static(path.resolve(__dirname, './frontend/dist')));
+
+app.use(require('./router/index.js'));
 
 app.get('*', async (req, res) => {
 	const pathname = req._parsedUrl.pathname;

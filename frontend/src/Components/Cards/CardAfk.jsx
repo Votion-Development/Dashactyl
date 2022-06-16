@@ -13,6 +13,7 @@ export default function CardAfk({ isConnected, coins }) {
 		})
 			.then(response => response.json())
 			.then(json => {
+				console.log(json)
 				setAfkInterval(json.afk_interval);
 				setAfkCoins(json.afk_coins);
 				setIsLoading(false);

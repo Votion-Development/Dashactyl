@@ -1,2 +1,9 @@
-node_modules
+# Dashactyl Files
+/node_modules/
 webconfig.yml
+
+# JetBrains IDE Files
+/.idea/
+
+# Yarn Local Files
+yarn-error.log

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
 // components
 
-import CardManageServer from "../Components/Cards/CardManageServer";
+import CardManageServer from '../Components/Cards/CardManageServer';
 
 export default function ManageServer() {
-    return (
-        <>
-            <div className="flex flex-wrap mt-4">
-                <CardManageServer />
-            </div>
-        </>
-    );
+	return (
+		<>
+			<div className="flex flex-wrap mt-4">
+				<CardManageServer />
+			</div>
+		</>
+	);
 }

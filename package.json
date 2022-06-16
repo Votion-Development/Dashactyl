@@ -24,6 +24,11 @@
   "scripts": {
     "start": "node index.js",
     "build-frontend": "cd frontend && npm run build",
-    "update": "git pull && npm i && npm run build-frontend && echo 'Updated completed!'"
+    "update": "git pull && npm i && npm run build-frontend && echo 'Updated completed!'",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^2.7.0"
   }
 }

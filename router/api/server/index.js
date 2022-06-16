@@ -62,7 +62,6 @@ router.post('/create', async (req, res) => {
 
 	if (serverinfo_req.statusText !== 'Created') {
 		const status = await serverinfo_req.text();
-		console.log(status);
 		return res.send({ error: status });
 	}
 

@@ -54,7 +54,6 @@ export default function CardManageServer() {
 									title: 'Error',
 									text: json.error,
 								});
-								console.log(json.renewal);
 								const timestamp = new Date(json.renewal.renew_by);
 								const date = new Intl.DateTimeFormat('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
 								setRenewal(date);
@@ -67,7 +66,7 @@ export default function CardManageServer() {
 	}, []);
 
 	const redirect = () => {
-		window.location.href = `${pterodactylUrl}/server/${server.attributes.identifier}`;
+		window.open(`${pterodactylUrl}/server/${server.attributes.identifier}`);
 	};
 
 	const renewServer = () => {

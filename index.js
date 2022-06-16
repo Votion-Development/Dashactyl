@@ -74,8 +74,12 @@ app.post('/install', async (req, res) => {
 	res.json({ success: true });
 });
 
+app.get('/', async (req, res) => {
+	if (!req.session.account || !req.session.account.email) return res.redirect('/auth/login');
+	res.redirect('/dashboard')
+});
+
 app.use('*', async (req, res, next) => {
-	const pathname = req._parsedUrl.pathname;
 	const settings = await db.getSettings();
 	if (!settings.pterodactyl_url || !settings.pterodactyl_key) {
 		if (!pathname.includes('/api/')) {
@@ -85,11 +89,17 @@ app.use('*', async (req, res, next) => {
 	next();
 });
 
-app.use(express.static(path.resolve(__dirname, './frontend/dist')));
-
 app.use(require('./router/index.js'));
 
-app.get('*', (req, res) => {
+app.use(express.static(path.resolve(__dirname, './frontend/dist')));
+
+app.get('*', async (req, res) => {
+	const pathname = req._parsedUrl.pathname;
+	if (!pathname.includes('/auth/')) {
+		if (!req.session.account || !req.session.account.email) return res.redirect('/auth/login');
+		const user = await db.getUser(req.session.account.email);
+		if (!user) return res.redirect('/auth/login');
+	}
 	res.sendFile(path.resolve(__dirname, './frontend/dist', 'index.html'));
 });
 

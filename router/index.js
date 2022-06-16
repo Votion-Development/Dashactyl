@@ -6,7 +6,8 @@ const db = require('../lib/database');
 router.use('*', async (req, res, next) => {
 	const pathname = req._parsedUrl.pathname;
 	if (!req.session.account) {
-		if (pathname.startsWith('/auth')) {
+		if (pathname.includes('/auth/')) {
+			return next();
 		} else {
 			return res.redirect('/auth/login');
 		}

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
+    "watch": "vite build --watch",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{js,jsx} --ext .js,.jsx",
     "lint:fix": "eslint src/**/*.{js,jsx} --ext .js,.jsx --fix"

@@ -148,7 +148,7 @@ export default function CardManageServer() {
 					<div className="flex flex-wrap items-center">
 						<div className="relative w-full px-4 max-w-full flex-grow flex-1">
 							<h3 className="font-semibold text-base text-blueGray-700">
-                                Server Info
+								Server Info
 							</h3>
 						</div>
 					</div>

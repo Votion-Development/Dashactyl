@@ -27,6 +27,10 @@ export default function CardAccountInfo() {
 			});
 	}, []);
 
+	const openPanel = () => {
+		window.open(pterodactylURL);
+	}
+
 	return (
 		<>
 			<div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
@@ -34,7 +38,7 @@ export default function CardAccountInfo() {
 					<div className="flex flex-wrap items-center">
 						<div className="relative w-full px-4 max-w-full flex-grow flex-1">
 							<h3 className="font-semibold text-base text-blueGray-700">
-                Account Information
+								Account Information
 							</h3>
 						</div>
 					</div>
@@ -45,7 +49,7 @@ export default function CardAccountInfo() {
 						<tbody>
 							<tr>
 								<th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Panel Username
+									Panel Username
 								</th>
 								<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 									{isLoading
@@ -64,7 +68,7 @@ export default function CardAccountInfo() {
 							</tr>
 							<tr>
 								<th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Panel Email
+									Panel Email
 								</th>
 								<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 									{isLoading
@@ -87,7 +91,7 @@ export default function CardAccountInfo() {
 					<div className="flex flex-wrap items-center">
 						<div className="relative w-full px-4 max-w-full flex-grow flex-1">
 							<h3 className="font-semibold text-base text-blueGray-700">
-                Dashboard Information
+								Dashboard Information
 							</h3>
 						</div>
 					</div>
@@ -98,7 +102,7 @@ export default function CardAccountInfo() {
 						<tbody>
 							<tr>
 								<th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Panel URL
+									Panel URL
 								</th>
 								<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 									{isLoading
@@ -110,13 +114,13 @@ export default function CardAccountInfo() {
 											</svg>
 										</div>
 										:
-										<a href={`${pterodactylURL}`}>{pterodactylURL}</a>
+										<button onClick={openPanel}><a>{pterodactylURL}</a></button>
 									}
 								</td>
 							</tr>
 							<tr>
 								<th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Discord Server
+									Discord Server
 								</th>
 								<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 									{isLoading

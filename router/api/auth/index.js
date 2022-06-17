@@ -3,6 +3,7 @@ const db = require('../../../lib/database');
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const webhook = require('../../../lib/webhook');
 
 router.post('/login', async (req, res) => {
 	const body = req.body;
@@ -23,6 +24,7 @@ router.post('/login', async (req, res) => {
 	req.session.account = user;
 	req.session.save();
 	res.send({ success: true });
+	webhook.info(`Login`, `**Username:** ${user.username}\n**Email:** ${user.email}`);
 });
 
 router.post('/register', async (req, res) => {
@@ -57,7 +59,8 @@ router.post('/register', async (req, res) => {
 	}
 	req.session.account = user;
 	req.session.save();
-	return res.send({ success: true });
+	res.send({ success: true });
+	webhook.info(`Registered`, `**Username:** ${user.username}\n**Email:** ${user.email}`);
 });
 
 module.exports = router;

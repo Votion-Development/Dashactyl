@@ -1,6 +1,7 @@
 const db = require('../../../../lib/database');
 const express = require('express');
 const router = express.Router();
+const webhook = require('../../../../lib/webhook');
 
 router.get('/get/all', async (req, res) => {
 	const eggs = await db.getEggs();
@@ -15,6 +16,7 @@ router.post('/add', async (req, res) => {
 	if (egg) return res.send({ error: 'An egg with that name already exists.' });
 	await db.addEgg(req.body);
 	res.send({ success: true });
+	webhook.info(`Egg added`, `**Name:** ${req.body.name}`);
 });
 
 module.exports = router;

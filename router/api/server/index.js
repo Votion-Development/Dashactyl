@@ -2,6 +2,7 @@ const db = require('../../../lib/database');
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const webhook = require('../../../lib/webhook');
 
 router.post('/create', async (req, res) => {
 	const user = await db.getUser(req.session.account.email);
@@ -32,7 +33,7 @@ router.post('/create', async (req, res) => {
 		},
 		body: JSON.stringify({
 			name: req.body.name,
-			user: req.session.account.pterodactyl_id,
+			user: user.pterodactyl_id,
 			egg: egg.id,
 			docker_image: egg.docker_image,
 			startup: egg.startup,
@@ -45,8 +46,8 @@ router.post('/create', async (req, res) => {
 				io: 500
 			},
 			feature_limits: {
-				databases: +egg.databases,
-				backups: +egg.backups
+				databases: parseInt(egg.databases),
+				backups: parseInt(egg.backups)
 			},
 			deploy: {
 				locations: [parseFloat(location.id)],
@@ -56,7 +57,7 @@ router.post('/create', async (req, res) => {
 		})
 	});
 
-	const added = await db.addUsed(req.session.account.email, req.body.cpu, req.body.ram, req.body.disk);
+	const added = await db.addUsed(user.email, req.body.cpu, req.body.ram, req.body.disk);
 
 	if (added != true) return res.json({ error: 'Failed to add used resources. Error: ' + added });
 
@@ -67,9 +68,10 @@ router.post('/create', async (req, res) => {
 
 	const serverInfo = await serverinfo_req.json();
 
-	await db.addRenewal(req.session.account.email, serverInfo.attributes.id);
+	await db.addRenewal(user.email, serverInfo.attributes.id);
 
-	return res.send({ success: true });
+	res.send({ success: true });
+	webhook.info(`Server Created`, `**User:** ${user.username} (${user.email})\n**Server:** ${serverInfo.attributes.name}\n**CPU:** ${req.body.cpu}\n**RAM:** ${req.body.ram}\n**Disk:** ${req.body.disk}`);
 });
 
 router.get('/get/:id', async (req, res) => {
@@ -120,6 +122,7 @@ router.delete('/delete/:id', async (req, res) => {
 
 	await db.setUsed(req.session.account.email, parseInt(newCpu), parseInt(newRam), parseInt(newDisk));
 	res.send({ success: true });
+	webhook.info(`Server Deleted`, `**User:** ${user.username}\n**Server Name:** ${server.attributes.name}\n**Server ID:** ${req.params.id}`);
 });
 
 module.exports = router;

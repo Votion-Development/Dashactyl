@@ -11,6 +11,7 @@ const log = require('./lib/logger');
 require('./lib/database');
 const db = require('./lib/database');
 const fetch = require('node-fetch');
+const webhook = require('./lib/webhook');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -106,4 +107,5 @@ app.get('*', async (req, res) => {
 
 app.listen(webconfig.port, () => {
 	log.web(`Server started on port ${webconfig.port}`);
+	webhook.success(`Dashboard`, `Dashactyl has started on port ${webconfig.port}. URL: ${webconfig.dashboard_url}`);
 });

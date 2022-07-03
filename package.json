@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "build-frontend": "cd frontend && npm run build",
+    "build-frontend": "cd frontend && npm i && npm run build",
     "update": "git pull && rm -r yarn.lock && npm i && npm run build-frontend && echo 'Updated completed!'",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write ."

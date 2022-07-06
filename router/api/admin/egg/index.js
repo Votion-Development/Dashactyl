@@ -16,7 +16,7 @@ router.post('/add', async (req, res) => {
 	if (egg) return res.send({ error: 'An egg with that name already exists.' });
 	await db.addEgg(req.body);
 	res.send({ success: true });
-	webhook.info(`Egg added`, `**Name:** ${req.body.name}`);
+	webhook.info(`Egg added`, `**Name:** ${req.body.name}\n**ID:** ${req.body.egg_id}\n**Docker Image:** ${req.body.egg_docker_image}\n**Startup:** ${req.body.egg_startup}\n**Databases:** ${req.body.egg_databases}\n**Backups:** ${req.body.egg_backups}\n**Environment:** ${req.body.egg_environment}`);
 });
 
 module.exports = router;

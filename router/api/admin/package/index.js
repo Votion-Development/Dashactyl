@@ -11,7 +11,7 @@ router.post('/add', async (req, res) => {
 	if (location) return res.send({ error: 'A package with that name already exists.' });
 	await db.addPackage(req.body);
 	res.send({ success: true });
-	webhook.info(`Package added`, `**Name:** ${req.body.name}`);
+	webhook.info(`Package added`, `**Name:** ${req.body.name}\n**Ram:** ${req.body.ram}\n**Disk:** ${req.body.disk}\n**CPU:** ${req.body.cpu}\n**Price:** ${req.body.price}\n**Renewal Enabled:** ${req.body.renewal_enabled}\n**Renewal Time:** ${req.body.renewal_time}\n**Renewal Price:** ${req.body.renewal_price}\n**Default:** false`);
 });
 
 module.exports = router;

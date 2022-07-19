@@ -22,6 +22,8 @@ export default function CardGetUserInfo() {
 				icon: 'error',
 				title: 'Error',
 				text: data.error,
+			}).then(() => {
+				document.getElementById('getUserInfoForm').reset();
 			});
 		});
 	};

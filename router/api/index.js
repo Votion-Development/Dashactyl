@@ -82,6 +82,14 @@ router.ws('/afk', async (ws, req) => {
 	ws.onclose = async () => {
 		clearInterval(loop);
 	};
+
+	const loop2 = setInterval(async function () {
+		ws.send("stay alive pretty please thanks");
+	}, 1000);
+
+	ws.onclose = async () => {
+		clearInterval(loop2);
+	};
 });
 
 router.ws('/watch', async (ws, req) => {
@@ -109,6 +117,14 @@ router.ws('/watch', async (ws, req) => {
 		};
 		ws.send(JSON.stringify({ user: user, servers: panelinfo.attributes.relationships.servers.data, stats: stats }));
 	});
+
+	const loop = setInterval(async function () {
+		ws.send("stay alive pretty please thanks");
+	}, 1000);
+
+	ws.onclose = async () => {
+		clearInterval(loop);
+	};
 });
 
 router.use('/auth', require('./auth/index.js'));

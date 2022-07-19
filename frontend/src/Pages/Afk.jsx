@@ -24,6 +24,7 @@ export default function Afk() {
 			setCoins(0);
 		};
 		ws.addEventListener('message', function (event) {
+			if (data.toString("utf8") === "stay alive pretty please thanks") return
 			setCoins(coins => coins + +event.data);
 			console.log('Added Coins');
 		});

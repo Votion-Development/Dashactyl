@@ -37,6 +37,7 @@ export default function Sidebar() {
       })
     };
     ws.addEventListener('message', function (event) {
+      if (data.toString("utf8") === "stay alive pretty please thanks") return
       const data = JSON.parse(event.data)
       if (data.error) MySwal.fire({
         icon: 'error',

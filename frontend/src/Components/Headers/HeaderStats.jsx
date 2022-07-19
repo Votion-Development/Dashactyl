@@ -31,6 +31,7 @@ export default function HeaderStats() {
 			console.log('Disconnected from websocket (Close Event)');
 		};
 		ws.addEventListener('message', function (event) {
+			if (data.toString("utf8") === "stay alive pretty please thanks") return
 			const data = JSON.parse(event.data);
 			if (data.error) MySwal.fire({
 				icon: 'error',

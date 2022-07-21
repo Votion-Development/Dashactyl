@@ -72,23 +72,24 @@ router.get('/afk', async (req, res) => {
 
 router.ws('/afk', async (ws, req) => {
 	const settings = await db.getSettings();
+	const timeLoop = setInterval(async function() {
+		ws.send(JSON.stringify({ time: 1 }));
+	}, 1000)
 	const loop = setInterval(async function () {
 		const user = await db.getUser(req.session.account.email);
 		const new_coins = parseInt(user.coins) + parseInt(settings.afk_coins);
 		await db.updateCoins(user.email, parseInt(new_coins));
-		ws.send(settings.afk_coins);
+		ws.send(JSON.stringify({ coins: settings.afk_coins }));
 	}, settings.afk_interval * 1000);
-
-	ws.onclose = async () => {
-		clearInterval(loop);
-	};
 
 	const loop2 = setInterval(async function () {
 		ws.send("stay alive pretty please thanks");
 	}, 1000);
 
 	ws.onclose = async () => {
+		clearInterval(loop);
 		clearInterval(loop2);
+		clearInterval(timeLoop);
 	};
 });
 

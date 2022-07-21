@@ -8,6 +8,7 @@ import CardAfk from '../Components/Cards/CardAfk';
 export default function Afk() {
 	const [isConnected, setIsConnected] = React.useState(false);
 	const [coins, setCoins] = React.useState(0);
+	const [time, setTime] = React.useState(0);
 
 	React.useEffect(() => {
 		const webSocketProtocol = window.location.protocol == 'https:' ? 'wss://' : 'ws://';
@@ -24,9 +25,13 @@ export default function Afk() {
 			setCoins(0);
 		};
 		ws.addEventListener('message', function (event) {
-			if (data.toString("utf8") === "stay alive pretty please thanks") return
-			setCoins(coins => coins + +event.data);
-			console.log('Added Coins');
+			if (event.data.toString("utf8") === "stay alive pretty please thanks") return
+			const data = JSON.parse(event.data)
+			if (!data.coins) setTime(time => time + parseInt(data.time))
+			if (!data.time) {
+				setCoins(coins => coins + parseInt(data.coins));
+				console.log('Added Coins');
+			}
 		});
 		return () => {
 			console.log('Disconnected from websocket (Page Leave)');
@@ -39,7 +44,7 @@ export default function Afk() {
 	return (
 		<>
 			<div className="flex flex-wrap mt-4">
-				<CardAfk isConnected={isConnected} coins={coins} />
+				<CardAfk isConnected={isConnected} coins={coins} time={time} />
 			</div>
 		</>
 	);

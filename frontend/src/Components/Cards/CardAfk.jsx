@@ -2,7 +2,7 @@ import React from 'react';
 
 // components
 
-export default function CardAfk({ isConnected, coins }) {
+export default function CardAfk({ isConnected, coins, time }) {
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [afkInterval, setAfkInterval] = React.useState(null);
 	const [afkCoins, setAfkCoins] = React.useState(null);
@@ -13,7 +13,6 @@ export default function CardAfk({ isConnected, coins }) {
 		})
 			.then(response => response.json())
 			.then(json => {
-				console.log(json)
 				setAfkInterval(json.afk_interval);
 				setAfkCoins(json.afk_coins);
 				setIsLoading(false);
@@ -52,8 +51,8 @@ export default function CardAfk({ isConnected, coins }) {
 							}
 							<br></br>
 							<br></br>
-
-
+							<a>Time: {time}</a>
+							<br></br>
 							<a>You have currently earned {coins} coins.</a>
 						</div>
 					</div>

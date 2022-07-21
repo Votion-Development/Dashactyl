@@ -28,6 +28,7 @@ export default function CardCreateServer() {
 				})
 					.then(response => response.json())
 					.then(json => {
+						console.log(json)
 						setLocations(json);
 						setIsLoading(false);
 					});
@@ -89,17 +90,27 @@ export default function CardCreateServer() {
 									<div className="relative z-0 w-full mb-6 group">
 										<label htmlFor="egg" className="block mb-2 text-sm text-black">Egg</label>
 										<select id="egg" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-											{eggs.map((egg) =>
-												<option>{egg.name}</option>
-											)}
+											{!!eggs.length
+												?
+												eggs.map((egg) =>
+													<option>{egg.name}</option>
+												)
+												:
+												<option>There are no eggs added to the client area.</option>
+											}
 										</select>
 									</div>
 									<div className="relative z-0 w-full mb-6 group">
 										<label htmlFor="location" className="block mb-2 text-sm text-black">Location</label>
 										<select id="location" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-											{locations.map((location) =>
-												<option>{location.name}</option>
-											)}
+											{!!locations.length
+												?
+												locations.map((location) =>
+													<option>{location.name}</option>
+												)
+												:
+												<option>There are no locations added to the client area.</option>
+											}
 										</select>
 									</div>
 									<div className="relative z-0 w-full mb-6 group">
@@ -120,9 +131,22 @@ export default function CardCreateServer() {
 											Disk
 										</label>
 									</div>
-									<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-										Submit
-									</button>
+									{!!eggs.length
+										?
+										!!locations.length
+											?
+											<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+												Submit
+											</button>
+											:
+											<button type="submit" className="text-white bg-blue-300 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" disabled>
+												Submit
+											</button>
+										:
+										<button type="submit" className="text-white bg-blue-300 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" disabled>
+											Submit
+										</button>
+									}
 								</form>
 							}
 						</div>

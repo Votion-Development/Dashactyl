@@ -57,14 +57,14 @@ router.post('/create', async (req, res) => {
 		})
 	});
 
-	const added = await db.addUsed(user.email, req.body.cpu, req.body.ram, req.body.disk);
-
-	if (added != true) return res.json({ error: 'Failed to add used resources. Error: ' + added });
-
 	if (serverinfo_req.statusText !== 'Created') {
 		const status = await serverinfo_req.text();
 		return res.send({ error: status });
 	}
+
+	const added = await db.addUsed(user.email, req.body.cpu, req.body.ram, req.body.disk);
+
+	if (added != true) return res.json({ error: 'Failed to add used resources. Error: ' + added });
 
 	const serverInfo = await serverinfo_req.json();
 

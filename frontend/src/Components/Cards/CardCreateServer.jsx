@@ -7,7 +7,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const MySwal = withReactContent(Swal);
 
-// components
+import { toast } from 'react-toastify'
+
+
 
 export default function CardCreateServer() {
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -36,20 +38,40 @@ export default function CardCreateServer() {
 	}, []);
 
 	const createServer = (event) => {
-		CreateServer(event).then(data => {
-			if (data.success) return MySwal.fire({
-				icon: 'success',
-				title: 'Success!',
-				text: 'The server has been created!',
-			}).then(() => {
-				return navigate('/dashboard');
+		const createServerPromise = new Promise(async (resolve, reject) => {
+			CreateServer(event).then(data => {
+				if (data.success) {
+					resolve()
+					return MySwal.fire({
+						icon: 'success',
+						title: 'Success!',
+						text: 'The server has been created!',
+					}).then(() => {
+						return navigate('/dashboard');
+					});
+				}
+				if (data.error) {
+					reject(data.error)
+					return MySwal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: data.error,
+					});
+				}
 			});
-			if (data.error) MySwal.fire({
-				icon: 'error',
-				title: 'Error',
-				text: data.error,
-			});
-		});
+		})
+		toast.promise(
+			createServerPromise,
+			{
+				pending: 'Creating server...',
+				success: 'The server has been created!',
+				error: {
+					render({ data }) {
+						return <a>{data}</a>
+					}
+				}
+			}
+		)
 	};
 
 	return (

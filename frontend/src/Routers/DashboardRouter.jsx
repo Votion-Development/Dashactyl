@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-// components
+
 
 import AdminNavbar from '../Components/Navbars/AdminNavbar';
 import Sidebar from '../Components/Sidebar/Sidebar';
@@ -16,6 +16,7 @@ import CreateServer from '../Pages/CreateServer';
 import ManageServer from '../Pages/ManageServer';
 import Store from '../Pages/Store';
 import Admin from '../Pages/Admin';
+import ManageKey from '../Pages/ManageKey';
 
 export default () => (
 	<>
@@ -32,6 +33,7 @@ export default () => (
 					<Route path={'/manage/:id'} element={<ManageServer />} />
 					<Route path={'/store'} element={<Store />} />
 					<Route path={'/admin'} element={<Admin />} />
+					<Route path={'/admin/key/:key'} element={<ManageKey />} />
 				</Routes>
 				<FooterAdmin />
 			</div>

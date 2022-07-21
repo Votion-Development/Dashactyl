@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// components
+
 
 export default function CardServers() {
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -32,7 +32,7 @@ export default function CardServers() {
 					<div className="flex flex-wrap items-center">
 						<div className="relative w-full px-4 max-w-full flex-grow flex-1">
 							<h3 className="font-semibold text-base text-blueGray-700">
-                Servers
+								Servers
 							</h3>
 						</div>
 					</div>
@@ -43,22 +43,22 @@ export default function CardServers() {
 						<thead>
 							<tr>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Server Name
+									Server Name
 								</th>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Memory
+									Memory
 								</th>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Disk
+									Disk
 								</th>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  CPU
+									CPU
 								</th>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Renew By
+									Renew By
 								</th>
 								<th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Manage
+									Manage
 								</th>
 							</tr>
 						</thead>
@@ -101,7 +101,7 @@ export default function CardServers() {
 										<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 											<Link to={`/dashboard/manage/${server.attributes.id}`}>
 												<button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-2 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                          Manage
+													Manage
 												</button>
 											</Link>
 										</td>

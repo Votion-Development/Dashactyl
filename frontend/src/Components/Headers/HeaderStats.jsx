@@ -6,7 +6,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const MySwal = withReactContent(Swal);
 
-// components
+
 
 import CardStats from '../Cards/CardStats';
 

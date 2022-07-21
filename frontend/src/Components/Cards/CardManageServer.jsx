@@ -6,7 +6,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const MySwal = withReactContent(Swal);
 
-// components
+import { toast } from 'react-toastify'
 
 export default function CardManageServer() {
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -120,25 +120,57 @@ export default function CardManageServer() {
 	};
 
 	const deleteServer = () => {
-		fetch(`/api/server/delete/${params.id}`, {
-			method: 'delete',
-			credentials: 'include'
-		})
-			.then(response => response.json())
-			.then(json => {
-				if (json.error) MySwal.fire({
-					icon: 'error',
-					title: 'Error',
-					text: json.error,
-				});
-				if (json.success) return MySwal.fire({
-					icon: 'success',
-					title: 'Success!',
-					text: 'The server has been deleted!',
-				}).then(() => {
-					return navigate('/dashboard');
-				});
-			});
+		MySwal.fire({
+			title: 'Are you sure you want to do this?',
+			text: `You will not be able to undo this action!`,
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const deleteServerPromise = new Promise(async (resolve, reject) => {
+					fetch(`/api/server/delete/${params.id}`, {
+						method: 'delete',
+						credentials: 'include'
+					})
+						.then(response => response.json())
+						.then(json => {
+							if (json.error) {
+								reject(json.error)
+								return MySwal.fire({
+									icon: 'error',
+									title: 'Error',
+									text: json.error,
+								});
+							}
+							if (json.success) {
+								resolve()
+								return MySwal.fire({
+									icon: 'success',
+									title: 'Success!',
+									text: 'The server has been deleted!',
+								}).then(() => {
+									return navigate('/dashboard');
+								});
+							}
+						});
+				})
+				toast.promise(
+					deleteServerPromise,
+					{
+						pending: 'Deleting server...',
+						success: 'The server has been deleted!',
+						error: {
+							render({ data }) {
+								return <a>{data}</a>
+							}
+						}
+					}
+				)
+			}
+		});
 	};
 
 	return (

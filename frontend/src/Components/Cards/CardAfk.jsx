@@ -1,6 +1,6 @@
 import React from 'react';
 
-// components
+
 
 export default function CardAfk({ isConnected, coins, time }) {
 	const [isLoading, setIsLoading] = React.useState(true);

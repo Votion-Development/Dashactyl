@@ -1,6 +1,6 @@
 import React from 'react';
 
-// components
+
 
 import CardCreateServer from '../Components/Cards/CardCreateServer';
 

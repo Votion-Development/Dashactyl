@@ -15,6 +15,7 @@
     "express-session": "^1.17.3",
     "express-ws": "^5.0.2",
     "fs": "^0.0.1-security",
+    "generate-api-key": "^1.0.1",
     "mongodb": "^4.6.0",
     "node-fetch": "2",
     "path": "^0.12.7",

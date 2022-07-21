@@ -1,7 +1,5 @@
 import React from 'react';
 
-// components
-
 import CardManageServer from '../Components/Cards/CardManageServer';
 
 export default function ManageServer() {

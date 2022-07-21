@@ -1,8 +1,6 @@
 import React from 'react';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
-// components
-
 import CardAfk from '../Components/Cards/CardAfk';
 
 export default function Afk() {

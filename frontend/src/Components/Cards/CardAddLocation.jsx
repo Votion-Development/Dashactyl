@@ -6,7 +6,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const MySwal = withReactContent(Swal);
 
-// components
+
 
 export default function CardAddLocation() {
 	const addLocationForm = (event) => {

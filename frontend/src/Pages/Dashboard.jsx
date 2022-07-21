@@ -1,6 +1,6 @@
 import React from 'react';
 
-// components
+
 
 import CardServers from '../Components/Cards/CardServers';
 import CardInfo from '../Components/Cards/CardInfo';

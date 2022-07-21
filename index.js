@@ -98,7 +98,15 @@ app.use(require('./router/index.js'));
 app.get('*', async (req, res) => {
 	const pathname = req._parsedUrl.pathname;
 	if (!pathname.includes('/auth/')) {
-		if (!req.session.account || !req.session.account.email) return res.redirect('/auth/login');
+		if (!req.session.account || !req.session.account.email) {
+			if (req.headers.api) {
+				const key = await db.getApiKey()
+				if (!key) return res.json({ error: "Invalid API key" })
+				await db.setLastUsedApiKey(key.key)
+			} else {
+				return res.redirect('/auth/login');
+			}
+		}
 		const user = await db.getUser(req.session.account.email);
 		if (!user) return res.redirect('/auth/login');
 	}

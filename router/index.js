@@ -6,10 +6,16 @@ const db = require('../lib/database');
 router.use('*', async (req, res, next) => {
 	const pathname = req._parsedUrl.pathname;
 	if (!req.session.account) {
-		if (pathname.includes('/auth/')) {
-			return next();
+		if (req.headers.api) {
+			const key = await db.getApiKey()
+			if (!key) return res.json({ error: "Invalid API key" })
+			await db.setLastUsedApiKey(key.key)
 		} else {
-			return res.redirect('/auth/login');
+			if (pathname.includes('/auth/')) {
+				return next();
+			} else {
+				return res.redirect('/auth/login');
+			}
 		}
 	}
 	if (pathname.startsWith('/dashboard/admin')) {

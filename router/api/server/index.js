@@ -63,6 +63,12 @@ router.post('/create', async (req, res) => {
 		})
 	});
 
+	console.log(serverinfo_req.statusText)
+
+	if (serverinfo_req.statusText === "Forbidden") {
+		return res.json({ error: "Invalid server name or invalid Pterodactyl credentials." })
+	}
+
 	if (serverinfo_req.statusText !== 'Created') {
 		const status = await serverinfo_req.text();
 		return res.send({ error: status });

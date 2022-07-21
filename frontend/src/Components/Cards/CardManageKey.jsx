@@ -28,6 +28,13 @@ export default function CardManageServer() {
 				}).then(() => {
 					navigate('/dashboard');
 				});
+				if (!json.key) return MySwal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: "Key not found.",
+				}).then(() => {
+					navigate('/dashboard/admin');
+				});
 				setKey(json.key);
                 setIsLoading(false)
 			});
@@ -56,7 +63,7 @@ export default function CardManageServer() {
 							title: 'Success!',
 							text: 'The API key has been deleted!',
 						}).then(() => {
-							return navigate('/admin');
+							return navigate('/dashbord/admin');
 						});
 					}
 				});

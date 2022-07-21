@@ -5,6 +5,8 @@ import discordImg from '../Assets/Img/discord.svg';
 import Alert from '../Components/Alert';
 import login from '../Api/Login';
 
+import { toast } from 'react-toastify'
+
 export default function Login() {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
@@ -12,7 +14,18 @@ export default function Login() {
 	const formlogin = (event) => {
 		login(event).then(data => {
 			if (data.success) return navigate('/dashboard');
-			if (data.error) setMessage(data.error);
+			if (data.error) {
+				setMessage(data.error)
+				toast.error(data.error, {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: false,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			}
 		});
 	};
 
@@ -27,13 +40,13 @@ export default function Login() {
 									<Alert message={message} />
 									<br></br>
 									<h6 className="text-blueGray-500 text-sm font-bold">
-                                        Sign in with
+										Sign in with
 									</h6>
 								</div>
 								<div className="btn-wrapper text-center">
 									<button className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150" type="button">
 										<img alt="..." className="w-5 mr-1" src={discordImg} />
-                                        Discord (Not yet working)
+										Discord (Not yet working)
 									</button>
 								</div>
 								<hr className="mt-6 border-b-1 border-blueGray-300" />
@@ -45,14 +58,14 @@ export default function Login() {
 								<form onSubmit={formlogin}>
 									<div className="relative w-full mb-3">
 										<label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                                            Email
+											Email
 										</label>
 										<input id="email" type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Email" />
 									</div>
 
 									<div className="relative w-full mb-3">
 										<label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                                            Password
+											Password
 										</label>
 										<input id="password" type="password" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Password" />
 									</div>
@@ -60,14 +73,14 @@ export default function Login() {
 										<label className="inline-flex items-center cursor-pointer">
 											<input id="customCheckLogin" type="checkbox" className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150" />
 											<span className="ml-2 text-sm font-semibold text-blueGray-600">
-                                                Remember me
+												Remember me
 											</span>
 										</label>
 									</div>
 
 									<div className="text-center mt-6">
 										<button className="bg-blueGray-800 text-black active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">
-                                            Sign In
+											Sign In
 										</button>
 									</div>
 								</form>

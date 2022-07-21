@@ -51,7 +51,7 @@ const checkRenewals = async function () {
 	const now = Date.now();
 	const settings = await db.getSettings();
 	renewals.forEach(async (renewal) => {
-		if (renewal.renewal_enabled != false) return;
+		if (renewal.renewal_enabled === false) return;
 		if (renewal.renew_by < now) {
 			await fetch(`${settings.pterodactyl_url}/api/application/servers/${renewal.server_id}/suspend`, {
 				method: 'post',

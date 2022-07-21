@@ -22,7 +22,13 @@ router.post('/create', async (req, res) => {
 
 	const location = await db.getLocation(req.body.location);
 
-	const environment = JSON.parse(egg.environment);
+	let environment
+
+	try {
+		environment = JSON.parse(egg.environment);
+	} catch {
+		return res.json({ error: "Egg environment JSON invalid. Please contact a site administrator." })
+	}
 
 	const serverinfo_req = await fetch(`${settings.pterodactyl_url}/api/application/servers`, {
 		method: 'post',

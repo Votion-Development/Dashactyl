@@ -67,7 +67,7 @@ router.get('/afk', async (req, res) => {
 	const settings = await db.getSettings();
 	if (!settings.pterodactyl_url) return res.json({ error: 'Pterodactyl URL not set' });
 	if (!settings.pterodactyl_key) return res.json({ error: 'Pterodactyl Key not set' });
-	res.json({ afk_coins: settings.afk_coins, afk_interval: settings.afk_interval });
+	res.json({ afk_coins: settings.afk_coins, afk_interval: settings.afk_interval, arcio_code: settings.arcio_code });
 });
 
 router.ws('/afk', async (ws, req) => {

@@ -15,7 +15,7 @@ export default function CardAfk({ isConnected, coins, time }) {
 				setAfkCoins(json.afk_coins);
 				setIsLoading(false);
 			});
-	});
+	}), [];
 
 	return (
 		<>

@@ -7,6 +7,21 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+	React.useEffect(() => {
+		fetch('/api/afk', {
+			credentials: 'include'
+		})
+			.then(response => response.json())
+			.then(json => {
+				const script = document.createElement("script");
+
+				script.src = `https://arc.io/widget.min.js#${json.arcio_code}`;
+				script.async = true;
+
+				document.body.appendChild(script);
+			});
+	}), [];
+
 	return (
 		<>
 			<ToastContainer

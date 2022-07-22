@@ -80,7 +80,7 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" to="/">
+          <Link className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" to="/dashboard">
             {isLoading
               ?
               <tr>
@@ -228,6 +228,12 @@ export default function Sidebar() {
                   :
                   <></>
               }
+              <li className="items-center">
+                <a className="text-xs uppercase py-3 font-bold block " href="/auth/logout">
+                  <i className="fas fa-tv mr-2 text-sm "></i>{" "}
+                  Logout
+                </a>
+              </li>
             </ul>
           </div>
         </div>

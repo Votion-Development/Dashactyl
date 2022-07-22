@@ -63,7 +63,7 @@ export default function CardManageServer() {
 							title: 'Success!',
 							text: 'The API key has been deleted!',
 						}).then(() => {
-							return navigate('/dashbord/admin');
+							return navigate('/dashboard/admin');
 						});
 					}
 				});

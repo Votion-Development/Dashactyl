@@ -72,7 +72,7 @@ router.get('/afk', async (req, res) => {
 
 router.ws('/afk', async (ws, req) => {
 	const settings = await db.getSettings();
-	const timeLoop = setInterval(async function() {
+	const timeLoop = setInterval(async function () {
 		ws.send(JSON.stringify({ time: 1 }));
 	}, 1000)
 	const loop = setInterval(async function () {
@@ -127,6 +127,38 @@ router.ws('/watch', async (ws, req) => {
 		clearInterval(loop);
 	};
 });
+
+router.post('/reset-password', async (req, res) => {
+	if (!req.session.account.email) return res.json({ error: "No email found in session." })
+	const settings = await db.getSettings()
+	const user = await db.getUser(req.session.account.email)
+	const generated_password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+	const panelinfo_raw = await fetch(`${settings.pterodactyl_url}/api/application/users/${user.pterodactyl_id}`, {
+		method: 'get',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${settings.pterodactyl_key}`
+		}
+	});
+	if ((await panelinfo_raw.statusText) === 'Not Found') return res.json({ error: 'Pterodactyl user not found' });
+	const panelinfo = await panelinfo_raw.json();
+	await db.updatePassword(req.session.account.email, generated_password)
+	await fetch(`${settings.pterodactyl_url}/api/application/users/${user.pterodactyl_id}`, {
+		method: 'patch',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${settings.pterodactyl_key}`
+		},
+		body: JSON.stringify({
+			username: panelinfo.attributes.username,
+			email: panelinfo.attributes.email,
+			first_name: panelinfo.attributes.first_name,
+			last_name: panelinfo.attributes.last_name,
+			password: generated_password
+		})
+	})
+	return res.json({ success: true, password: generated_password })
+})
 
 router.use('/auth', require('./auth/index.js'));
 router.use('/renew', require('./renew/index.js'));

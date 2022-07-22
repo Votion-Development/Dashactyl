@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 export default function CardAfk({ isConnected, coins, time }) {
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [afkInterval, setAfkInterval] = React.useState(null);

@@ -31,6 +31,14 @@ export default function CardUpdateLocationStatus() {
 				text: 'The location has been update.',
 			}).then(() => {
 				document.getElementById('updateLocationStatusForm').reset();
+				fetch('/api/admin/location/get/all', {
+					credentials: 'include'
+				})
+					.then(response => response.json())
+					.then(json => {
+						setLocations(json);
+						setIsLoading(false);
+					});
 			});
 			if (data.error) MySwal.fire({
 				icon: 'error',

@@ -82,13 +82,13 @@ export default function CardServers() {
 											{server.attributes.name.length > 15 ? server.attributes.name.slice(0, 12) + '...' : server.attributes.name}
 										</th>
 										<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-											{server.attributes.limits.memory}
+											{server.attributes.limits.memory}mb
 										</td>
 										<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-											{server.attributes.limits.disk}
+											{server.attributes.limits.disk}mb
 										</td>
 										<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-											{server.attributes.limits.cpu}
+											{server.attributes.limits.cpu}%
 										</td>
 										<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
 											{server.renewal_enabled

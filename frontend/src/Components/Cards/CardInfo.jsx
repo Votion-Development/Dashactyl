@@ -1,6 +1,9 @@
 import React from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-
+const MySwal = withReactContent(Swal);
 
 export default function CardAccountInfo() {
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -33,6 +36,21 @@ export default function CardAccountInfo() {
 
 	const openDiscord = () => {
 		window.open(discordInvite);
+	}
+
+	const resetPassword = () => {
+		fetch('/api/reset-password', {
+			method: 'post',
+			credentials: 'include'
+		})
+			.then(response => response.json())
+			.then(json => {
+				MySwal.fire({
+					icon: 'info',
+					title: 'New Password',
+					text: `Your new password to login to the Panel and Client Area is: ${json.password}. Please write this down and keep it in a safe place.`,
+				})
+			});
 	}
 
 	return (
@@ -139,6 +157,13 @@ export default function CardAccountInfo() {
 										<button onClick={openDiscord}><a>{discordInvite}</a></button>
 									}
 								</td>
+							</tr>
+							<tr>
+								<th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+									<button onClick={resetPassword} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+										Reset Password
+									</button>
+								</th>
 							</tr>
 						</tbody>
 					</table>

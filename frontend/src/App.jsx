@@ -1,10 +1,13 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import AuthRouter from './Routers/AuthRouter';
 import DashboardRouter from './Routers/DashboardRouter';
+import NProgress from "nprogress";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "nprogress/nprogress.css";
+import "./Assets/css/nprogress.css";
 
 function App() {
 	React.useEffect(() => {
@@ -21,6 +24,13 @@ function App() {
 				document.body.appendChild(script);
 			});
 	}), [];
+
+	const location = useLocation();
+
+	React.useEffect(() => {
+		NProgress.start();
+		NProgress.done();
+	}, [location.pathname]);
 
 	return (
 		<>

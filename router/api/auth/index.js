@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
 	const verifybylastlogin_ip = await db.checkAltsByLastLoginIp(userip);
 	if (verifybyregistered_ip == true || verifybylastlogin_ip == true) return res.json({ error: 'You already have another account. Multi-accounts are disallowed!' });
 	
-	const created = await db.createUser(body.username, body.email, body.password, 'credentials');
+	const created = await db.createUser(body.username, body.email, body.password, userip, 'credentials');
 	if (created != true) return res.json({ error: created });
 	const settings = await db.getSettings();
 	const user = await db.getUser(body.email);

@@ -7,6 +7,7 @@ const webhook = require('../../../lib/webhook');
 
 router.post('/login', async (req, res) => {
 	const body = req.body;
+	const userip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
 	const user = await db.getUser(body.email);
 	if (!user) {
 		return res.send({ error: 'Email or password not correct.' });
@@ -23,12 +24,22 @@ router.post('/login', async (req, res) => {
 	user._id = user._id.toString();
 	req.session.account = user;
 	req.session.save();
+	await db.updateLastLoginIp(user.email, userip);
 	res.send({ success: true });
 	webhook.info(`Login`, `**Username:** ${user.username}\n**Email:** ${user.email}`);
 });
 
 router.post('/register', async (req, res) => {
 	const body = req.body;
+	const userip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
+	/** Check if user is using a VPN or Proxy to bypass the IP Check */
+	const checkProxy = await db.checkProxy(userip);
+	if (checkProxy == true) return res.json({ error: 'Possible fraud attempt, please disable any VPN or proxy services to continue.' });
+	/** Check if the user has another account on the same IP */
+	const verifybyregistered_ip = await db.checkAltsByRegisteredIp(userip);
+	const verifybylastlogin_ip = await db.checkAltsByLastLoginIp(userip);
+	if (verifybyregistered_ip == true || verifybylastlogin_ip == true) return res.json({ error: 'You already have another account. Multi-accounts are disallowed!' });
+	
 	const created = await db.createUser(body.username, body.email, body.password, 'credentials');
 	if (created != true) return res.json({ error: created });
 	const settings = await db.getSettings();

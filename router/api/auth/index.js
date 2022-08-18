@@ -7,6 +7,8 @@ const webhook = require('../../../lib/webhook');
 
 router.post('/login', async (req, res) => {
 	const body = req.body;
+	if (!body.email) return res.json({ error: "You didn't provide an email!" })
+	if (!body.password) return res.json({ error: "You didn't provide a password!" })
 	const userip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
 	const user = await db.getUser(body.email);
 	if (!user) {
@@ -31,6 +33,9 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
 	const body = req.body;
+	if (!body.email) return res.json({ error: "You didn't provide an email!" })
+	if (!body.password) return res.json({ error: "You didn't provide a password!" })
+	if (!body.username) return res.json({ error: "You didn't provide a username!" })
 	const userip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
 	/** Check if user is using a VPN or Proxy to bypass the IP Check */
 	const checkProxy = await db.checkProxy(userip);

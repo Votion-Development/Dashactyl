@@ -21,6 +21,8 @@ router.use('*', async (req, res, next) => {
 	if (pathname.startsWith('/dashboard/admin')) {
 		const user = await db.getUser(req.session.account.email);
 		const settings = await db.getSettings();
+		if (!user) return res.redirect('/auth/login')
+		if (!user.pterodactyl_id) return res.redirect('/auth/login')
 		const panelinfo_raw = await fetch(`${settings.pterodactyl_url}/api/application/users/${user.pterodactyl_id}?include=servers`, {
 			method: 'get',
 			headers: {

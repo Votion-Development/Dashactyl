@@ -16,6 +16,8 @@ router.get('/get/:key', async (req, res) => {
 router.delete('/delete/:key', async (req, res) => {
     await db.deleteApiKey(req.params.key)
     res.json({ success: true })
+    const keys = await db.listApiKeys()
+    events.emit('apiKeysUpdate', keys)
 });
 
 router.post('/add', async (req, res) => {

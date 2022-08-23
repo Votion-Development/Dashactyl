@@ -78,7 +78,6 @@ app.post('/install', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-	console.log(1)
 	if (!req.session.account || !req.session.account.email) return res.redirect('/auth/login');
 	res.redirect('/dashboard')
 });
@@ -214,7 +213,6 @@ app.get('/auth/discord/callback', async (req, res) => {
 
 app.use('*', async (req, res, next) => {
 	const pathname = req._parsedUrl.pathname;
-	console.log(pathname)
 	const settings = await db.getSettings();
 	if (!settings.pterodactyl_url || !settings.pterodactyl_key) {
 		if (!pathname.includes('/api/')) {
@@ -230,7 +228,6 @@ app.use(require('./router/index.js'));
 
 app.get('*', async (req, res) => {
 	const pathname = req._parsedUrl.pathname;
-	console.log(pathname)
 	if (!pathname.includes('/auth/')) {
 		if (!req.session.account || !req.session.account.email) {
 			if (req.headers.api) {

@@ -6,8 +6,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const MySwal = withReactContent(Swal);
 
-
-
 export default function CardGetUserInfo() {
 	const getUserInfoForm = (event) => {
 		getUserInfo(event).then(data => {

@@ -29,20 +29,6 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-function cpuAverage() {
-    let totalIdle = 0
-    let totalTick = 0;
-    const cpus = os.cpus();
-    for (let i = 0, len = cpus.length; i < len; i++) {
-        const cpu = cpus[i];
-        for (type in cpu.times) {
-            totalTick += cpu.times[type];
-        }
-        totalIdle += cpu.times.idle;
-    }
-    return { idle: totalIdle / cpus.length, total: totalTick / cpus.length };
-}
-
 router.get('/info', async (req, res) => {
     let usage
     usage = Object.assign({}, process.cpuUsage());
@@ -51,7 +37,7 @@ router.get('/info', async (req, res) => {
     const usedRam = process.memoryUsage().heapUsed / 1024 / 1024;
     const dashactylStats = {
         ram: Math.round(usedRam * 100) / 100,
-        cpu: Math.round(usage.percent),
+        cpu: usage.percent.toFixed(2),
         uptime: format(process.uptime())
     }
     const cpu = osu.cpu

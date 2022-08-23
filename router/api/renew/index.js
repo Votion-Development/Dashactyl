@@ -24,6 +24,16 @@ router.post('/:id', async (req, res) => {
 	const servers = panelinfo.attributes.relationships.servers.data;
 	const server = servers.find((server) => server.attributes.id == req.params.id);
 	if (!server) return res.send({ error: 'Server not found' });
+	if (server.attributes.suspended === true) {
+		await fetch(`${settings.pterodactyl_url}/api/application/servers/${server.attributes.id}/unsuspend`, {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${settings.pterodactyl_key}`
+			}
+		});
+	}
+	console.log(server.attributes.suspended)
 	const package = await db.getPackage(user.package);
 	if (user.coins < package.renewal_price) return res.send({ error: 'Not enough coins to renew the server.' });
 	const new_time = Date.now() + parseInt(package.renewal_time);

@@ -20,7 +20,13 @@ router.post('/create', async (req, res) => {
 
 	const egg = await db.getEgg(req.body.egg);
 
+	if (!egg) return res.json({ error: "No egg found with that ID" })
+
 	const location = await db.getLocation(req.body.location);
+
+	if (!location) return res.json({ error: "No location found with that ID" })
+
+	if (location.enabled === false) return res.json({ error: "The selected location has server creation currently disabled." })
 
 	let environment
 

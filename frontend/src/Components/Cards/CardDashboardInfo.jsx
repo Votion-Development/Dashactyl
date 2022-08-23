@@ -57,7 +57,7 @@ export default function CardDashboardInfo() {
                                     <p className="font-semibold">Dashboard Info:</p>
                                     <p>Dashboard Version: {info.version}</p>
                                     <p>Process ID: {info.pid}</p>
-                                    <p>Dashboard Ram Usage: {info.dashactylStats.ram}</p>
+                                    <p>Dashboard Ram Usage: {info.dashactylStats.ram}MB</p>
                                     <p>Dashboard CPU Usage: {info.dashactylStats.cpu}%</p>
                                     <p>Dashboard Uptime: {info.dashactylStats.uptime}</p>
                                     <br></br>

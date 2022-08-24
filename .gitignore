@@ -7,3 +7,5 @@ webconfig.yml
 
 # Yarn Local Files
 yarn-error.log
+
+yarn.lock

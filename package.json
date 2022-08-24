@@ -27,7 +27,7 @@
   "scripts": {
     "start": "node index.js",
     "build-frontend": "cd frontend && npm i && npm run build",
-    "update": "git pull && rm -r yarn.lock && npm i && npm run build-frontend && cd ../ && echo 'Updated completed! You can now run `npm start` to start Dashactyl.'",
+    "update": "git pull && rm -r -f yarn.lock && npm i && npm run build-frontend && cd ../ && echo 'Updated completed! You can now run `npm start` to start Dashactyl.'",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write ."
   },

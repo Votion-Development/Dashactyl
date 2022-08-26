@@ -2,7 +2,7 @@
   "name": "dashactyl",
   "version": "2.0.0",
   "main": "index.js",
-  "repository": "https://github.com/Votion-Development/Dashactyl-v2.git",
+  "repository": "https://github.com/Votion-Development/Dashactyl.git",
   "author": "Jamie_ <volcanomonster07@gmail.com>",
   "license": "MIT",
   "dependencies": {

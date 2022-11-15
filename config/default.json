@@ -1,0 +1,13 @@
+{
+  "port": "env(PORT)",
+  "settings": {
+    "loggerFormat": "tiny",
+    "session": {
+      "store": "@foal/typeorm"
+    }
+  },
+  "database": {
+    "type": "better-sqlite3",
+    "database": "./db.sqlite3"
+  }
+}

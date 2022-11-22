@@ -1,13 +1,10 @@
-.idea/
+# directories
 .vscode/
 build/
+coverage/
 node_modules/
-npm-debug.log
 
+# files and executables
+.env*
+db.sqlite3*
 package-lock.json
-.env
-.env.*
-*.sqlite3
-*.sqlite3-journal
-*.sqlite3-shm
-*.sqlite3-wal

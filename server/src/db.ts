@@ -1,4 +1,3 @@
-
 import { Config } from '@foal/core';
 import { DataSource } from 'typeorm';
 

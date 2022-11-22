@@ -1,9 +1,5 @@
 import 'source-map-support/register';
-
-// 3p
 import { Config, createApp, displayServerURL } from '@foal/core';
-
-// App
 import { AppController } from './app/app.controller';
 import { dataSource } from './db';
 

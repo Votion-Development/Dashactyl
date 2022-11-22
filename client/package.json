@@ -8,8 +8,8 @@
     "url": "https://github.com/Votion-Development/Dashactyl"
   },
   "scripts": {
-    "dev": "concurrently -r \"vite\" \"tailwindcss -i src/index.css -o ./dist/tailwind.css --watch\"",
-    "build": "tsc && vite build",
+    "dev": "concurrently -r \"vite\" \"tailwindcss -o ./dist/tailwind.css --watch\"",
+    "build": "tsc && vite build && tailwindcss -o ./dist/tailwind.css",
     "preview": "vite preview",
     "format": "prettier --write ./src/**/*.{ts,tsx}"
   },
@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
@@ -30,7 +31,7 @@
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
   },
-  "prettier":{
+  "prettier": {
     "arrowParens": "avoid",
     "singleQuote": true
   }

@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "concurrently -r \"vite\" \"tailwindcss -i src/index.css -o ./dist/tailwind.css --watch\"",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "engines": {
     "node": ">=16.0.0"

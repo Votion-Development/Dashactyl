@@ -18,3 +18,4 @@ package-lock.json
 pnpm-lock.yaml
 pnpm-lock.yml
 tailwind.css
+yarn.lock

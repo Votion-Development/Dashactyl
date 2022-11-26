@@ -4,8 +4,17 @@ build/
 coverage/
 dist/
 node_modules/
+public/build/
 
 # files and executables
 .env*
+!.env.example
+
+/prisma/*.db
+/prisma/*.db-journal
+
 db.sqlite3*
 package-lock.json
+pnpm-lock.yaml
+pnpm-lock.yml
+tailwind.css

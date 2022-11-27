@@ -7,6 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Settings {
+  key      String  @id @default(cuid())
+  panelURL String?
+  panelKey String?
+}
+
 model User {
   id       String @id @default(cuid())
   username String

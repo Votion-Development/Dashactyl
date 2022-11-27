@@ -56,13 +56,12 @@ export default function LoginForm({ callback }: LoginProps) {
       </button>
       <p className="mt-6 text-center text-white">
         Not a member?&nbsp;
-        <a
+        <button
           className="text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"
-          href="#!"
           onClick={callback}
         >
           Sign Up
-        </a>
+        </button>
       </p>
     </form>
   );

@@ -58,12 +58,12 @@ export default function SignUpForm({ callback }: SignUpProps) {
       </button>
       <p className="mt-6 text-center text-white">
         Already a member?&nbsp;
-        <a
+        <button
           className="text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"
           onClick={callback}
         >
           Login
-        </a>
+        </button>
       </p>
     </form>
   );

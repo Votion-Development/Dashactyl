@@ -1,0 +1,17 @@
+{
+	"include": ["./console/*"],
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ES2019"],
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"module": "CommonJS",
+		"outDir": "./build",
+		"moduleResolution": "node",
+		"target": "ES2019",
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"skipLibCheck": true
+	}
+}

@@ -9,15 +9,15 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import { getUser } from './session.server';
-import tailwindStylesheetUrl from './styles/tailwind.css';
+import stylesheet from './styles/tailwind.css';
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];
+  return [{ rel: 'stylesheet', href: stylesheet }];
 };
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'Remix Notes',
+  title: 'Dashactyl',
   viewport: 'width=device-width,initial-scale=1',
 });
 

@@ -1,10 +1,19 @@
 import { Form } from "@remix-run/react";
+import { useEffect, useRef } from 'react';
 
 interface LoginProps {
   callback: () => void;
+  errEmail?: string | null;
+  errMessage?: string | null;
 }
 
-export default function LoginForm({ callback }: LoginProps) {
+export default function LoginForm({ callback, errEmail, errMessage }: LoginProps) {
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (errEmail) ref.current?.focus();
+  }, [errEmail]);
+
   return (
     <Form method="post">
       <div className="mb-6">
@@ -12,10 +21,14 @@ export default function LoginForm({ callback }: LoginProps) {
         <label className="mb-2 inline-block text-white" htmlFor="email">
           Email
         </label>
+        {errEmail && (
+          <div className="text-sm mb-1 text-red-500">{errEmail}</div>
+        )}
         <input
           className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
           id="email"
           placeholder="user@example.com"
+          ref={ref}
           type="email"
         />
         <label

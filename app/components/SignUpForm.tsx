@@ -1,10 +1,24 @@
 import { Form } from "@remix-run/react";
+import { useEffect, useRef } from 'react';
 
 interface SignUpProps {
   callback: () => void;
+  errEmail?: string | null;
+  errMessage?: string | null;
+  errUsername?: string | null;
 }
 
-export default function SignUpForm({ callback }: SignUpProps) {
+export default function SignUpForm({ callback, errEmail, errMessage, errUsername }: SignUpProps) {
+  const refEmail = useRef<HTMLInputElement>(null);
+  const refMessage = useRef<HTMLInputElement>(null);
+  const refUsername = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (errEmail) refEmail.current?.focus();
+    if (errMessage) refMessage.current?.focus();
+    if (errUsername) refUsername.current?.focus();
+  }, [errEmail]);
+
   return (
     <Form method="post">
       <div className="mb-6">
@@ -12,6 +26,9 @@ export default function SignUpForm({ callback }: SignUpProps) {
         <label className="mb-2 inline-block text-white" htmlFor="username">
           Username
         </label>
+        {errUsername && (
+          <div className="text-sm mb-1 text-red-500">{errUsername}</div>
+        )}
         <input
           className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
           id="username"
@@ -20,6 +37,9 @@ export default function SignUpForm({ callback }: SignUpProps) {
         <label className="mb-2 mt-2 inline-block text-white" htmlFor="email">
           Email
         </label>
+        {errEmail && (
+          <div className="text-sm mb-1 text-red-500">{errEmail}</div>
+        )}
         <input
           className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
           id="email"

@@ -1,4 +1,5 @@
 import { type ActionArgs, json } from '@remix-run/node';
+import { useActionData } from '@remix-run/react';
 import { useState } from 'react';
 import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';
@@ -8,14 +9,12 @@ import { createUser, User, verifyLogin } from '~/models/user.server';
 import { createUserSession } from '~/session.server';
 import { safeRedirect /*, useOptionalUser */ } from '~/utils';
 
-export type ActionResponse = typeof action;
-
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const redirectTo = safeRedirect(data.get('redirectTo'), '/dashboard');
   const result = formData({
     isLogin: checkbox(),
-    username: text(string().optional()),
+    username: text(data.get('isLogin') === 'false' ? string().optional() : string()),
     email: text(string().email('Input must be a valid email.')),
     password: text(string()),
   }).safeParse(data);
@@ -25,11 +24,10 @@ export async function action({ request }: ActionArgs) {
 
     return json(
       {
-        flash: false,
         errors: {
-          username: errors.username?.[0],
-          email: errors.email?.[0],
-          password: errors.password?.[0]
+          message: null,
+          username: errors.username?.[0] || null,
+          email: errors.email?.[0] || null,
         }
       },
       { status: 400 }
@@ -42,8 +40,11 @@ export async function action({ request }: ActionArgs) {
   if (isLogin) {
     user = await verifyLogin(email, password);
     if (!user) return json({
-      flash: true,
-      errors: { message: 'Invalid email or password.' }
+      errors: {
+        message: 'Invalid email or password.',
+        username: null,
+        email: null,
+      }
     });
   } else {
     try {
@@ -55,7 +56,13 @@ export async function action({ request }: ActionArgs) {
         message = 'An unknown error occured.';
       }
 
-      return json({ flash: true, errors: { message } });
+      return json({
+        errors: {
+          message,
+          username: null,
+          email: null,
+        }
+      });
     }
   }
 
@@ -70,6 +77,7 @@ export async function action({ request }: ActionArgs) {
 export default function Index() {
   // const user = useOptionalUser();
   const [signUp, setSignUp] = useState(false);
+  const data = useActionData<typeof action>();
 
   return (
     <main className="flex h-full items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-900">
@@ -79,9 +87,18 @@ export default function Index() {
         </div>
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           {signUp ? (
-            <SignUpForm callback={() => setSignUp(false)} />
+            <SignUpForm
+              callback={() => setSignUp(false)}
+              errEmail={data?.errors.email}
+              errMessage={data?.errors.message}
+              errUsername={data?.errors.username}
+            />
           ) : (
-            <LoginForm callback={() => setSignUp(true)} />
+            <LoginForm
+              callback={() => setSignUp(true)}
+              errEmail={data?.errors.email}
+              errMessage={data?.errors.message}
+            />
           )}
         </div>
       </div>

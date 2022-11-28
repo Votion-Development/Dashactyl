@@ -1,11 +1,14 @@
+import { Form } from "@remix-run/react";
+
 interface LoginProps {
   callback: () => void;
 }
 
 export default function LoginForm({ callback }: LoginProps) {
   return (
-    <form title="Login">
+    <Form method="post">
       <div className="mb-6">
+        <input defaultChecked={true} hidden id="isLogin" type="checkbox" />
         <label className="mb-2 inline-block text-white" htmlFor="email">
           Email
         </label>
@@ -63,6 +66,6 @@ export default function LoginForm({ callback }: LoginProps) {
           Sign Up
         </button>
       </p>
-    </form>
+    </Form>
   );
 }

@@ -18,7 +18,9 @@ createCommand()
         password: await bcrypt.hash(password, 10),
       },
     });
-    console.log(`Successfully created user\nID: ${user.id}\nPermissions: ${user.permissions}`);
+    console.log(
+      `Successfully created user\nID: ${user.id}\nPermissions: ${user.permissions}`
+    );
 
     await prisma.$disconnect();
   })

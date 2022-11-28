@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form } from '@remix-run/react';
 import { useEffect, useRef } from 'react';
 
 interface SignUpProps {
@@ -8,7 +8,12 @@ interface SignUpProps {
   errUsername?: string | null;
 }
 
-export default function SignUpForm({ callback, errEmail, errMessage, errUsername }: SignUpProps) {
+export default function SignUpForm({
+  callback,
+  errEmail,
+  errMessage,
+  errUsername,
+}: SignUpProps) {
   const refEmail = useRef<HTMLInputElement>(null);
   const refMessage = useRef<HTMLInputElement>(null);
   const refUsername = useRef<HTMLInputElement>(null);
@@ -27,7 +32,7 @@ export default function SignUpForm({ callback, errEmail, errMessage, errUsername
           Username
         </label>
         {errUsername && (
-          <div className="text-sm mb-1 text-red-500">{errUsername}</div>
+          <div className="mb-1 text-sm text-red-500">{errUsername}</div>
         )}
         <input
           className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
@@ -38,7 +43,7 @@ export default function SignUpForm({ callback, errEmail, errMessage, errUsername
           Email
         </label>
         {errEmail && (
-          <div className="text-sm mb-1 text-red-500">{errEmail}</div>
+          <div className="mb-1 text-sm text-red-500">{errEmail}</div>
         )}
         <input
           className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"

@@ -26,7 +26,5 @@ export const meta: MetaFunction = () => ({
 export default function Dashboard() {
   const { remote, servers, user } = useLoaderData<typeof loader>();
 
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }

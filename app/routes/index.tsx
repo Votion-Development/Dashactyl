@@ -14,7 +14,9 @@ export async function action({ request }: ActionArgs) {
   const redirectTo = safeRedirect(data.get('redirectTo'), '/dashboard');
   const result = formData({
     isLogin: checkbox(),
-    username: text(data.get('isLogin') === 'false' ? string().optional() : string()),
+    username: text(
+      data.get('isLogin') === 'false' ? string().optional() : string()
+    ),
     email: text(string().email('Input must be a valid email.')),
     password: text(string()),
   }).safeParse(data);
@@ -28,7 +30,7 @@ export async function action({ request }: ActionArgs) {
           message: null,
           username: errors.username?.[0] || null,
           email: errors.email?.[0] || null,
-        }
+        },
       },
       { status: 400 }
     );
@@ -39,13 +41,14 @@ export async function action({ request }: ActionArgs) {
 
   if (isLogin) {
     user = await verifyLogin(email, password);
-    if (!user) return json({
-      errors: {
-        message: 'Invalid email or password.',
-        username: null,
-        email: null,
-      }
-    });
+    if (!user)
+      return json({
+        errors: {
+          message: 'Invalid email or password.',
+          username: null,
+          email: null,
+        },
+      });
   } else {
     try {
       user = await createUser(username!, email, password);
@@ -61,7 +64,7 @@ export async function action({ request }: ActionArgs) {
           message,
           username: null,
           email: null,
-        }
+        },
       });
     }
   }

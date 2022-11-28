@@ -10,9 +10,6 @@ import {
 } from '@remix-run/react';
 import { getUser } from './session.server';
 import stylesheet from './styles/tailwind.css';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesheet }];

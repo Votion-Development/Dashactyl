@@ -1,5 +1,6 @@
 import { type ActionArgs, json, LoaderArgs, redirect } from '@remix-run/node';
 import { Form, Link, useActionData } from '@remix-run/react';
+import { RiErrorWarningLine } from 'react-icons/ri';
 import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';
 import { verifyLogin } from '~/models/user.server';
@@ -65,6 +66,12 @@ export default function Login() {
           Dashactyl
         </div>
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
+          {data?.errors.message && (
+            <div className="flex mb-2 rounded-lg p-2 bg-red-500 text-white font-medium" role="alert">
+              <RiErrorWarningLine className="w-6 h-6" />
+              &nbsp;{data.errors.message}
+            </div>
+          )}
           <Form method="post">
             <div className="mb-6">
               <label className="mb-2 inline-block text-white" htmlFor="email">
@@ -78,6 +85,7 @@ export default function Login() {
               <input
                 className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
                 id="email"
+                name="email"
                 placeholder="user@example.com"
                 type="email"
               />
@@ -90,6 +98,7 @@ export default function Login() {
               <input
                 className="m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
                 id="password"
+                name="password"
                 type="password"
               />
             </div>

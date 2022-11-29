@@ -1,14 +1,8 @@
-import { Link, useLoaderData } from '@remix-run/react';
-import { json, type LoaderArgs } from '@remix-run/server-runtime';
-import { getUser } from '~/session.server';
-
-export async function loader({ request }: LoaderArgs) {
-  const user = await getUser(request);
-  return json({ user });
-}
+import { Link } from '@remix-run/react';
+import { useOptionalUser } from '~/utils';
 
 export default function Index() {
-  const { user } = useLoaderData<typeof loader>();
+  const user = useOptionalUser();
 
   return (
     <main className="flex h-full items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-900">

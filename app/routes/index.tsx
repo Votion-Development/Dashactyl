@@ -1,86 +1,14 @@
-import { type ActionArgs, json } from '@remix-run/node';
-import { useActionData } from '@remix-run/react';
-import { useState } from 'react';
-import { string } from 'zod';
-import { checkbox, formData, text } from 'zod-form-data';
-import LoginForm from '~/components/LoginForm';
-import SignUpForm from '~/components/SignUpForm';
-import { createUser, User, verifyLogin } from '~/models/user.server';
-import { createUserSession } from '~/session.server';
-import { safeRedirect /*, useOptionalUser */ } from '~/utils';
+import { Link, useLoaderData } from '@remix-run/react';
+import { json, type LoaderArgs } from '@remix-run/server-runtime';
+import { getUser } from '~/session.server';
 
-export async function action({ request }: ActionArgs) {
-  const data = await request.formData();
-  const redirectTo = safeRedirect(data.get('redirectTo'), '/dashboard');
-  const result = formData({
-    isLogin: checkbox(),
-    username: text(
-      data.get('isLogin') === 'false' ? string().optional() : string()
-    ),
-    email: text(string().email('Input must be a valid email.')),
-    password: text(string()),
-  }).safeParse(data);
-
-  if (!result.success) {
-    const errors = result.error.formErrors.fieldErrors;
-
-    return json(
-      {
-        errors: {
-          message: null,
-          username: errors.username?.[0] || null,
-          email: errors.email?.[0] || null,
-        },
-      },
-      { status: 400 }
-    );
-  }
-
-  let user: Omit<User, 'password'> | null;
-  const { isLogin, username, email, password } = result.data;
-
-  if (isLogin) {
-    user = await verifyLogin(email, password);
-    if (!user)
-      return json({
-        errors: {
-          message: 'Invalid email or password.',
-          username: null,
-          email: null,
-        },
-      });
-  } else {
-    try {
-      user = await createUser(username!, email, password);
-    } catch (err) {
-      let message = (err as Error).message;
-      if (!message) {
-        console.error(err);
-        message = 'An unknown error occured.';
-      }
-
-      return json({
-        errors: {
-          message,
-          username: null,
-          email: null,
-        },
-      });
-    }
-  }
-
-  return createUserSession({
-    redirectTo,
-    remember: false,
-    request,
-    userId: user!.id,
-  });
+export async function loader({ request }: LoaderArgs) {
+  const user = await getUser(request);
+  return json({ user });
 }
 
 export default function Index() {
-  // const user = useOptionalUser();
-  const [signUp, setSignUp] = useState(false);
-  const data = useActionData<typeof action>();
+  const { user } = useLoaderData<typeof loader>();
 
   return (
     <main className="flex h-full items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-900">
@@ -88,21 +16,27 @@ export default function Index() {
         <div className="p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl
         </div>
-        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
-          {signUp ? (
-            <SignUpForm
-              callback={() => setSignUp(false)}
-              errEmail={data?.errors.email}
-              errMessage={data?.errors.message}
-              errUsername={data?.errors.username}
-            />
-          ) : (
-            <LoginForm
-              callback={() => setSignUp(true)}
-              errEmail={data?.errors.email}
-              errMessage={data?.errors.message}
-            />
-          )}
+        <div className="mt-2 mb-6 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
+          <div className="mb-4 text-center font-sans text-2xl font-bold text-white">
+            Welcome
+          </div>
+          <div className="flex flex-row items-center justify-center">
+            <Link
+              className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+              to="/login"
+            >
+              Login
+            </Link>
+            <div className="px-8 text-sm font-medium uppercase text-white">
+              or
+            </div>
+            <Link
+              className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </main>

@@ -7,8 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please make sure to confirm any bug reports in the [Discord server](https://discord.com/invite/nDxrPWh8pk)
-        as well as search in this repository for any existing issues similar to yours before submitting a report.
+        Please make sure to confirm any bug reports in the [Discord server](https://discord.com/invite/nDxrPWh8pk) as well as search in this repository for any existing issues similar to yours before submitting a report.
 
   - type: textarea
     attributes:

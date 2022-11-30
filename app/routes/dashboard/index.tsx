@@ -34,7 +34,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <NavBar />
+      <NavBar target={user} />
     </>
   );
 }

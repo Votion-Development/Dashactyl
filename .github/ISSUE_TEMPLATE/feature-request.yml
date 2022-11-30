@@ -1,0 +1,25 @@
+name: Feature Request
+description: A feature request for the software.
+labels:
+  - enhancement
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please make sure you have searched in the [Discord server](https://discord.com/invite/nDxrPWh8pk)
+        AND existing issues before submitting a feature request.
+
+  - type: textarea
+    attributes:
+      label: About the feature
+      description: Describe the feature you want to be added.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Any additional information relating to the feature request.
+    validations:
+      required: false

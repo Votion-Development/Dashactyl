@@ -5,7 +5,7 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="flex h-full items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-900">
+    <main className="flex h-screen items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-800">
       <div>
         <div className="p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl

@@ -1,12 +1,13 @@
 import { prisma } from '~/db.server';
-import config from '~/config.server';
+import { getVar } from '~/config.server';
 
 export type { Settings } from '@prisma/client';
 
 export async function getSettings() {
-  if (!config.key) throw new Error('Environment variable DASH_APP_KEY not set');
+  const key = getVar('DASH_APP_KEY');
+  if (!key) throw new Error('Environment variable DASH_APP_KEY not set');
 
-  const data = await prisma.settings.findUnique({ where: { key: config.key } });
+  const data = await prisma.settings.findUnique({ where: { key } });
   if (!data) throw new Error('App settings not found');
 
   return data;

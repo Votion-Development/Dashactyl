@@ -60,9 +60,9 @@ export default function Login() {
   const data = useActionData<typeof action>();
 
   return (
-    <main className="flex h-screen items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-800">
+    <main className="flex items-center justify-center">
       <div>
-        <div className="p-4 text-center font-sans text-4xl font-bold text-slate-200">
+        <div className="mt-24 p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl
         </div>
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">

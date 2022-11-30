@@ -5,9 +5,9 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="flex h-screen items-center justify-center bg-gradient-to-r from-indigo-900 to-slate-800">
+    <main className="flex items-center justify-center">
       <div>
-        <div className="p-4 text-center font-sans text-4xl font-bold text-slate-200">
+        <div className="mt-52 p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl
         </div>
         <div className="mt-2 mb-6 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">

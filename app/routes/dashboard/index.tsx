@@ -35,8 +35,6 @@ export default function Dashboard() {
   return (
     <>
       <NavBar />
-      <div className="h-screen bg-gradient-to-r from-indigo-900 to-slate-800">
-      </div>
     </>
   );
 }

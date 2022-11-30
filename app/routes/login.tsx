@@ -67,8 +67,11 @@ export default function Login() {
         </div>
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           {data?.errors.message && (
-            <div className="flex mb-2 rounded-lg p-2 bg-red-500 text-white font-medium" role="alert">
-              <RiErrorWarningLine className="w-6 h-6" />
+            <div
+              className="mb-2 flex rounded-lg bg-red-500 p-2 font-medium text-white"
+              role="alert"
+            >
+              <RiErrorWarningLine className="h-6 w-6" />
               &nbsp;{data.errors.message}
             </div>
           )}

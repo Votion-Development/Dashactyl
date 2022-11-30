@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
 
 interface Config {
-    key: string | undefined;
+  key: string | undefined;
 }
 
 const env = dotenv.config().parsed;
 
 export default <Config>{
-    key: env?.DASH_APP_KEY
-}
+  key: env?.DASH_APP_KEY,
+};

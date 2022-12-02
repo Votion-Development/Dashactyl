@@ -5,6 +5,14 @@ import { getPanelSettings } from './settings.server';
 
 export type { User } from '@prisma/client';
 
+export async function getAllUsers() {
+  const users = await prisma.user.findMany();
+  return users.map(u => {
+    const { password: _, ...d } = u;
+    return d;
+  });
+}
+
 export function getUserById(id: string) {
   return prisma.user.findUnique({ where: { id } });
 }

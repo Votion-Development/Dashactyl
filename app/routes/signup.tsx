@@ -1,5 +1,5 @@
 import { type ActionArgs, json, LoaderArgs, redirect } from '@remix-run/node';
-import { Form, Link, useActionData } from '@remix-run/react';
+import { Form, Link, useActionData, useTransition } from '@remix-run/react';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';
@@ -70,6 +70,8 @@ export async function action({ request }: ActionArgs) {
 
 export default function SignUp() {
   const data = useActionData<typeof action>();
+  const { state } = useTransition();
+  const isLoading = state === 'submitting';
 
   return (
     <main className="flex items-center justify-center">
@@ -152,8 +154,11 @@ export default function SignUp() {
                 </label>
               </div>
             </div>
+            {/* TODO: switch to button component */}
             <button
-              className="w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+              className={`w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg ${
+                isLoading && 'opacity-50'
+              }`}
               type="submit"
             >
               Sign Up

@@ -2,27 +2,18 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import NavBar from '~/components/NavBar';
-import { getRemoteUserWithServers } from '~/models/user.server';
+import { getRemoteUserServers } from '~/models/remote.server';
 import { requireUser } from '~/session.server';
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
+  const data = await getRemoteUserServers(user.id);
 
-  try {
-    const data = await getRemoteUserWithServers(user.id);
-
-    return json({
-      remote: data.user,
-      servers: data.servers,
-      user,
-    });
-  } catch {
-    return json({
-      remote: null,
-      servers: null,
-      user,
-    });
-  }
+  return json({
+    remote: data?.[0] || null,
+    servers: data?.[1] || null,
+    user,
+  });
 }
 
 export const meta: MetaFunction = () => ({

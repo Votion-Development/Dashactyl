@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react';
 import type { User } from '~/models/user.server';
 
 interface NavBarProps {
-  target: Omit<User, 'createdAt' | 'updatedAt'>;
+  target: Omit<User, 'createdAt' | 'updatedAt' | 'lastSyncedAt'>;
 }
 
 export default function NavBar({ target }: NavBarProps) {

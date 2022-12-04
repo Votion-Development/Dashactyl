@@ -14,14 +14,19 @@ model Settings {
 }
 
 model User {
-  id       String @id @default(cuid())
-  username String
-  email    String @unique
-  password String
+  id          String @id @default(cuid())
+  username    String
+  email       String @unique
+  password    String
+  permissions Int    @default(0)
 
-  permissions Int @default(0)
-  coins       Int @default(0)
+  coins   Int @default(0)
+  memory  Int @default(0)
+  disk    Int @default(0)
+  cpu     Int @default(0)
+  servers Int @default(0)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  lastSyncedAt DateTime?
 }

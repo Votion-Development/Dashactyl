@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+// import { Account, hasAny } from '~/models/permissions.server';
 import type { User } from '~/models/user.server';
 
 export default function NavBar({

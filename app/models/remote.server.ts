@@ -87,7 +87,8 @@ export async function getRemoteUser(id: string): Promise<RemoteUser | null> {
 
   try {
     const res = await axios.get(`/api/application/users/external/${id}`);
-    return toCamelCase<FractalItem<RemoteUser>>(JSON.parse(res.data)).attributes;
+    return toCamelCase<FractalItem<RemoteUser>>(JSON.parse(res.data))
+      .attributes;
   } catch (err) {
     return null;
   }

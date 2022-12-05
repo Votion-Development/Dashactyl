@@ -11,11 +11,14 @@ export default function ServerRow({ id, name, status }: RemoteServer) {
       default:
         return 'text-white';
     }
-  }
+  };
 
   return (
-    <li className="max-w-md mr-1 my-3 bg-slate-800 text-white rounded-md" key={id}>
-      <div className="flex p-3 text-white text-xl font-medium">
+    <li
+      className="my-3 mr-1 max-w-md rounded-md bg-slate-800 text-white"
+      key={id}
+    >
+      <div className="flex p-3 text-xl font-medium text-white">
         <BsPlugFill className={`mt-1 mr-3 ${getColor()}`} />
         {name}
       </div>

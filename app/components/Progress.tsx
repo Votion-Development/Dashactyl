@@ -17,7 +17,7 @@ export default function Progress({
   color,
 }: ProgressProps) {
   return (
-    <div className="mx-2 mt-2 block max-w-sm rounded-lg bg-indigo-900 p-6 shadow-lg">
+    <div className="mx-2 mt-4 block max-w-sm rounded-lg bg-indigo-900 p-6 shadow-lg">
       <h5 className="mb-2 text-center text-xl font-medium leading-tight text-white">
         {title}
       </h5>

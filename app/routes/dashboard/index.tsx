@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   return (
     <main>
-      <NavBar target={user} />
+      <NavBar {...user} />
       <div className="flex justify-center">
         <Progress
           title="Memory"

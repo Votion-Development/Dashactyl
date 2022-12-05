@@ -23,11 +23,11 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function Dashboard() {
-  const { remote, servers, user } = useLoaderData<typeof loader>();
+  const { servers, user } = useLoaderData<typeof loader>();
 
   return (
     <main>
-      <NavBar {...user} />
+      <NavBar />
       <div className="flex justify-center">
         <Progress
           title="Memory"

@@ -1,27 +1,23 @@
-import { Link } from '@remix-run/react';
-import { redirect } from '@remix-run/node';
-import Dropdown from 'react-dropdown';
+import { Form, Link } from '@remix-run/react';
+import { BiUserCircle } from 'react-icons/bi';
+import { FiLogOut } from 'react-icons/fi';
 // import { Account, hasAny } from '~/models/permissions.server';
-import type { User } from '~/models/user.server';
 
-export default function NavBar({
-  username,
-}: Omit<User, 'createdAt' | 'updatedAt' | 'lastSyncedAt'>) {
-  const options = ['Account', 'Logout'];
-
+export default function NavBar() {
   return (
     <nav className="flex h-14 w-full flex-row items-center justify-between bg-slate-900 px-4 shadow-lg">
       <Link className="p-4 font-sans text-2xl font-bold text-slate-200" to="/">
         Dashactyl
       </Link>
-      <div className="flex justify-center">
-        <Dropdown
-          menuClassName="absolute min-w-max list-none px-5 py-2 bg-slate-900 text-white text-center rounded-b-md"
-          onChange={console.log}
-          options={options}
-          placeholder={username}
-          placeholderClassName="px-4 py-2.5 mr-6 text-center text-lg font-medium leading-tight text-white"
-        />
+      <div className="mt-1 mr-1 flex flex-row justify-center gap-x-6 text-white">
+        <Link to="/account">
+          <BiUserCircle className="hover:text-cyan-300" size={32} />
+        </Link>
+        <Form action="/logout" method="post">
+          <button type="submit">
+            <FiLogOut className="hover:text-cyan-300" size={32} />
+          </button>
+        </Form>
       </div>
     </nav>
   );

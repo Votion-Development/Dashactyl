@@ -5,7 +5,11 @@ import { formData, text } from 'zod-form-data';
 import NavBar from '~/components/NavBar';
 import SideBar from '~/components/SideBar';
 import SideBarRow from '~/components/SideBarRow';
-import { updateUserEmail, updateUserName, updateUserPassword } from '~/models/user.server';
+import {
+  updateUserEmail,
+  updateUserName,
+  updateUserPassword,
+} from '~/models/user.server';
 import { requireUser } from '~/session.server';
 
 export async function loader({ request }: LoaderArgs) {
@@ -41,13 +45,13 @@ export async function action({ request }: ActionArgs) {
 
   let success: string | null = null;
   if (result.data.username) {
-    void await updateUserName(user.id, result.data.username);
+    void (await updateUserName(user.id, result.data.username));
     success = 'Successfully updated account username!';
   }
 
   if (result.data.email) {
     try {
-      void await updateUserEmail(user.id, result.data.email);
+      void (await updateUserEmail(user.id, result.data.email));
       success = 'Successfully updated account email!';
     } catch (err) {
       return json(
@@ -57,7 +61,7 @@ export async function action({ request }: ActionArgs) {
             username: null,
             email: (err as Error).message,
             password: null,
-          }
+          },
         },
         { status: 400 }
       );
@@ -66,7 +70,11 @@ export async function action({ request }: ActionArgs) {
 
   if (result.data.new_password) {
     try {
-      void await updateUserPassword(user.id, result.data.old_password!, result.data.new_password);
+      void (await updateUserPassword(
+        user.id,
+        result.data.old_password!,
+        result.data.new_password
+      ));
       success = 'Successfully updated account password!';
     } catch (err) {
       return json(
@@ -76,7 +84,7 @@ export async function action({ request }: ActionArgs) {
             username: null,
             email: null,
             password: (err as Error).message,
-          }
+          },
         },
         { status: 400 }
       );
@@ -105,7 +113,7 @@ export default function Account() {
         </SideBarRow>
       </SideBar>
       <div className="flex items-center justify-center">
-        <div className="block mt-10 w-96 p-6 max-w-sm rounded-lg bg-slate-800 shadow-lg">
+        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           <Form method="patch">
             <label className="mb-2 inline-block text-white" htmlFor="email">
               Username
@@ -125,7 +133,7 @@ export default function Account() {
             </button>
           </Form>
         </div>
-        <div className="block mt-10 w-96 p-6 max-w-sm rounded-lg bg-slate-800 shadow-lg">
+        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           <Form method="patch">
             <label className="mb-2 inline-block text-white" htmlFor="email">
               Email
@@ -145,7 +153,7 @@ export default function Account() {
             </button>
           </Form>
         </div>
-        <div className="block mt-10 w-96 p-6 max-w-sm rounded-lg bg-slate-800 shadow-lg">
+        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           <Form method="patch">
             <label className="mb-2 inline-block text-white" htmlFor="email">
               Old Password

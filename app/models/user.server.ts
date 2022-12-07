@@ -42,7 +42,7 @@ interface UserUpdateFields {
 }
 
 export function updateUserName(id: string, username: string) {
-  return prisma.user.update({ where: { id }, data:{ username } });
+  return prisma.user.update({ where: { id }, data: { username } });
 }
 
 export async function updateUserEmail(id: string, email: string) {
@@ -70,7 +70,7 @@ export async function updateUserPassword(id: string, from: string, to: string) {
     where: { id },
     data: {
       password: await bcrypt.hash(to, 10),
-    }
+    },
   });
 }
 

@@ -33,6 +33,47 @@ export async function createUser(
   });
 }
 
+interface UserUpdateFields {
+  username?: string;
+  email?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  coins?: number;
+}
+
+export function updateUserName(id: string, username: string) {
+  return prisma.user.update({ where: { id }, data:{ username } });
+}
+
+export async function updateUserEmail(id: string, email: string) {
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) throw new Error('User not found');
+  if (user.email === email) return;
+
+  const other = await prisma.user.findUnique({ where: { email } });
+  if (other) throw new Error('This email is already in use.');
+
+  return prisma.user.update({ where: { id }, data: { email } });
+}
+
+export async function updateUserPassword(id: string, from: string, to: string) {
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) throw new Error('User not found');
+
+  let same = await bcrypt.compare(from, user.password);
+  if (!same) throw new Error('Current password is invalid.');
+
+  same = await bcrypt.compare(to, user.password);
+  if (same) throw new Error('New password is the same as old password.');
+
+  return prisma.user.update({
+    where: { id },
+    data: {
+      password: await bcrypt.hash(to, 10),
+    }
+  });
+}
+
 export function deleteUserByEmail(email: string) {
   return prisma.user.delete({ where: { email } });
 }

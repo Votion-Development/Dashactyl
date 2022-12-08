@@ -117,33 +117,42 @@ export default function Account() {
         </SideBarRow>
       </SideBar>
       <div className="ml-48 grid-cols-2 lg:grid">
-        <FormBlock error={data?.errors?.username} method="patch">
-          <FormLabel htmlFor="username" text="Username" />
-          <FormInput
-            defaultValue={user.username}
-            id="username"
-            name="username"
-            type="text"
-          />
-          <FormButton text="Update Username" type="submit" />
-        </FormBlock>
-        <FormBlock error={data?.errors?.email} method="patch">
-          <FormLabel htmlFor="email" text="Email" />
-          <FormInput
-            defaultValue={user.email}
-            id="email"
-            name="email"
-            type="email"
-          />
-          <FormButton text="Update Email" type="submit" />
-        </FormBlock>
-        <FormBlock error={data?.errors?.password} method="patch">
-          <FormLabel htmlFor="old_password" text="Old Password" />
-          <FormInput id="old_password" name="old_password" type="password" />
-          <FormLabel htmlFor="new_password" text="New Password" />
-          <FormInput id="new_password" name="new_password" type="password" />
-          <FormButton text="Update Password" type="submit" />
-        </FormBlock>
+        <div>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Username</h1>
+          <FormBlock error={data?.errors?.username} method="patch">
+            <FormLabel htmlFor="username" text="Username" />
+            <FormInput
+              defaultValue={user.username}
+              id="username"
+              name="username"
+              type="text"
+            />
+            <FormButton text="Update Username" type="submit" />
+          </FormBlock>
+        </div>
+        <div>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Email</h1>
+          <FormBlock error={data?.errors?.email} method="patch">
+            <FormLabel htmlFor="email" text="Email" />
+            <FormInput
+              defaultValue={user.email}
+              id="email"
+              name="email"
+              type="email"
+            />
+            <FormButton text="Update Email" type="submit" />
+          </FormBlock>
+        </div>
+        <div>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Password</h1>
+          <FormBlock error={data?.errors?.password} method="patch">
+            <FormLabel htmlFor="old_password" text="Old Password" />
+            <FormInput id="old_password" name="old_password" type="password" />
+            <FormLabel htmlFor="new_password" text="New Password" />
+            <FormInput id="new_password" name="new_password" type="password" />
+            <FormButton text="Update Password" type="submit" />
+          </FormBlock>
+        </div>
       </div>
     </div>
   );

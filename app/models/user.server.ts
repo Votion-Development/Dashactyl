@@ -33,14 +33,6 @@ export async function createUser(
   });
 }
 
-interface UserUpdateFields {
-  username?: string;
-  email?: string;
-  oldPassword?: string;
-  newPassword?: string;
-  coins?: number;
-}
-
 export function updateUserName(id: string, username: string) {
   return prisma.user.update({ where: { id }, data: { username } });
 }

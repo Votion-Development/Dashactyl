@@ -9,6 +9,8 @@ export enum Account {
   ServersCreate = 1 << 4,
   ServersUpdate = 1 << 5,
   ServersDelete = 1 << 6,
+  KeysCreate = 1 << 7,
+  KeysDelete = 1 << 8,
 }
 
 export function hasAny(user: User, ...perms: Account[]): boolean {

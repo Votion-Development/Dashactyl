@@ -70,15 +70,12 @@ export default function Login() {
         <div className="mt-24 p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl
         </div>
-        <FormBlock
-          error={data?.errors.message}
-          method="post"
-        >
+        <FormBlock error={data?.errors.message} method="post">
           <FormLabel error={data?.errors.email} htmlFor="email" text="Email" />
           <FormInput id="email" name="email" type="email" />
           <FormLabel htmlFor="password" text="Password" />
           <FormInput id="password" name="password" type="password" />
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <FormCheckBox htmlFor="remember" id="remember" text="Remember me" />
             <Link
               className="justify-end text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"

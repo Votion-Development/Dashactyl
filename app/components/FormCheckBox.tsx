@@ -5,7 +5,12 @@ interface FormCheckBoxProps {
   text: string;
 }
 
-export default function FormCheckBox({ className, htmlFor, id, text }: FormCheckBoxProps) {
+export default function FormCheckBox({
+  className,
+  htmlFor,
+  id,
+  text,
+}: FormCheckBoxProps) {
   return (
     <div>
       <input

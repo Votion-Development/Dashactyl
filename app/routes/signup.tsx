@@ -83,13 +83,22 @@ export default function SignUp() {
           Dashactyl
         </div>
         <FormBlock error={data?.errors.message} method="post">
-          <FormLabel error={data?.errors.username} htmlFor="username" text="Username" />
+          <FormLabel
+            error={data?.errors.username}
+            htmlFor="username"
+            text="Username"
+          />
           <FormInput id="username" name="username" type="text" />
           <FormLabel error={data?.errors.email} htmlFor="email" text="Email" />
           <FormInput id="email" name="email" type="email" />
           <FormLabel htmlFor="password" text="Password" />
           <FormInput id="password" name="password" type="password" />
-          <FormCheckBox className="mb-4" htmlFor="remember" id="remember" text="Remember me" />
+          <FormCheckBox
+            className="mb-4"
+            htmlFor="remember"
+            id="remember"
+            text="Remember me"
+          />
           <FormButton text="Sign Up" type="submit" />
           <p className="mt-6 text-center text-white">
             Already a member?&nbsp;

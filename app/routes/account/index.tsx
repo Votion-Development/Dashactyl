@@ -119,12 +119,22 @@ export default function Account() {
       <div className="ml-48 grid-cols-2 lg:grid">
         <FormBlock error={data?.errors?.username} method="patch">
           <FormLabel htmlFor="username" text="Username" />
-          <FormInput defaultValue={user.username} id="username" name="username" type="text" />
+          <FormInput
+            defaultValue={user.username}
+            id="username"
+            name="username"
+            type="text"
+          />
           <FormButton text="Update Username" type="submit" />
         </FormBlock>
         <FormBlock error={data?.errors?.email} method="patch">
           <FormLabel htmlFor="email" text="Email" />
-          <FormInput defaultValue={user.email} id="email" name="email" type="email" />
+          <FormInput
+            defaultValue={user.email}
+            id="email"
+            name="email"
+            type="email"
+          />
           <FormButton text="Update Email" type="submit" />
         </FormBlock>
         <FormBlock error={data?.errors?.password} method="patch">

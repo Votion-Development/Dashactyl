@@ -1,7 +1,11 @@
 import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
-import { Form, useActionData, useLoaderData } from '@remix-run/react';
+import { useActionData, useLoaderData } from '@remix-run/react';
 import { string } from 'zod';
 import { formData, text } from 'zod-form-data';
+import FormBlock from '~/components/FormBlock';
+import FormButton from '~/components/FormButton';
+import FormInput from '~/components/FormInput';
+import FormLabel from '~/components/FormLabel';
 import NavBar from '~/components/NavBar';
 import SideBar from '~/components/SideBar';
 import SideBarRow from '~/components/SideBarRow';
@@ -113,74 +117,23 @@ export default function Account() {
         </SideBarRow>
       </SideBar>
       <div className="ml-48 grid-cols-2 lg:grid">
-        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
-          <Form method="patch">
-            <label className="mb-2 inline-block text-white" htmlFor="email">
-              Username
-            </label>
-            <input
-              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-              defaultValue={user.username}
-              id="username"
-              name="username"
-              type="text"
-            />
-            <button
-              className="w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-              type="submit"
-            >
-              Update Username
-            </button>
-          </Form>
-        </div>
-        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
-          <Form method="patch">
-            <label className="mb-2 inline-block text-white" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-              defaultValue={user.email}
-              id="email"
-              name="email"
-              type="email"
-            />
-            <button
-              className="w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-              type="submit"
-            >
-              Update Email
-            </button>
-          </Form>
-        </div>
-        <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
-          <Form method="patch">
-            <label className="mb-2 inline-block text-white" htmlFor="email">
-              Old Password
-            </label>
-            <input
-              className="mb-2 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-              id="old_password"
-              name="old_password"
-              type="password"
-            />
-            <label className="mb-2 inline-block text-white" htmlFor="email">
-              New Password
-            </label>
-            <input
-              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
-              id="new_password"
-              name="new_password"
-              type="password"
-            />
-            <button
-              className="w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-              type="submit"
-            >
-              Update Password
-            </button>
-          </Form>
-        </div>
+        <FormBlock error={data?.errors?.username} method="patch">
+          <FormLabel htmlFor="username" text="Username" />
+          <FormInput defaultValue={user.username} id="username" name="username" type="text" />
+          <FormButton text="Update Username" type="submit" />
+        </FormBlock>
+        <FormBlock error={data?.errors?.email} method="patch">
+          <FormLabel htmlFor="email" text="Email" />
+          <FormInput defaultValue={user.email} id="email" name="email" type="email" />
+          <FormButton text="Update Email" type="submit" />
+        </FormBlock>
+        <FormBlock error={data?.errors?.password} method="patch">
+          <FormLabel htmlFor="old_password" text="Old Password" />
+          <FormInput id="old_password" name="old_password" type="password" />
+          <FormLabel htmlFor="new_password" text="New Password" />
+          <FormInput id="new_password" name="new_password" type="password" />
+          <FormButton text="Update Password" type="submit" />
+        </FormBlock>
       </div>
     </div>
   );

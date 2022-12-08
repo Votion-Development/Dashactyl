@@ -1,5 +1,5 @@
 import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
-import { Form, Link, useActionData, useLoaderData } from '@remix-run/react';
+import { Form, useActionData, useLoaderData } from '@remix-run/react';
 import { string } from 'zod';
 import { formData, text } from 'zod-form-data';
 import NavBar from '~/components/NavBar';
@@ -105,14 +105,14 @@ export default function Account() {
     <div>
       <NavBar account />
       <SideBar>
-        <SideBarRow selected>
-          <Link to="#">Account</Link>
+        <SideBarRow selected type="link" url="#">
+          Account
         </SideBarRow>
-        <SideBarRow>
-          <Link to="/account/api">API Keys</Link>
+        <SideBarRow type="link" url="/account/api">
+          API Keys
         </SideBarRow>
       </SideBar>
-      <div className="lg:grid grid-cols-2 ml-48">
+      <div className="ml-48 grid-cols-2 lg:grid">
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           <Form method="patch">
             <label className="mb-2 inline-block text-white" htmlFor="email">

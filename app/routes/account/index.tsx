@@ -1,5 +1,6 @@
 import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
+import { BsCheckCircle } from 'react-icons/bs';
 import { string } from 'zod';
 import { formData, text } from 'zod-form-data';
 import FormBlock from '~/components/FormBlock';
@@ -116,6 +117,14 @@ export default function Account() {
           API Keys
         </SideBarRow>
       </SideBar>
+      {data?.success && (
+        <div className="flex items-center justify-center mt-4 max-w-lg p-2 rounded-lg bg-green-100" role="alert">
+          <div className="flex justify-start text-base text-green-700 font-medium">
+            <BsCheckCircle className="h-6 w-6" />
+            &nbsp;{data.success}
+          </div>
+        </div>
+      )}
       <div className="ml-48 grid-cols-2 lg:grid">
         <div>
           <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Username</h1>

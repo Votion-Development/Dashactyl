@@ -4,7 +4,7 @@ import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';
 import FormBlock from '~/components/FormBlock';
 import FormButton from '~/components/FormButton';
-import FormCheckBox from '~/components/FormCheckbox';
+import FormCheckBox from '~/components/FormCheckBox';
 import FormInput from '~/components/FormInput';
 import FormLabel from '~/components/FormLabel';
 import { createUser } from '~/models/user.server';

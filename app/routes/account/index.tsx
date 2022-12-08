@@ -118,8 +118,11 @@ export default function Account() {
         </SideBarRow>
       </SideBar>
       {data?.success && (
-        <div className="flex items-center justify-center mt-4 max-w-lg p-2 rounded-lg bg-green-100" role="alert">
-          <div className="flex justify-start text-base text-green-700 font-medium">
+        <div
+          className="mt-4 flex max-w-lg items-center justify-center rounded-lg bg-green-100 p-2"
+          role="alert"
+        >
+          <div className="flex justify-start text-base font-medium text-green-700">
             <BsCheckCircle className="h-6 w-6" />
             &nbsp;{data.success}
           </div>
@@ -127,7 +130,9 @@ export default function Account() {
       )}
       <div className="ml-48 grid-cols-2 lg:grid">
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Username</h1>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+            Update Username
+          </h1>
           <FormBlock error={data?.errors?.username} method="patch">
             <FormLabel htmlFor="username" text="Username" />
             <FormInput
@@ -140,7 +145,9 @@ export default function Account() {
           </FormBlock>
         </div>
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Email</h1>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+            Update Email
+          </h1>
           <FormBlock error={data?.errors?.email} method="patch">
             <FormLabel htmlFor="email" text="Email" />
             <FormInput
@@ -153,7 +160,9 @@ export default function Account() {
           </FormBlock>
         </div>
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl text-white font-medium">Update Password</h1>
+          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+            Update Password
+          </h1>
           <FormBlock error={data?.errors?.password} method="patch">
             <FormLabel htmlFor="old_password" text="Old Password" />
             <FormInput id="old_password" name="old_password" type="password" />

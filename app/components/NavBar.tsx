@@ -8,7 +8,7 @@ import { RxDashboard } from 'react-icons/rx';
 export default function NavBar({ account }: { account?: boolean }) {
   return (
     <nav className="flex h-14 w-full flex-row items-center justify-between bg-slate-900 px-4 shadow-lg">
-      <Link className="px-9 font-sans text-2xl font-bold text-slate-200" to="/">
+      <Link className="font-sans text-2xl font-bold text-slate-200" to="/">
         Dashactyl
       </Link>
       <div className="mt-1 mr-1 flex flex-row justify-center gap-x-6 text-white">

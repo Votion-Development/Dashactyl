@@ -112,14 +112,14 @@ export default function Account() {
           <Link to="/account/api">API Keys</Link>
         </SideBarRow>
       </SideBar>
-      <div className="flex items-center justify-center">
+      <div className="lg:grid grid-cols-2 ml-48">
         <div className="mt-10 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
           <Form method="patch">
             <label className="mb-2 inline-block text-white" htmlFor="email">
               Username
             </label>
             <input
-              className="mb-2 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               defaultValue={user.username}
               id="username"
               name="username"
@@ -139,7 +139,7 @@ export default function Account() {
               Email
             </label>
             <input
-              className="mb-2 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               defaultValue={user.email}
               id="email"
               name="email"
@@ -168,7 +168,7 @@ export default function Account() {
               New Password
             </label>
             <input
-              className="mb-2 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+              className="mb-4 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               id="new_password"
               name="new_password"
               type="password"

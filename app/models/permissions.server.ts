@@ -13,10 +13,17 @@ export enum Account {
   KeysDelete = 1 << 8,
 }
 
-export function hasAny(user: User, ...perms: Account[]): boolean {
+export enum API {
+  ServersCreate = 1 << 0,
+  ServersUpdate = 1 << 1,
+  ServersRenew = 1 << 2,
+  ServersDelete = 1 << 3,
+}
+
+export function hasAny(user: User, ...perms: (Account | API)[]): boolean {
   return perms.some(p => (user.permissions & p) !== 0);
 }
 
-export function hasAll(user: User, ...perms: Account[]): boolean {
+export function hasAll(user: User, ...perms: (Account | API)[]): boolean {
   return perms.every(p => (user.permissions & p) !== 0);
 }

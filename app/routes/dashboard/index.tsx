@@ -54,16 +54,16 @@ export default function Dashboard() {
           color="139 92 246"
         />
       </div>
-      <div className="mt-6 flex max-w-md flex-col justify-center rounded-md bg-slate-900 p-2 shadow-lg">
-        {servers?.length ? (
-          <ol className="gap-y-2">
-            {servers.map(s => (
-              <ServerRow {...s} />
-            ))}
-          </ol>
-        ) : (
-          <div className="p-1 text-lg text-white">You have no servers.</div>
-        )}
+      <div className="flex justify-center">
+        <div className="mt-6 max-w-lg rounded-md bg-slate-900 p-2 shadow-lg">
+          {servers?.length ? (
+            <ol className="gap-y-2">
+              {servers.map(s => <ServerRow {...s} />)}
+            </ol>
+          ) : (
+            <div className="p-1 text-lg text-white">You have no servers.</div>
+          )}
+        </div>
       </div>
     </main>
   );

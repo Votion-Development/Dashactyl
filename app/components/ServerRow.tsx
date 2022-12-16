@@ -15,10 +15,10 @@ export default function ServerRow({ id, name, status }: RemoteServer) {
 
   return (
     <li
-      className="my-3 mr-1 max-w-md rounded-md bg-slate-800 text-white"
+      className="my-3 mr-1 rounded-md px-52 bg-slate-800 text-white"
       key={id}
     >
-      <div className="flex p-3 text-xl font-medium text-white">
+      <div className="flex flex-row py-2 text-xl font-medium text-white">
         <BsPlugFill className={`mt-1 mr-3 ${getColor()}`} />
         {name}
       </div>

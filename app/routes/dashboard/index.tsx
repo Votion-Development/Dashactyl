@@ -58,7 +58,9 @@ export default function Dashboard() {
         <div className="mt-6 max-w-lg rounded-md bg-slate-900 p-2 shadow-lg">
           {servers?.length ? (
             <ol className="gap-y-2">
-              {servers.map(s => <ServerRow {...s} />)}
+              {servers.map(s => (
+                <ServerRow {...s} />
+              ))}
             </ol>
           ) : (
             <div className="p-1 text-lg text-white">You have no servers.</div>

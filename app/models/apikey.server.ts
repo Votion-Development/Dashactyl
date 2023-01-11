@@ -17,3 +17,7 @@ export async function createKey(userId: string, permissions: number) {
     },
   });
 }
+
+export function deleteKey(id: string) {
+  return prisma.apiKey.delete({ where: { id } });
+}

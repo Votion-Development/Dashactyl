@@ -1,20 +1,30 @@
 import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
-import { useActionData, useLoaderData } from '@remix-run/react';
-import { BsCheckCircle, BsFillKeyFill } from 'react-icons/bs';
-import { checkbox, formData } from 'zod-form-data';
+import { Form, useActionData, useLoaderData } from '@remix-run/react';
+import { BsCheckCircle, BsFillKeyFill, BsTrashFill } from 'react-icons/bs';
+import { checkbox, formData, text } from 'zod-form-data';
 import FormBlock from '~/components/FormBlock';
 import FormButton from '~/components/FormButton';
 import FormCheckBox from '~/components/FormCheckBox';
 import NavBar from '~/components/NavBar';
 import SideBar from '~/components/SideBar';
 import SideBarRow from '~/components/SideBarRow';
-import { createKey, getUserKeys } from '~/models/apikey.server';
+import { createKey, deleteKey, getUserKeys } from '~/models/apikey.server';
 import { parseAPI } from '~/models/permissions.server';
 import { requireUser } from '~/session.server';
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
   const data = await request.formData();
+  if (request.method === 'DELETE') {
+    const result = formData({ id: text() }).parse(data);
+    try {
+      void (await deleteKey(result.id));
+      return json({ errors: null });
+    } catch (err) {
+      return json({ errors: (err as Error).message });
+    }
+  }
+
   const results = formData({
     serversCreate: checkbox(),
     serversUpdate: checkbox(),
@@ -71,17 +81,21 @@ export default function API() {
           </h1>
           <div className="flex max-w-md flex-col justify-center rounded-md bg-slate-800 p-2 shadow-lg">
             {keys?.length ? (
-              <ol className="gap-y-2">
+              <ol className="flex flex-col gap-y-2">
                 {keys.map(k => (
                   <li key={k.id}>
                     <div
-                      className="flex max-w-md flex-row rounded-md bg-slate-500 p-2 text-white shadow-lg hover:bg-slate-400"
+                      className="flex max-w-md flex-row justify-between rounded-md bg-slate-500 p-2 text-white shadow-lg"
                       onClick={() => navigator.clipboard.writeText(k.id)}
                     >
                       <BsFillKeyFill className="h-7 w-7" />
-                      <code className="ml-3 mt-0.5 font-mono font-bold">
-                        {k.id}
-                      </code>
+                      <code className="mt-0.5 font-mono font-bold">{k.id}</code>
+                      <Form method="delete">
+                        <button type="submit">
+                          <input hidden id="id" name="id" defaultValue={k.id} />
+                          <BsTrashFill className="mt-1 h-5 w-5 hover:text-red-400" />
+                        </button>
+                      </Form>
                     </div>
                   </li>
                 ))}

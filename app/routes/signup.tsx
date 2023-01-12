@@ -1,4 +1,10 @@
-import { type ActionArgs, json, LoaderArgs, MetaFunction, redirect } from '@remix-run/node';
+import {
+  type ActionArgs,
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node';
 import { Link, useActionData } from '@remix-run/react';
 import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';

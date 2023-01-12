@@ -7,6 +7,10 @@ import ServerRow from '~/components/ServerRow';
 import { getRemoteUserServers } from '~/models/remote.server';
 import { requireUser } from '~/session.server';
 
+export const meta: MetaFunction = () => ({
+  title: 'Dashboard',
+});
+
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
   const data = await getRemoteUserServers(user.id);
@@ -17,10 +21,6 @@ export async function loader({ request }: LoaderArgs) {
     user,
   });
 }
-
-export const meta: MetaFunction = () => ({
-  title: 'Dashboard',
-});
 
 export default function Dashboard() {
   const { servers, user } = useLoaderData<typeof loader>();

@@ -1,4 +1,4 @@
-import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
+import { ActionArgs, json, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
 import { BsCheckCircle } from 'react-icons/bs';
 import { string } from 'zod';
@@ -16,6 +16,10 @@ import {
   updateUserPassword,
 } from '~/models/user.server';
 import { requireUser } from '~/session.server';
+
+export const meta: MetaFunction = () => ({
+  title: 'Account',
+});
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);

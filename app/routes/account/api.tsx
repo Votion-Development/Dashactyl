@@ -1,4 +1,4 @@
-import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
+import { ActionArgs, json, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { Form, useActionData, useLoaderData } from '@remix-run/react';
 import { BsCheckCircle, BsFillKeyFill, BsTrashFill } from 'react-icons/bs';
 import { checkbox, formData, text } from 'zod-form-data';
@@ -11,6 +11,10 @@ import SideBarRow from '~/components/SideBarRow';
 import { createKey, deleteKey, getUserKeys } from '~/models/apikey.server';
 import { parseAPI } from '~/models/permissions.server';
 import { requireUser } from '~/session.server';
+
+export const meta: MetaFunction = () => ({
+  title: 'API • Account',
+});
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);

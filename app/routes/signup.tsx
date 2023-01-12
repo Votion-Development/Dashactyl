@@ -1,4 +1,4 @@
-import { type ActionArgs, json, LoaderArgs, redirect } from '@remix-run/node';
+import { type ActionArgs, json, LoaderArgs, MetaFunction, redirect } from '@remix-run/node';
 import { Link, useActionData } from '@remix-run/react';
 import { string } from 'zod';
 import { checkbox, formData, text } from 'zod-form-data';
@@ -10,6 +10,10 @@ import FormLabel from '~/components/FormLabel';
 import { createUser } from '~/models/user.server';
 import { createUserSession, getUser } from '~/session.server';
 import { safeRedirect } from '~/utils';
+
+export const meta: MetaFunction = () => ({
+  title: 'Sign Up',
+});
 
 export async function loader({ request }: LoaderArgs) {
   const user = await getUser(request);

@@ -9,7 +9,7 @@ import NavBar from '~/components/NavBar';
 import SideBar from '~/components/SideBar';
 import SideBarRow from '~/components/SideBarRow';
 import { createKey, deleteKey, getUserKeys } from '~/models/apikey.server';
-import { parseAPI } from '~/models/permissions.server';
+import { parseAPIPerms } from '~/models/permissions.server';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
@@ -36,7 +36,7 @@ export async function action({ request }: ActionArgs) {
     serversDelete: checkbox(),
   }).parse(data);
 
-  let perms = parseAPI(results);
+  let perms = parseAPIPerms(results);
   try {
     void (await createKey(user.id, perms));
     return json({ errors: null });

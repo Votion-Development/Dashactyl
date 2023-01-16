@@ -32,7 +32,7 @@ export function hasAll(user: User, ...perms: any[]): boolean {
   return perms.every(p => (user.permissions & p) !== 0);
 }
 
-export function parseServer(data: Record<string, boolean>): number {
+export function parseAccountPerms(data: Record<string, boolean>): number {
   let p = 0;
   Object.entries(data)
     .filter(([key, value]) => key in Account && value)
@@ -41,7 +41,7 @@ export function parseServer(data: Record<string, boolean>): number {
   return p;
 }
 
-export function parseAPI(data: Record<string, boolean>): number {
+export function parseAPIPerms(data: Record<string, boolean>): number {
   let p = 0;
   Object.entries(data)
     .filter(([key, value]) => key in API && value)

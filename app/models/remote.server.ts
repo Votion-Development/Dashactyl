@@ -94,21 +94,14 @@ export async function getRemoteUser(id: string): Promise<RemoteUser | null> {
   }
 }
 
-export async function getRemoteUserServers(
+export async function getRemoteServers(
   id: string
-): Promise<[RemoteUser, RemoteServer[]] | null> {
-  const user = await getRemoteUser(id);
-  if (!user) return null;
-
+): Promise<RemoteServer[] | null> {
   try {
-    const res = await axios!.get(
-      `/api/application/users/${user.id}?include=servers`
-    );
-    const servers = toCamelCase<FractalItem<RemoteUser>>(
+    let res = await axios!.get(`/api/application/users/${id}?include=servers`);
+    return toCamelCase<FractalItem<RemoteUser>>(
       JSON.parse(res.data)
     ).attributes.relationships!.servers.data.map(s => s.attributes);
-
-    return [user, servers];
   } catch {
     return null;
   }

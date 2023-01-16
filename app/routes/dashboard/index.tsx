@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import { BsPlugFill } from 'react-icons/bs';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import NavBar from '~/components/NavBar';
 import Progress from '~/components/Progress';
-import { getRemoteUserServers } from '~/models/remote.server';
+import { getRemoteServers, RemoteServer } from '~/models/remote.server';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
@@ -13,13 +14,7 @@ export const meta: MetaFunction = () => ({
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
-  const data = await getRemoteUserServers(user.id);
-
-  return json({
-    remote: data?.[0] || null,
-    servers: data?.[1] || null,
-    user,
-  });
+  return json({ user });
 }
 
 function getColor(status: string | null): string {
@@ -33,19 +28,24 @@ function getColor(status: string | null): string {
   }
 }
 
-function getStatus(status: string | null): string {
-  switch (status) {
-    case 'suspended':
-      return 'Server is suspended';
-    case 'transferring':
-      return 'Server is transferring';
-    default:
-      return 'Server is working';
-  }
-}
+// function getStatus(status: string | null): string {
+//   switch (status) {
+//     case 'suspended':
+//       return 'Server is suspended';
+//     case 'transferring':
+//       return 'Server is transferring';
+//     default:
+//       return 'Server is working';
+//   }
+// }
 
 export default function Dashboard() {
-  const { servers, user } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
+  const [servers, setServers] = useState<RemoteServer[] | null>(null);
+
+  useEffect(() => {
+    getRemoteServers(user.id).then(setServers);
+  }, []);
 
   return (
     <main>
@@ -78,20 +78,26 @@ export default function Dashboard() {
       </div>
       <div className="flex justify-center">
         <div className="mt-6 max-w-xl rounded-md bg-slate-900 p-2 shadow-lg">
-          {servers?.length ? (
-            <ol className="flex flex-col gap-y-2">
-              {servers.map(s => (
-                <li
-                  className="flex justify-center rounded-md bg-slate-800 px-64 py-2"
-                  key={s.id}
-                >
-                  <BsPlugFill className={`h-7 w-7 ${getColor(s.status)}`} />
-                  <p className="text-xl text-white">{s.name}</p>
-                </li>
-              ))}
-            </ol>
+          {servers ? (
+            servers.length ? (
+              <ol className="flex flex-col gap-y-2">
+                {servers.map(s => (
+                  <li
+                    className="flex justify-center rounded-md bg-slate-800 px-64 py-2"
+                    key={s.id}
+                  >
+                    <BsPlugFill className={`h-7 w-7 ${getColor(s.status)}`} />
+                    <p className="text-xl text-white">{s.name}</p>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className="p-1 text-lg text-white">You have no servers.</div>
+            )
           ) : (
-            <div className="p-1 text-lg text-white">You have no servers.</div>
+            <div className="p-1 text-lg text-white">
+              Servers could not be loaded.
+            </div>
           )}
         </div>
       </div>

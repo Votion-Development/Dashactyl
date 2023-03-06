@@ -15,11 +15,11 @@ createCommand()
     const all = await prisma.settings.findMany();
     if (all.length) {
       if (!force) {
-        console.log(
+        console.error(
           `${all.length} table(s) found\n`,
           "Remove the tables or rerun with '--force'"
         );
-        return;
+        process.exit(1);
       }
 
       await prisma.settings.deleteMany();

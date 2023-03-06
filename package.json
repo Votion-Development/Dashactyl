@@ -10,6 +10,8 @@
     "build:remix": "remix build",
     "c:settings:init": "node ./build/settings-init",
     "c:user:create": "node ./build/user-create",
+    "c:user:delete": "node ./build/user-delete",
+    "c:user:list": "node ./build/user-list",
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "cross-env NODE_ENV=development binode --require ./mocks -- @remix-run/dev:remix dev",

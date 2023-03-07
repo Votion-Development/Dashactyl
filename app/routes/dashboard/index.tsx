@@ -44,12 +44,12 @@ export default function Dashboard() {
   const [servers, setServers] = useState<RemoteServer[] | null>(null);
 
   useEffect(() => {
-    getRemoteServers(user.id).then(s => setServers(s));
+    getRemoteServers(user.id).then(setServers);
   }, []);
 
   return (
     <main>
-      <NavBar />
+      <NavBar admin={user.permissions > 0 } />
       <div className="flex justify-center">
         <Progress
           title="Memory"

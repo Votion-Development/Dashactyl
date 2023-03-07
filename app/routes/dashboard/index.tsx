@@ -5,7 +5,7 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import NavBar from '~/components/NavBar';
 import Progress from '~/components/Progress';
-import { getRemoteServers, RemoteServer } from '~/models/remote.server';
+import { getRemoteServers, RemoteServer } from '~/models/remote';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
@@ -44,7 +44,7 @@ export default function Dashboard() {
   const [servers, setServers] = useState<RemoteServer[] | null>(null);
 
   useEffect(() => {
-    getRemoteServers(user.id).then(setServers);
+    getRemoteServers(user.id).then(s => setServers(s));
   }, []);
 
   return (

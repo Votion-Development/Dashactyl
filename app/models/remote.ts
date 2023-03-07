@@ -97,6 +97,8 @@ export async function getRemoteUser(id: string): Promise<RemoteUser | null> {
 export async function getRemoteServers(
   id: string
 ): Promise<RemoteServer[] | null> {
+  if (!axios) return null;
+
   try {
     let res = await axios!.get(`/api/application/users/${id}?include=servers`);
     return toCamelCase<FractalItem<RemoteUser>>(

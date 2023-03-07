@@ -1,6 +1,7 @@
-import { ActionArgs, json, LoaderArgs, MetaFunction } from '@remix-run/node';
+import { ActionArgs, json, LoaderArgs } from '@remix-run/node';
 import { Form, useActionData, useLoaderData } from '@remix-run/react';
-import { BsCheckCircle, BsFillKeyFill, BsTrashFill } from 'react-icons/bs';
+import { BiErrorCircle } from 'react-icons/bi';
+import { BsFillKeyFill, BsTrashFill } from 'react-icons/bs';
 import { checkbox, formData, text } from 'zod-form-data';
 import FormBlock from '~/components/FormBlock';
 import FormButton from '~/components/FormButton';
@@ -11,10 +12,6 @@ import SideBarRow from '~/components/SideBarRow';
 import { createKey, deleteKey, getUserKeys } from '~/models/apikey.server';
 import { parseAPIPerms } from '~/models/permissions.server';
 import { requireUser } from '~/session.server';
-
-export const meta: MetaFunction = () => ({
-  title: 'API • Account',
-});
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
@@ -30,13 +27,16 @@ export async function action({ request }: ActionArgs) {
   }
 
   const results = formData({
-    serversCreate: checkbox(),
-    serversUpdate: checkbox(),
-    serversRenew: checkbox(),
-    serversDelete: checkbox(),
+    ServersCreate: checkbox(),
+    ServersUpdate: checkbox(),
+    ServersRenew: checkbox(),
+    ServersDelete: checkbox(),
   }).parse(data);
 
-  let perms = parseAPIPerms(results);
+  const perms = parseAPIPerms(results);
+  if (perms === 0)
+    return json({ errors: 'API key must have at least one permission' });
+
   try {
     void (await createKey(user.id, perms));
     return json({ errors: null });
@@ -68,17 +68,6 @@ export default function API() {
         </SideBarRow>
       </SideBar>
       <div className="mt-6 ml-48 grid grid-cols-2 grid-rows-2">
-        {data?.errors && (
-          <div
-            className="mt-4 flex max-w-lg items-center justify-center rounded-lg bg-red-100 p-2"
-            role="alert"
-          >
-            <div className="flex justify-start text-base font-medium text-red-700">
-              <BsCheckCircle className="h-6 w-6" />
-              &nbsp;{data.errors}
-            </div>
-          </div>
-        )}
         <div>
           <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
             API Keys
@@ -115,29 +104,40 @@ export default function API() {
           <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
             Create Key
           </h1>
+          {data?.errors && (
+            <div
+              className="my-3 flex max-w-sm items-center justify-center rounded-lg bg-red-100 p-2"
+              role="alert"
+            >
+              <div className="flex justify-start text-base font-medium text-red-700">
+                <BiErrorCircle className="h-6 w-6" />
+                &nbsp;{data.errors}.
+              </div>
+            </div>
+          )}
           <FormBlock method="post">
             <p className="mb-2 text-sm text-white">
               Select the permissions below to give the API key.
             </p>
             <h3 className="mb-1 text-base font-medium text-white">Servers</h3>
             <FormCheckBox
-              htmlFor="serversCreate"
-              id="serversCreate"
+              htmlFor="ServersCreate"
+              id="ServersCreate"
               text="Create"
             />
             <FormCheckBox
-              htmlFor="serversUpdate"
-              id="serversUpdate"
+              htmlFor="ServersUpdate"
+              id="ServersUpdate"
               text="Update"
             />
             <FormCheckBox
-              htmlFor="serversRenew"
-              id="serversRenew"
+              htmlFor="ServersRenew"
+              id="ServersRenew"
               text="Renew"
             />
             <FormCheckBox
-              htmlFor="serversDelete"
-              id="serversDelete"
+              htmlFor="ServersDelete"
+              id="ServersDelete"
               text="Delete"
             />
             <div className="mt-4">

@@ -66,6 +66,9 @@ export default function API() {
         <SideBarRow selected type="link" url="#">
           API Keys
         </SideBarRow>
+        <SideBarRow type="link" url="/account/two-factor">
+          Two Factor
+        </SideBarRow>
       </SideBar>
       <div className="mt-6 ml-48 grid grid-cols-2 grid-rows-2">
         <div>

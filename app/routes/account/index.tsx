@@ -120,6 +120,9 @@ export default function Account() {
         <SideBarRow type="link" url="/account/api">
           API Keys
         </SideBarRow>
+        <SideBarRow type="link" url="/account/two-factor">
+          Two Factor
+        </SideBarRow>
       </SideBar>
       {data?.success && (
         <div

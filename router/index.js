@@ -32,7 +32,7 @@ router.use('*', async (req, res, next) => {
 		});
 		if ((await panelinfo_raw.statusText) === 'Not Found') return res.json({ error: 'Pterodactyl user not found' });
 		const panelinfo = await panelinfo_raw.json();
-		if (panelinfo.attributes.root_admin != true) return res.redirect('/dashboard');
+		if (panelinfo.attributes.root_admin != true && user.admin == false) return res.redirect('/dashboard');
 	}
 	next();
 });

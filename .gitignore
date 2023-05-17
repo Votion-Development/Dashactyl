@@ -1,15 +1,35 @@
-build/
-node_modules/
-public/build/
-cypress/screenshots/
-cypress/videos/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/prisma/data.db
-/prisma/data.db-journal
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-.env
-package-lock.json
-pnpm-lock.yaml
-pnpm-lock.yml
-tailwind.css
-yarn.lock
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

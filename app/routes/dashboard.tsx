@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
-import { BsPlugFill } from 'react-icons/bs';
-import type { LoaderArgs, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import { json, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { BsPlugFill } from 'react-icons/bs';
 import NavBar from '~/components/NavBar';
 import Progress from '~/components/Progress';
-import { getRemoteServers, RemoteServer } from '~/models/remote';
+import { getRemoteServers } from '~/models/remote';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
@@ -14,7 +12,9 @@ export const meta: MetaFunction = () => ({
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
-  return json({ user });
+  const servers = await getRemoteServers(user.id);
+
+  return json({ user, servers });
 }
 
 function getColor(status: string | null): string {
@@ -28,24 +28,8 @@ function getColor(status: string | null): string {
   }
 }
 
-// function getStatus(status: string | null): string {
-//   switch (status) {
-//     case 'suspended':
-//       return 'Server is suspended';
-//     case 'transferring':
-//       return 'Server is transferring';
-//     default:
-//       return 'Server is working';
-//   }
-// }
-
 export default function Dashboard() {
-  const { user } = useLoaderData<typeof loader>();
-  const [servers, setServers] = useState<RemoteServer[] | null>(null);
-
-  useEffect(() => {
-    getRemoteServers(user.id).then(setServers);
-  }, []);
+  const { user, servers } = useLoaderData<typeof loader>();
 
   return (
     <main>

@@ -94,13 +94,16 @@ export async function getRemoteUser(id: string): Promise<RemoteUser | null> {
   }
 }
 
+// TODO: return a proper Response object with context for frontend
 export async function getRemoteServers(
   id: string
 ): Promise<RemoteServer[] | null> {
   if (!axios) return null;
 
   try {
-    let res = await axios!.get(`/api/application/users/${id}?include=servers`);
+    let user = await getRemoteUser(id);
+    if (!user) return null;
+    let res = await axios!.get(`/api/application/users/${user.id}?include=servers`);
     return toCamelCase<FractalItem<RemoteUser>>(
       JSON.parse(res.data)
     ).attributes.relationships!.servers.data.map(s => s.attributes);

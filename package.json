@@ -22,9 +22,7 @@
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "remix-serve build",
     "start:mocks": "binode --require ./mocks -- @remix-run/serve:remix-serve build",
-    "test": "vitest",
-    "typecheck": "tsc -b",
-    "validate": "run-p \"vitest --run\" lint typecheck"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

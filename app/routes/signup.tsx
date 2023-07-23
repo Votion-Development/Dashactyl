@@ -114,7 +114,7 @@ export default function SignUp() {
             Already a member?&nbsp;
             <Link
               className="text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"
-              to="/login"
+              to="/"
             >
               Login
             </Link>

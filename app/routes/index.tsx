@@ -1,59 +1,110 @@
-import { Form, Link } from '@remix-run/react';
-import { useOptionalUser } from '~/utils';
+import {
+  type ActionArgs,
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node';
+import { Link, useActionData } from '@remix-run/react';
+import { string } from 'zod';
+import { checkbox, formData, text } from 'zod-form-data';
+import FormBlock from '~/components/FormBlock';
+import FormButton from '~/components/FormButton';
+import FormCheckBox from '~/components/FormCheckBox';
+import FormInput from '~/components/FormInput';
+import FormLabel from '~/components/FormLabel';
+import { verifyLogin } from '~/models/user.server';
+import { createUserSession, getUser } from '~/session.server';
+import { safeRedirect } from '~/utils';
 
-export default function Index() {
-  const user = useOptionalUser();
+export const meta: MetaFunction = () => ({
+  title: 'Login',
+});
+
+export async function loader({ request }: LoaderArgs) {
+  const user = await getUser(request);
+  if (user) return redirect('/dashboard');
+
+  return null;
+}
+
+export async function action({ request }: ActionArgs) {
+  const data = await request.formData();
+  const result = formData({
+    email: text(string().email('Input must be a valid email.')),
+    password: text(string()),
+    remember: checkbox(),
+  }).safeParse(data);
+
+  if (!result.success) {
+    const errors = result.error.formErrors.fieldErrors;
+
+    return json(
+      {
+        errors: {
+          message: null,
+          email: errors.email?.[0] || null,
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+  const user = await verifyLogin(result.data.email, result.data.password);
+  if (!user)
+    return json(
+      {
+        errors: {
+          message: 'Invalid email or password.',
+          email: null,
+        },
+      },
+      { status: 400 }
+    );
+
+  return createUserSession({
+    redirectTo: safeRedirect(data.get('redirectTo'), '/dashboard'),
+    remember: result.data.remember,
+    request,
+    userId: user.id,
+  });
+}
+
+export default function Login() {
+  const data = useActionData<typeof action>();
+  // TODO: add transitions back at a later date
 
   return (
     <main className="flex items-center justify-center">
       <div>
-        <div className="mt-52 p-4 text-center font-sans text-4xl font-bold text-slate-200">
+        <div className="mt-24 p-4 text-center font-sans text-4xl font-bold text-slate-200">
           Dashactyl
         </div>
-        <div className="mt-2 mb-6 block w-96 max-w-sm rounded-lg bg-slate-800 p-6 shadow-lg">
-          <div className="mb-4 text-center font-sans text-2xl font-bold text-white">
-            Welcome{user && ` Back, ${user.username}`}
+        <FormBlock error={data?.errors.message} method="post">
+          <FormLabel error={data?.errors.email} htmlFor="email" text="Email" />
+          <FormInput id="email" name="email" type="email" />
+          <FormLabel htmlFor="password" text="Password" />
+          <FormInput id="password" name="password" type="password" />
+          <div className="mb-4 flex items-center justify-between">
+            <FormCheckBox htmlFor="remember" id="remember" text="Remember me" />
+            <Link
+              className="justify-end text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"
+              to="#!"
+            >
+              Forgot password?
+            </Link>
           </div>
-          <div className="flex flex-col items-center">
-            {user ? (
-              <>
-                <Link
-                  className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                  to="/dashboard"
-                >
-                  Dashboard
-                </Link>
-                <br />
-                <Form action="/logout" className="w-full" method="post">
-                  <button
-                    className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                    type="submit"
-                  >
-                    Logout
-                  </button>
-                </Form>
-              </>
-            ) : (
-              <>
-                <Link
-                  className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                  to="/login"
-                >
-                  Login
-                </Link>
-                <div className="py-3 text-sm font-medium uppercase text-white">
-                  or
-                </div>
-                <Link
-                  className="w-full rounded bg-blue-600 px-6 py-2.5 text-center text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
-                  to="/signup"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
+          <FormButton text="Login" type="submit" />
+          <p className="mt-6 text-center text-white">
+            Not a member?&nbsp;
+            <Link
+              className="text-blue-600 transition duration-200 ease-in-out hover:text-blue-700 focus:text-blue-700"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </FormBlock>
       </div>
     </main>
   );

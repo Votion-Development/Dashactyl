@@ -61,17 +61,19 @@ export default function Dashboard() {
         />
       </div>
       <div className="flex justify-center">
-        <div className="mt-6 max-w-xl rounded-md bg-slate-900 p-2 shadow-lg">
+        <div className="mt-6 rounded-md bg-slate-900 p-2 shadow-lg">
           {servers ? (
             servers.length ? (
-              <ol className="flex flex-col gap-y-2">
+              <ol>
                 {servers.map(s => (
                   <li
-                    className="flex justify-center rounded-md bg-slate-800 px-64 py-2"
+                    className="block w-96 rounded-md bg-slate-800 py-2"
                     key={s.id}
                   >
-                    <BsPlugFill className={`h-7 w-7 ${getColor(s.status)}`} />
-                    <p className="text-xl text-white">{s.name}</p>
+                    <div className="flex justify-between px-4">
+                      <BsPlugFill className={`h-7 w-7 ${getColor(s.status)}`} />
+                      <p className="text-xl text-white">{s.name}</p>
+                    </div>
                   </li>
                 ))}
               </ol>

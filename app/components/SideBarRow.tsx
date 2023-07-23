@@ -20,7 +20,7 @@ export default function SideBarRow({
         type === 'href' ? (
           <a href={url} type="_blank">
             <li
-              className={`rounded-md py-1.5 text-center font-medium text-white hover:bg-slate-500 hover:bg-opacity-20 ${
+              className={`rounded-md py-1.5 text-center font-bold text-white hover:bg-slate-500 hover:bg-opacity-20 ${
                 selected && 'bg-slate-500 bg-opacity-50 hover:bg-opacity-70'
               }`}
             >
@@ -30,7 +30,7 @@ export default function SideBarRow({
         ) : (
           <Link to={url}>
             <li
-              className={`rounded-md py-1.5 text-center font-medium text-white hover:bg-slate-500 hover:bg-opacity-20 ${
+              className={`rounded-md py-1.5 text-center font-bold text-white hover:bg-slate-500 hover:bg-opacity-20 ${
                 selected && 'bg-slate-500 bg-opacity-50 hover:bg-opacity-70'
               }`}
             >
@@ -40,7 +40,7 @@ export default function SideBarRow({
         )
       ) : (
         <li
-          className={`rounded-md py-1.5 text-center font-medium text-white hover:bg-slate-500 hover:bg-opacity-20 ${
+          className={`rounded-md py-1.5 text-center font-bold text-white hover:bg-slate-500 hover:bg-opacity-20 ${
             selected && 'bg-slate-500 bg-opacity-50 hover:bg-opacity-70'
           }`}
         >

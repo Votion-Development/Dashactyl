@@ -18,7 +18,7 @@ export default function NavBar({
       <Link className="font-sans text-2xl font-bold text-slate-200" to="/">
         Dashactyl
       </Link>
-      <div className="mt-1 mr-1 flex flex-row justify-center gap-x-6 text-white">
+      <div className="mr-1 mt-1 flex flex-row justify-center gap-x-6 text-white">
         {account ? (
           <Tooltip arrow placement="bottom" title="Dashboard">
             <Link to="/dashboard">
@@ -28,7 +28,7 @@ export default function NavBar({
         ) : (
           <Tooltip arrow placement="bottom" title="Account">
             <Link to="/account">
-              <BiUserCircle className="hover:text-cyan-300" size={32} />
+              <BiUserCircle className="hover:text-cyan-300" size={34} />
             </Link>
           </Tooltip>
         )}

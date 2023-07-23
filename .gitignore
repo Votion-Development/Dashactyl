@@ -1,8 +1,7 @@
 build/
 node_modules/
 public/build/
-cypress/screenshots/
-cypress/videos/
+test/
 
 /prisma/data.db
 /prisma/data.db-journal

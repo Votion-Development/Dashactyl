@@ -49,7 +49,7 @@ export default function Dashboard() {
 
   return (
     <main>
-      <NavBar admin={user.permissions > 0 } />
+      <NavBar admin={user.permissions > 0} />
       <div className="flex justify-center">
         <Progress
           title="Memory"

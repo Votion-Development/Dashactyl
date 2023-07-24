@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '~/db.server';
+import { getRemoteUserByEmail, updateRemoteUser } from './remote';
 
 export type { User } from '@prisma/client';
 
@@ -62,6 +63,26 @@ export async function updateUserPassword(id: string, from: string, to: string) {
     where: { id },
     data: {
       password: await bcrypt.hash(to, 10),
+    },
+  });
+}
+
+export async function syncUser(id: string) {
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) throw new Error('User not found');
+
+  const remote = await getRemoteUserByEmail(user.email);
+  if (!remote) throw new Error('User account not found in panel.');
+
+  if (remote.externalId !== user.id) {
+    remote.externalId = user.id;
+    void (await updateRemoteUser(remote));
+  }
+
+  return await prisma.user.update({
+    where: { id },
+    data: {
+      lastSyncedAt: new Date(),
     },
   });
 }

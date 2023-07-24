@@ -127,7 +127,7 @@ export default function API() {
               </div>
             )}
             <FormBlock method="post">
-              <p className="mb-2 text-sm text-white">
+              <p className="mb-2 text-md text-white">
                 Select the permissions below to give the API key.
               </p>
               <h3 className="mb-1 text-base font-medium text-white">Servers</h3>

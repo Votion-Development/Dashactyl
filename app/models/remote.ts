@@ -94,6 +94,41 @@ export async function getRemoteUser(id: string): Promise<RemoteUser | null> {
   }
 }
 
+export async function getRemoteUserByEmail(
+  email: string
+): Promise<RemoteUser | null> {
+  if (!axios) return null;
+
+  try {
+    const res = await axios.get(
+      `/api/application/users?filter[email]=${email}`
+    );
+    return (
+      toCamelCase<FractalList<RemoteUser>>(JSON.parse(res.data)).data[0]
+        ?.attributes || null
+    );
+  } catch {
+    return null;
+  }
+}
+
+export async function updateRemoteUser(
+  data: RemoteUser
+): Promise<RemoteUser | null> {
+  if (!axios) return null;
+
+  try {
+    const res = await axios.post(
+      `/api/application/users/${data.id}`,
+      JSON.stringify(data)
+    );
+    return toCamelCase<FractalItem<RemoteUser>>(JSON.parse(res.data))
+      .attributes;
+  } catch {
+    return null;
+  }
+}
+
 // TODO: return a proper Response object with context for frontend
 export async function getRemoteServers(
   id: string
@@ -103,7 +138,9 @@ export async function getRemoteServers(
   try {
     let user = await getRemoteUser(id);
     if (!user) return null;
-    let res = await axios!.get(`/api/application/users/${user.id}?include=servers`);
+    let res = await axios!.get(
+      `/api/application/users/${user.id}?include=servers`
+    );
     return toCamelCase<FractalItem<RemoteUser>>(
       JSON.parse(res.data)
     ).attributes.relationships!.servers.data.map(s => s.attributes);

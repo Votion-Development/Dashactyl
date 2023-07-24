@@ -11,6 +11,7 @@ import NavBar from '~/components/NavBar';
 import SideBar from '~/components/SideBar';
 import SideBarRow from '~/components/SideBarRow';
 import {
+  syncUser,
   updateUserEmail,
   updateUserName,
   updateUserPassword,
@@ -29,6 +30,27 @@ export async function loader({ request }: LoaderArgs) {
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
   const data = await request.formData();
+
+  if (data.has('sync')) {
+    try {
+      void (await syncUser(user.id));
+      return json({ success: 'Successfully synced account!', errors: null });
+    } catch (err) {
+      return json(
+        {
+          success: null,
+          errors: {
+            username: null,
+            email: null,
+            password: null,
+            remote: (err as Error).message,
+          },
+        },
+        { status: 400 }
+      );
+    }
+  }
+
   const result = formData({
     username: text(string().optional()),
     email: text(string().email('Input must be a valid email.').optional()),
@@ -46,6 +68,7 @@ export async function action({ request }: ActionArgs) {
           username: errors.username?.[0] || null,
           email: errors.email?.[0] || null,
           password: null,
+          remote: null,
         },
       },
       { status: 400 }
@@ -70,6 +93,7 @@ export async function action({ request }: ActionArgs) {
             username: null,
             email: (err as Error).message,
             password: null,
+            remote: null,
           },
         },
         { status: 400 }
@@ -93,6 +117,7 @@ export async function action({ request }: ActionArgs) {
             username: null,
             email: null,
             password: (err as Error).message,
+            remote: null,
           },
         },
         { status: 400 }
@@ -104,6 +129,11 @@ export async function action({ request }: ActionArgs) {
     success,
     errors: null,
   });
+}
+
+function maybeSync(time: string | null): boolean {
+  if (!time) return false;
+  return new Date(time).getMinutes() <= 5;
 }
 
 export default function Account() {
@@ -137,7 +167,7 @@ export default function Account() {
       )}
       <div className="ml-48 grid-cols-2 lg:grid">
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+          <h1 className="mb-3 ml-4 mt-5 text-2xl font-medium text-white">
             Update Username
           </h1>
           <FormBlock error={data?.errors?.username} method="patch">
@@ -152,7 +182,7 @@ export default function Account() {
           </FormBlock>
         </div>
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+          <h1 className="mb-3 ml-4 mt-5 text-2xl font-medium text-white">
             Update Email
           </h1>
           <FormBlock error={data?.errors?.email} method="patch">
@@ -167,7 +197,7 @@ export default function Account() {
           </FormBlock>
         </div>
         <div>
-          <h1 className="ml-4 mb-3 mt-5 text-2xl font-medium text-white">
+          <h1 className="mb-3 ml-4 mt-5 text-2xl font-medium text-white">
             Update Password
           </h1>
           <FormBlock error={data?.errors?.password} method="patch">
@@ -176,6 +206,24 @@ export default function Account() {
             <FormLabel htmlFor="new_password" text="New Password" />
             <FormInput id="new_password" name="new_password" type="password" />
             <FormButton text="Update Password" type="submit" />
+          </FormBlock>
+        </div>
+        <div>
+          <h1 className="mb-3 ml-4 mt-5 text-2xl font-medium text-white">
+            Sync Status
+          </h1>
+          <FormBlock error={data?.errors?.remote} method="post">
+            <p className="text-md mb-2 text-white">
+              {user.lastSyncedAt
+                ? `Account last synced at ${user.lastSyncedAt}`
+                : 'Account has not been synced to the panel.'}
+            </p>
+            <FormInput id="sync" name="sync" type="hidden" />
+            <FormButton
+              disabled={maybeSync(user.lastSyncedAt)}
+              text="Sync"
+              type="submit"
+            />
           </FormBlock>
         </div>
       </div>

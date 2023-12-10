@@ -1,24 +1,46 @@
-# Logs
-logs
+lib-cov
+*.seed
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
 
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env
+
+# Dependency directory
 node_modules
-dist
-dist-ssr
-*.local
+bower_components
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# Editors
 .idea
+*.iml
+
+# OS metadata
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
